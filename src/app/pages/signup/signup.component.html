@@ -1,0 +1,104 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="logo-container">
+        <div class="logo"></div>
+      </div>
+      <h2>Create an account</h2>
+      <p>Join SprintIQ to manage your projects</p>
+    </div>
+
+    <div class="global-error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <div class="input-wrapper">
+          <input 
+            type="text" 
+            id="name" 
+            formControlName="name" 
+            placeholder="John Doe"
+            [class.error]="signupForm.get('name')?.invalid && signupForm.get('name')?.touched"
+          >
+        </div>
+        <div class="error-message" *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched">
+          <span *ngIf="signupForm.get('name')?.errors?.['required']">Name is required</span>
+          <span *ngIf="signupForm.get('name')?.errors?.['minlength']">Name must be at least 2 characters</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <div class="input-wrapper">
+          <input 
+            type="email" 
+            id="email" 
+            formControlName="email" 
+            placeholder="name@example.com"
+            [class.error]="signupForm.get('email')?.invalid && signupForm.get('email')?.touched"
+          >
+        </div>
+        <div class="error-message" *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
+          <span *ngIf="signupForm.get('email')?.errors?.['required']">Email is required</span>
+          <span *ngIf="signupForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
+          <input 
+            type="password" 
+            id="password" 
+            formControlName="password" 
+            placeholder="Min. 8 characters"
+            [class.error]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
+          >
+        </div>
+        <div class="error-message" *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
+          <span *ngIf="signupForm.get('password')?.errors?.['required']">Password is required</span>
+          <span *ngIf="signupForm.get('password')?.errors?.['minlength']">Must be at least 8 characters</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="input-wrapper">
+          <input 
+            type="password" 
+            id="confirmPassword" 
+            formControlName="confirmPassword" 
+            placeholder="Confirm password"
+            [class.error]="(signupForm.get('confirmPassword')?.invalid || signupForm.errors?.['mismatch']) && signupForm.get('confirmPassword')?.touched"
+          >
+        </div>
+        <div class="error-message" *ngIf="(signupForm.get('confirmPassword')?.invalid || signupForm.errors?.['mismatch']) && signupForm.get('confirmPassword')?.touched">
+          <span *ngIf="signupForm.get('confirmPassword')?.errors?.['required']">Please confirm password</span>
+          <span *ngIf="!signupForm.get('confirmPassword')?.errors?.['required'] && signupForm.errors?.['mismatch']">Passwords do not match</span>
+        </div>
+      </div>
+
+      <div class="form-group checkbox-group">
+        <label class="custom-checkbox">
+          <input type="checkbox" formControlName="agreeTerms">
+          <span class="checkmark" [class.error-border]="signupForm.get('agreeTerms')?.invalid && signupForm.get('agreeTerms')?.touched"></span>
+          <span class="checkbox-label" [class.error-text]="signupForm.get('agreeTerms')?.invalid && signupForm.get('agreeTerms')?.touched">
+            I agree to the <a href="#" class="terms-link">Terms of Service</a> and <a href="#" class="terms-link">Privacy Policy</a>
+          </span>
+        </label>
+      </div>
+
+      <button type="submit" class="submit-btn" [disabled]="isSubmitting">
+        <span class="btn-text" *ngIf="!isSubmitting">Create account</span>
+        <span class="loader" *ngIf="isSubmitting"></span>
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Already have an account? <a routerLink="/login" class="login-link">Sign in</a></p>
+    </div>
+  </div>
+</div>
