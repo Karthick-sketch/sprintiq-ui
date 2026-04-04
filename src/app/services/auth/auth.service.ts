@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of, tap } from 'rxjs';
+import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,10 @@ export class AuthService {
   private apiUrl = '/api/auth';
   private accessToken: string | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private tokenService: TokenService,
+  ) {}
 
   login(credentials: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
@@ -70,7 +74,7 @@ export class AuthService {
   }
 
   isAuthenticated(): Observable<boolean> {
-    if (this.accessToken) {
+    if (this.tokenService.isLoggedIn(this.accessToken)) {
       return of(true);
     }
     return this.refreshToken().pipe(
