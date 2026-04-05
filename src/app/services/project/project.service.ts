@@ -17,4 +17,16 @@ export class ProjectService {
   getProject(id: number) {
     return this.http.get<Project>(`${this.baseUrl}/${id}`);
   }
+
+  createProject(project: Project) {
+    return this.http.post<Project>(this.baseUrl, project);
+  }
+
+  updateProject(project: Project) {
+    return this.http.put<Project>(`${this.baseUrl}/${project.id}`, project);
+  }
+
+  deleteProject(id: number) {
+    return this.http.delete<Project>(`${this.baseUrl}/${id}`);
+  }
 }
