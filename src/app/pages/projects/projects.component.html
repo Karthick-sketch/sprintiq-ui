@@ -1,0 +1,19 @@
+<div class="p-4">
+  <h1 class="text-3xl font-bold">Projects</h1>
+  <p>
+    Manage your kinetic work and track real-time progress across all your active
+    studio initiatives.
+  </p>
+
+  <div class="mt-4">
+    <button class="btn-primary-color text-white px-4 py-2 rounded-md">
+      Create Project
+    </button>
+  </div>
+</div>
+
+<div class="grid grid-cols-3 gap-4">
+  @for (project of projects; track project.id) {
+    <app-project-card [project]="project"></app-project-card>
+  }
+</div>
