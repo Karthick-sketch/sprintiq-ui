@@ -42,4 +42,10 @@ export const routes: Routes = [
       ),
     // canActivate: [AuthGuard],
   },
+  {
+    path: 'ticket/:id',
+    loadComponent: () =>
+      import('./pages/ticket/ticket.component').then((m) => m.TicketComponent),
+    // canActivate: [AuthGuard],
+  },
 ];

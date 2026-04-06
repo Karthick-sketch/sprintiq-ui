@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Project } from '../../../models/projects/project.model';
 import { ProjectService } from '../../../services/project/project.service';
+import { KanbanBoardComponent } from '../kanban-board/kanban-board.component';
 
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.css'],
+  imports: [KanbanBoardComponent],
 })
 export class ProjectComponent implements OnInit {
   project!: Project;
