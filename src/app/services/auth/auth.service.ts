@@ -19,7 +19,7 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
       tap((response) => {
         if (response && response.accessToken) {
-          this.setToken(response.accessToken);
+          this.setAccessToken(response.accessToken);
         }
       }),
     );
@@ -29,7 +29,7 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/register`, userData).pipe(
       tap((response) => {
         if (response && response.accessToken) {
-          this.setToken(response.accessToken);
+          this.setAccessToken(response.accessToken);
         }
       }),
     );
@@ -45,7 +45,7 @@ export class AuthService {
       .pipe(
         tap((response) => {
           if (response && response.body.accessToken) {
-            this.setToken(response.body.accessToken);
+            this.setAccessToken(response.body.accessToken);
           }
         }),
       );
@@ -56,20 +56,20 @@ export class AuthService {
       .post<any>(`${this.apiUrl}/logout`, {}, { withCredentials: true })
       .pipe(
         tap(() => {
-          this.clearToken();
+          this.clearAccessToken();
         }),
       );
   }
 
-  private setToken(token: string) {
+  private setAccessToken(token: string) {
     this.accessToken = token;
   }
 
-  getToken(): string | null {
+  getAccessToken(): string | null {
     return this.accessToken;
   }
 
-  clearToken() {
+  clearAccessToken() {
     this.accessToken = null;
   }
 
@@ -81,13 +81,13 @@ export class AuthService {
       map((res: any) => {
         const token = res.body?.accessToken;
         if (token) {
-          this.setToken(token);
+          this.setAccessToken(token);
           return true;
         }
         return false;
       }),
       catchError(() => {
-        this.clearToken();
+        this.clearAccessToken();
         return of(false);
       }),
     );

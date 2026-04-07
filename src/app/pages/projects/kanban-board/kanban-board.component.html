@@ -1,3 +1,8 @@
-@for (section of sections; track $index) {
-  <app-section></app-section>
-}
+<div class="flex gap-4">
+  @for (section of sections; track $index) {
+    <app-section [section]="section"></app-section>
+  }
+  <div>
+    <button class="cursor-pointer" (click)="addSection()">Add Section</button>
+  </div>
+</div>

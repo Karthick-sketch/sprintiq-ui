@@ -5,14 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './ticket.component.html',
   styleUrls: ['./ticket.component.css'],
 })
-export class TicketComponent {
-  isSlideInPanelOpen: boolean = false;
-
-  openTicketSlideInPanel() {
-    this.isSlideInPanelOpen = true;
-  }
-
-  closeTicketSlideInPanel() {
-    this.isSlideInPanelOpen = false;
-  }
-}
+export class TicketComponent {}

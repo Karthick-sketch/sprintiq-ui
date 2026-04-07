@@ -48,6 +48,7 @@ export class ProjectsComponent implements OnInit {
       return;
     }
 
+    this.newProject.teamMembers = [this.newProject.teamMembers.toString()];
     this.projectService.createProject(this.newProject).subscribe((project) => {
       this.projects.push(project);
       this.closeProjectSlideInPanel();

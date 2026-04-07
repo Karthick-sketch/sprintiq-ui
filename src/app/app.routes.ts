@@ -32,7 +32,7 @@ export const routes: Routes = [
       import('./pages/projects/projects.component').then(
         (m) => m.ProjectsComponent,
       ),
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'project/:id',
@@ -40,12 +40,12 @@ export const routes: Routes = [
       import('./pages/projects/project/project.component').then(
         (m) => m.ProjectComponent,
       ),
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'ticket/:id',
     loadComponent: () =>
       import('./pages/ticket/ticket.component').then((m) => m.TicketComponent),
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
 ];
