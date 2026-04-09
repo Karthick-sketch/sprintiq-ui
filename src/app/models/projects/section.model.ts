@@ -1,8 +1,8 @@
-import { Ticket } from '../ticket/ticket.model';
+import { TicketDTO } from '../../dto/ticket/ticket.dto';
 
-export interface Section {
-  id: number;
-  name: string;
-  tickets: Ticket[];
-  projectId: number;
+export class Section {
+  id: number = 0;
+  name: string = '';
+  tickets: TicketDTO[] = [];
+  projectId: number = 0;
 }

@@ -1,11 +1,11 @@
-export interface Ticket {
-  id: number;
-  title: string;
-  description: string;
-  status: string;
-  priority: string;
-  assignee: string;
-  dueDate: string;
-  projectId: number;
-  sectionId: number;
+export class Ticket {
+  id: number = 0;
+  title: string = '';
+  description: string = '';
+  status: string = '';
+  priority: string = '';
+  assignee: string = '';
+  dueDate: Date = new Date();
+  projectId: number = 0;
+  sectionId: number = 0;
 }

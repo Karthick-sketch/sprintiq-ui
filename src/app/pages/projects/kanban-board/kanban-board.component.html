@@ -2,7 +2,17 @@
   @for (section of sections; track $index) {
     <app-section [section]="section"></app-section>
   }
-  <div>
-    <button class="cursor-pointer" (click)="addSection()">Add Section</button>
-  </div>
+  @if (isAddSectionClicked) {
+    <div>
+      <input type="text" [(ngModel)]="newSection.name" />
+      <button (click)="addSection()">Add Section</button>
+      <button (click)="closeAddSection()">Cancel</button>
+    </div>
+  } @else {
+    <div>
+      <button class="cursor-pointer" (click)="enableAddSection()">
+        Add Section
+      </button>
+    </div>
+  }
 </div>

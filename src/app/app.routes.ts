@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from './guard/auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   {
     path: 'page-not-found',
     loadComponent: () =>
@@ -21,9 +21,11 @@ export const routes: Routes = [
       import('./pages/signup/signup.component').then((m) => m.SignupComponent),
   },
   {
-    path: 'home',
+    path: 'dashboard',
     loadComponent: () =>
-      import('./pages/home/home.component').then((m) => m.HomeComponent),
+      import('./pages/dashboard/dashboard.component').then(
+        (m) => m.DashboardComponent,
+      ),
     canActivate: [AuthGuard],
   },
   {
