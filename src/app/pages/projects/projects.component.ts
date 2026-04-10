@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ProjectCardComponent } from './project-card/project-card.component';
 import { Project } from '../../models/projects/project.model';
 import { ProjectService } from '../../services/project/project.service';
+import { ProjectDTO } from '../../dto/project/project.dto';
 
 @Component({
   selector: 'app-projects',
@@ -12,15 +13,7 @@ import { ProjectService } from '../../services/project/project.service';
 })
 export class ProjectsComponent implements OnInit {
   projects: Project[] = [];
-
-  newProject: Project = {
-    id: 0,
-    name: '',
-    description: '',
-    owner: '',
-    teamMembers: [],
-  };
-
+  newProject = new ProjectDTO();
   isSlideInPanelOpen: boolean = false;
 
   constructor(private projectService: ProjectService) {}
@@ -48,6 +41,10 @@ export class ProjectsComponent implements OnInit {
       return;
     }
 
+    this.newProject.ownerId = Number(this.newProject.ownerId);
+    this.newProject.teamMemberIds = [
+      Number(this.newProject.teamMemberIds.toString()),
+    ];
     this.projectService.createProject(this.newProject).subscribe((project) => {
       this.projects.push(project);
       this.closeProjectSlideInPanel();
@@ -61,10 +58,10 @@ export class ProjectsComponent implements OnInit {
     if (!this.newProject.description) {
       return false;
     }
-    if (!this.newProject.owner) {
+    if (!this.newProject.ownerId) {
       return false;
     }
-    if (!this.newProject.teamMembers) {
+    if (!this.newProject.teamMemberIds) {
       return false;
     }
     return true;

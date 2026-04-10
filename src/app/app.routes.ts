@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from './guard/auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   {
     path: 'page-not-found',
     loadComponent: () =>
@@ -21,9 +21,11 @@ export const routes: Routes = [
       import('./pages/signup/signup.component').then((m) => m.SignupComponent),
   },
   {
-    path: 'home',
+    path: 'dashboard',
     loadComponent: () =>
-      import('./pages/home/home.component').then((m) => m.HomeComponent),
+      import('./pages/dashboard/dashboard.component').then(
+        (m) => m.DashboardComponent,
+      ),
     canActivate: [AuthGuard],
   },
   {
@@ -32,7 +34,7 @@ export const routes: Routes = [
       import('./pages/projects/projects.component').then(
         (m) => m.ProjectsComponent,
       ),
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'project/:id',
@@ -40,6 +42,12 @@ export const routes: Routes = [
       import('./pages/projects/project/project.component').then(
         (m) => m.ProjectComponent,
       ),
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'ticket/:id',
+    loadComponent: () =>
+      import('./pages/ticket/ticket.component').then((m) => m.TicketComponent),
+    canActivate: [AuthGuard],
   },
 ];

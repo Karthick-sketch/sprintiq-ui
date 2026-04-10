@@ -38,9 +38,11 @@ export class SignupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/home']);
-    }
+    this.authService.isAuthenticated().subscribe((isAuthenticated) => {
+      if (isAuthenticated) {
+        this.router.navigate(['/dashboard']);
+      }
+    });
   }
 
   passwordMatchValidator(g: FormGroup) {

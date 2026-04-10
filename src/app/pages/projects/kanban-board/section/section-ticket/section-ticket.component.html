@@ -1,0 +1,9 @@
+@if (ticket) {
+  <div class="border-solid border-2 border-gray-200">
+    <div>{{ ticket.title }}</div>
+    <div>{{ getStatus(ticket.status) }}</div>
+    <div>{{ getPriority(ticket.priority) }}</div>
+    <div>{{ ticket.assigneeId }}</div>
+    <div>{{ ticket.dueDate }}</div>
+  </div>
+}
