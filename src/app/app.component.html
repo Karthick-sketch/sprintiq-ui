@@ -1,1 +1,8 @@
-<router-outlet></router-outlet>
+<main class="flex min-h-screen bg-white">
+  <app-left-navigation-bar
+    class="fixed left-0 top-0 h-screen w-64 z-10"
+  ></app-left-navigation-bar>
+  <section class="flex-1 ml-64 p-6 w-[calc(100%-16rem)] text-black">
+    <router-outlet></router-outlet>
+  </section>
+</main>
