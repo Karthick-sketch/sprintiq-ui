@@ -40,7 +40,7 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
     this.authService.isAuthenticated().subscribe((isAuthenticated) => {
       if (isAuthenticated) {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/dashboard']);
       }
     });
   }

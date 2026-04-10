@@ -76,10 +76,9 @@
         class="w-full border border-gray-300 rounded-md p-2 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
         [(ngModel)]="ticket.status"
       >
-        <option value="" disabled selected>Select status</option>
-        <option value="todo">To Do</option>
-        <option value="in_progress">In Progress</option>
-        <option value="done">Done</option>
+        @for (status of ticketStatus; track $index) {
+          <option [value]="status.value">{{ status.key }}</option>
+        }
       </select>
     </div>
 
@@ -91,11 +90,9 @@
         class="w-full border border-gray-300 rounded-md p-2 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
         [(ngModel)]="ticket.priority"
       >
-        <option value="" disabled selected>Select priority</option>
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-        <option value="critical">Critical</option>
+        @for (priority of ticketPriority; track $index) {
+          <option [value]="priority.value">{{ priority.key }}</option>
+        }
       </select>
     </div>
 

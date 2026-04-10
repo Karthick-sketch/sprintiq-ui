@@ -1,9 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SectionTicketComponent } from './section-ticket/section-ticket.component';
-import { Section } from '../../../../models/projects/section.model';
 import { TicketService } from '../../../../services/ticket/ticket.service';
+import { Section } from '../../../../models/projects/section.model';
 import { TicketDTO } from '../../../../dto/ticket/ticket.dto';
+import { DropdownDTO } from '../../../../dto/common/dropdown.dto';
+import { TicketPriority } from '../../../../enums/ticket/priority.enums';
+import { TicketStatus } from '../../../../enums/ticket/status.enums';
 
 @Component({
   selector: 'app-section',
@@ -17,6 +20,18 @@ export class SectionComponent {
 
   ticket = new TicketDTO();
   isSlideInPanelOpen: boolean = false;
+
+  ticketStatus = [
+    new DropdownDTO('To Do', TicketStatus.TODO),
+    new DropdownDTO('In Progress', TicketStatus.IN_PROGRESS),
+    new DropdownDTO('Done', TicketStatus.DONE),
+  ];
+  ticketPriority = [
+    new DropdownDTO('Low', TicketPriority.LOW),
+    new DropdownDTO('Medium', TicketPriority.MEDIUM),
+    new DropdownDTO('High', TicketPriority.HIGH),
+    new DropdownDTO('Urgent', TicketPriority.URGENT),
+  ];
 
   constructor(private ticketService: TicketService) {}
 
