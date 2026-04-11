@@ -1,10 +1,30 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import "tailwindcss";
 
+body {
+  background-color: #f7f9fb;
+}
+
 .primary-color {
   color: #4338ca;
 }
 
-.primary-bg {
-  background-color: #4338ca;
+.primary-bg-color {
+  background-color: #e0e7ff;
+}
+
+.pending-task-color {
+  color: #7e3000;
+}
+
+.pending-task-bg-color {
+  background-color: #ffdbcc;
+}
+
+.completed-task-color {
+  color: #1e4620;
+}
+
+.completed-task-bg-color {
+  background-color: #d4edda;
 }
