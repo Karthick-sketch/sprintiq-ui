@@ -50,4 +50,28 @@ export const routes: Routes = [
       import('./pages/ticket/ticket.component').then((m) => m.TicketComponent),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'my-tasks',
+    loadComponent: () =>
+      import('./pages/my-tasks/my-tasks.component').then(
+        (m) => m.MyTasksComponent,
+      ),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'reports',
+    loadComponent: () =>
+      import('./pages/reports/reports.component').then(
+        (m) => m.ReportsComponent,
+      ),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'settings',
+    loadComponent: () =>
+      import('./pages/settings/settings.component').then(
+        (m) => m.SettingsComponent,
+      ),
+    canActivate: [AuthGuard],
+  },
 ];

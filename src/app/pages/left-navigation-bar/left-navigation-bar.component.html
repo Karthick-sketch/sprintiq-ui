@@ -2,22 +2,106 @@
   class="w-full h-full flex flex-col bg-gray-50 border-r border-gray-200"
 >
   <div class="p-4 border-b border-gray-200">
-    <p class="text-xl font-bold text-gray-800">SprintIQ</p>
+    <p class="primary-color text-xl font-bold">SprintIQ</p>
   </div>
-  <div routerLink="/dashboard" routerLinkActive="bg-gray-200" class="flex items-center p-4 hover:bg-gray-100 cursor-pointer">
-    <img src="" alt="" class="w-6 h-6 mr-3" />
-    <p class="font-medium text-gray-800">Dashboard</p>
+  <div
+    routerLink="/dashboard"
+    routerLinkActive="bg-gray-200"
+    #rlaDashboard="routerLinkActive"
+    class="flex items-center p-4 hover:bg-gray-100 cursor-pointer"
+  >
+    <app-icon
+      url="/left-navigation-bar/dashboard.svg"
+      [isActive]="rlaDashboard.isActive"
+      activeClasses="primary-bg"
+      inactiveClasses="bg-gray-800"
+    ></app-icon>
+    <p
+      class="font-medium"
+      [class.primary-color]="rlaDashboard.isActive"
+      [class.text-gray-800]="!rlaDashboard.isActive"
+    >
+      Dashboard
+    </p>
   </div>
-  <div routerLink="/projects" routerLinkActive="bg-gray-200" class="flex items-center p-4 hover:bg-gray-100 cursor-pointer">
-    <img src="" alt="" class="w-6 h-6 mr-3" />
-    <p class="font-medium text-gray-800">Projects</p>
+  <div
+    routerLink="/projects"
+    routerLinkActive="bg-gray-200"
+    #rlaProjects="routerLinkActive"
+    class="flex items-center p-4 hover:bg-gray-100 cursor-pointer"
+  >
+    <app-icon
+      url="/left-navigation-bar/projects.svg"
+      [isActive]="rlaProjects.isActive"
+      activeClasses="primary-bg"
+      inactiveClasses="bg-gray-800"
+    ></app-icon>
+    <p
+      class="font-medium"
+      [class.primary-color]="rlaProjects.isActive"
+      [class.text-gray-800]="!rlaProjects.isActive"
+    >
+      Projects
+    </p>
   </div>
-  <div routerLink="/my-tasks" routerLinkActive="bg-gray-200" class="flex items-center p-4 hover:bg-gray-100 cursor-pointer">
-    <img src="" alt="" class="w-6 h-6 mr-3" />
-    <p class="font-medium text-gray-800">My Tasks</p>
+  <div
+    routerLink="/my-tasks"
+    routerLinkActive="bg-gray-200"
+    #rlaTasks="routerLinkActive"
+    class="flex items-center p-4 hover:bg-gray-100 cursor-pointer"
+  >
+    <app-icon
+      url="/left-navigation-bar/my-tasks.svg"
+      [isActive]="rlaTasks.isActive"
+      activeClasses="primary-bg"
+      inactiveClasses="bg-gray-800"
+    ></app-icon>
+    <p
+      class="font-medium"
+      [class.primary-color]="rlaTasks.isActive"
+      [class.text-gray-800]="!rlaTasks.isActive"
+    >
+      My Tasks
+    </p>
   </div>
-  <div routerLink="/settings" routerLinkActive="bg-gray-200" class="flex items-center p-4 hover:bg-gray-100 cursor-pointer mt-auto">
-    <img src="" alt="" class="w-6 h-6 mr-3" />
-    <p class="font-medium text-gray-800">Settings</p>
+  <div
+    routerLink="/reports"
+    routerLinkActive="bg-gray-200"
+    #rlaReports="routerLinkActive"
+    class="flex items-center p-4 hover:bg-gray-100 cursor-pointer"
+  >
+    <app-icon
+      url="/left-navigation-bar/reports.svg"
+      [isActive]="rlaReports.isActive"
+      activeClasses="primary-bg"
+      inactiveClasses="bg-gray-800"
+    ></app-icon>
+    <p
+      class="font-medium"
+      [class.primary-color]="rlaReports.isActive"
+      [class.text-gray-800]="!rlaReports.isActive"
+    >
+      Reports
+    </p>
+  </div>
+  <div
+    routerLink="/settings"
+    routerLinkActive="bg-gray-200"
+    #rlaSettings="routerLinkActive"
+    class="flex items-center p-4 hover:bg-gray-100 cursor-pointer mt-auto"
+  >
+    <app-icon
+      url="/left-navigation-bar/settings.svg"
+      [isActive]="rlaSettings.isActive"
+      activeClasses="primary-bg"
+      inactiveClasses="bg-gray-800"
+    ></app-icon>
+    <p
+      class="font-medium"
+      [class.primary-color]="rlaSettings.isActive"
+      [class.text-gray-800]="!rlaSettings.isActive"
+    >
+      Settings
+    </p>
   </div>
 </section>
