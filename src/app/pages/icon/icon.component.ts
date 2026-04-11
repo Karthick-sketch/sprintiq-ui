@@ -10,6 +10,7 @@ import { NgClass } from '@angular/common';
 })
 export class IconComponent {
   @Input() url: string = '';
+  @Input() size: string = 'w-6 h-6';
   @Input() isActive: boolean = false;
   @Input() activeClasses: string = '';
   @Input() inactiveClasses: string = '';
