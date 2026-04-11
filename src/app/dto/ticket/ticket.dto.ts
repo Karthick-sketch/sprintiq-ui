@@ -1,5 +1,5 @@
-import { TicketPriority } from '../../enums/ticket/priority.enums';
-import { TicketStatus } from '../../enums/ticket/status.enums';
+import { TicketPriority } from '../../enums/ticket/ticket-priority.enums';
+import { TicketStatus } from '../../enums/ticket/ticket-status.enums';
 
 export class TicketDTO {
   id: number = 0;

@@ -5,8 +5,8 @@ import { TicketService } from '../../../../services/ticket/ticket.service';
 import { Section } from '../../../../models/projects/section.model';
 import { TicketDTO } from '../../../../dto/ticket/ticket.dto';
 import { DropdownDTO } from '../../../../dto/common/dropdown.dto';
-import { TicketPriority } from '../../../../enums/ticket/priority.enums';
-import { TicketStatus } from '../../../../enums/ticket/status.enums';
+import { TicketPriority } from '../../../../enums/ticket/ticket-priority.enums';
+import { TicketStatus } from '../../../../enums/ticket/ticket-status.enums';
 
 @Component({
   selector: 'app-section',

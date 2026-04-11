@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { TicketDTO } from '../../../../../dto/ticket/ticket.dto';
-import { TicketStatus } from '../../../../../enums/ticket/status.enums';
-import { TicketPriority } from '../../../../../enums/ticket/priority.enums';
+import { TicketStatus } from '../../../../../enums/ticket/ticket-status.enums';
+import { TicketPriority } from '../../../../../enums/ticket/ticket-priority.enums';
 
 @Component({
   selector: 'app-section-ticket',
