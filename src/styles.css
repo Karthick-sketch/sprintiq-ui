@@ -1,12 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import "tailwindcss";
 
+:root {
+  --primary-color: #4338ca;
+}
+
 body {
   background-color: #f7f9fb;
 }
 
 .primary-color {
-  color: #4338ca;
+  color: var(--primary-color);
+}
+
+.primary-btn {
+  color: white;
+  background-color: var(--primary-color);
+  cursor: pointer;
 }
 
 .primary-bg-color {
