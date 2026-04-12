@@ -1,31 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ProjectCardComponent } from './project-card/project-card.component';
-import { Project } from '../../models/projects/project.model';
+import { ProjectFormComponent } from './project-form/project-form.component';
 import { ProjectService } from '../../services/project/project.service';
+import { Project } from '../../models/projects/project.model';
 import { ProjectDTO } from '../../dto/project/project.dto';
 
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.css'],
-  imports: [ProjectCardComponent, FormsModule],
+  imports: [ProjectCardComponent, FormsModule, ProjectFormComponent],
 })
 export class ProjectsComponent implements OnInit {
   projects: Project[] = [];
-  newProject = new ProjectDTO();
   isSlideInPanelOpen: boolean = false;
 
   constructor(private projectService: ProjectService) {}
 
   ngOnInit(): void {
     this.getProjects();
-  }
-
-  getProjects() {
-    this.projectService.getProjects().subscribe((projects) => {
-      this.projects = projects;
-    });
   }
 
   openProjectSlideInPanel() {
@@ -36,34 +30,18 @@ export class ProjectsComponent implements OnInit {
     this.isSlideInPanelOpen = false;
   }
 
-  createProject() {
-    if (!this.validateProject()) {
-      return;
-    }
-
-    this.newProject.ownerId = Number(this.newProject.ownerId);
-    this.newProject.teamMemberIds = [
-      Number(this.newProject.teamMemberIds.toString()),
-    ];
-    this.projectService.createProject(this.newProject).subscribe((project) => {
-      this.projects.push(project);
-      this.closeProjectSlideInPanel();
+  getProjects() {
+    this.projectService.getProjects().subscribe((projects) => {
+      this.projects = projects;
     });
   }
 
-  private validateProject() {
-    if (!this.newProject.name) {
-      return false;
-    }
-    if (!this.newProject.description) {
-      return false;
-    }
-    if (!this.newProject.ownerId) {
-      return false;
-    }
-    if (!this.newProject.teamMemberIds) {
-      return false;
-    }
-    return true;
+  createProject(newProject: ProjectDTO) {
+    newProject.ownerId = Number(newProject.ownerId);
+    newProject.teamMemberIds = [Number(newProject.teamMemberIds.toString())];
+    this.projectService.createProject(newProject).subscribe((project) => {
+      this.projects.push(project);
+      this.closeProjectSlideInPanel();
+    });
   }
 }
