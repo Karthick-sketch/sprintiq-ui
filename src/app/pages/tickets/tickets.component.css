@@ -1,0 +1,94 @@
+/* ── Table layout ── */
+.ticket-table-section {
+  overflow-x: auto;
+}
+
+.ticket-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.ticket-table th,
+.ticket-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Title column gets ~30% width; the remaining 4 share equally (~17.5% each) */
+.col-title {
+  width: 30%;
+}
+
+.col-default {
+  width: 17.5%;
+}
+
+/* ── Header ── */
+.ticket-table thead th {
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background-color: #f9fafb;
+}
+
+/* ── Rows ── */
+.ticket-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.ticket-table tbody tr:hover {
+  background-color: #f3f4f6;
+}
+
+/* ── Badges (shared) ── */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+/* ── Status badges ── */
+.badge-todo {
+  color: #1e40af;
+  background-color: #dbeafe;
+}
+
+.badge-in-progress {
+  color: #92400e;
+  background-color: #fef3c7;
+}
+
+.badge-done {
+  color: #166534;
+  background-color: #dcfce7;
+}
+
+/* ── Priority badges ── */
+.badge-low {
+  color: #065f46;
+  background-color: #d1fae5;
+}
+
+.badge-medium {
+  color: #92400e;
+  background-color: #fef3c7;
+}
+
+.badge-high {
+  color: #9a3412;
+  background-color: #ffedd5;
+}
+
+.badge-urgent {
+  color: #991b1b;
+  background-color: #fee2e2;
+}

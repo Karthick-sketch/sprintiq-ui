@@ -1,0 +1,66 @@
+<div>
+  <section>
+    <h2 class="text-2xl font-bold">Tickets</h2>
+    <button class="primary-btn">Create Ticket</button>
+  </section>
+
+  <section>
+    <input type="text" placeholder="Search" />
+  </section>
+
+  <section class="ticket-table-section">
+    <table class="ticket-table">
+      <thead>
+        <tr>
+          <th class="col-title">Title</th>
+          <th class="col-default">Status</th>
+          <th class="col-default">Priority</th>
+          <th class="col-default">Assignee</th>
+          <th class="col-default">Due Date</th>
+          <th class="col-default">Project</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (ticket of tickets; track ticket.id) {
+          <tr>
+            <td class="col-title">{{ ticket.title }}</td>
+            <td class="col-default">
+              <span
+                class="badge"
+                [ngClass]="{
+                  'badge-todo': ticket.status === 'TODO',
+                  'badge-in-progress': ticket.status === 'IN_PROGRESS',
+                  'badge-done': ticket.status === 'DONE',
+                }"
+              >
+                {{
+                  ticket.status === "IN_PROGRESS"
+                    ? "In Progress"
+                    : ticket.status === "TODO"
+                      ? "To Do"
+                      : "Done"
+                }}
+              </span>
+            </td>
+            <td class="col-default">
+              <span
+                class="badge"
+                [ngClass]="{
+                  'badge-low': ticket.priority === 'LOW',
+                  'badge-medium': ticket.priority === 'MEDIUM',
+                  'badge-high': ticket.priority === 'HIGH',
+                  'badge-urgent': ticket.priority === 'URGENT',
+                }"
+              >
+                {{ ticket.priority | titlecase }}
+              </span>
+            </td>
+            <td class="col-default">{{ ticket.assigneeId }}</td>
+            <td class="col-default">{{ ticket.dueDate }}</td>
+            <td class="col-default">{{ ticket.projectId }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+</div>

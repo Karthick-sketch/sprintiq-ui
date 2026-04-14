@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Ticket } from '../../models/ticket/ticket.model';
 import { TicketDTO } from '../../dto/ticket/ticket.dto';
+import { TicketListingDTO } from '../../dto/ticket/ticket-listing.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -11,9 +12,8 @@ export class TicketService {
 
   constructor(private http: HttpClient) {}
 
-  // tickets
   getTickets() {
-    return this.http.get<Ticket[]>(this.baseUrl);
+    return this.http.get<TicketListingDTO[]>(this.baseUrl);
   }
 
   getTicket(id: number) {
@@ -29,6 +29,6 @@ export class TicketService {
   }
 
   deleteTicket(id: number) {
-    return this.http.delete<Ticket>(`${this.baseUrl}/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }
