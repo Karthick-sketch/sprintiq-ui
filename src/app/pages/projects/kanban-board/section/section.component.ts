@@ -10,7 +10,6 @@ import { TicketDTO } from '../../../../dto/ticket/ticket.dto';
   selector: 'app-section',
   templateUrl: './section.component.html',
   styleUrls: ['./section.component.css'],
-  standalone: true,
   imports: [SectionTicketComponent, FormsModule, TicketFormComponent],
 })
 export class SectionComponent {

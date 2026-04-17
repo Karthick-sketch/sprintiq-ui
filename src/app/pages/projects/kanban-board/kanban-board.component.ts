@@ -8,7 +8,6 @@ import { ProjectService } from '../../../services/project/project.service';
   selector: 'app-kanban-board',
   templateUrl: './kanban-board.component.html',
   styleUrls: ['./kanban-board.component.css'],
-  standalone: true,
   imports: [SectionComponent, FormsModule],
 })
 export class KanbanBoardComponent {

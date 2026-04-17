@@ -3,7 +3,6 @@ import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-icon',
-  standalone: true,
   imports: [NgClass],
   templateUrl: './icon.component.html',
   styleUrl: './icon.component.css',

@@ -7,7 +7,6 @@ import { TicketPriority } from '../../../../../enums/ticket/ticket-priority.enum
   selector: 'app-section-ticket',
   templateUrl: './section-ticket.component.html',
   styleUrls: ['./section-ticket.component.css'],
-  standalone: true,
 })
 export class SectionTicketComponent {
   @Input() ticket!: TicketDTO;

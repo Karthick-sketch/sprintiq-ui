@@ -4,8 +4,75 @@
     <button class="primary-btn">Create Ticket</button>
   </section>
 
-  <section>
-    <input type="text" placeholder="Search" />
+  <section class="filters-section">
+    <div>
+      <input
+        id="filter-search"
+        type="text"
+        placeholder="Search tickets..."
+        class="filter-search"
+        [(ngModel)]="searchTerm"
+        (input)="applyFilters()"
+      />
+    </div>
+
+    <div class="filter-dropdowns">
+      <div class="filter-group">
+        <label for="filter-status">Status</label>
+        <select
+          id="filter-status"
+          [(ngModel)]="selectedStatus"
+          (change)="applyFilters()"
+        >
+          <option value="">All</option>
+          @for (status of statusOptions; track status.value) {
+            <option [value]="status.value">{{ status.label }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filter-priority">Priority</label>
+        <select
+          id="filter-priority"
+          [(ngModel)]="selectedPriority"
+          (change)="applyFilters()"
+        >
+          <option value="">All</option>
+          @for (priority of priorityOptions; track priority.value) {
+            <option [value]="priority.value">{{ priority.label }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filter-assignee">Assignee</label>
+        <select
+          id="filter-assignee"
+          [(ngModel)]="selectedAssignee"
+          (change)="applyFilters()"
+        >
+          <option value="">All</option>
+          @for (assignee of assigneeOptions; track assignee) {
+            <option [value]="assignee">{{ assignee }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filter-project">Project</label>
+        <select
+          id="filter-project"
+          [(ngModel)]="selectedProject"
+          (change)="applyFilters()"
+        >
+          <option value="">All</option>
+          @for (project of projectOptions; track project.id) {
+            <option [value]="project.id">{{ project.name }}</option>
+          }
+        </select>
+      </div>
+    </div>
   </section>
 
   <section class="ticket-table-section">
@@ -21,9 +88,16 @@
         </tr>
       </thead>
       <tbody>
-        @for (ticket of tickets; track ticket.id) {
+        @for (ticket of filteredTickets; track ticket.id) {
           <tr>
-            <td class="col-title">{{ ticket.title }}</td>
+            <td class="col-title">
+              <div
+                class="ticket-title hover:underline cursor-pointer"
+                [routerLink]="['/ticket', ticket.id]"
+              >
+                {{ ticket.title }}
+              </div>
+            </td>
             <td class="col-default">
               <span
                 class="badge"
