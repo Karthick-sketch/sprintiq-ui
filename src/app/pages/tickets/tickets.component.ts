@@ -4,12 +4,20 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TicketService } from '../../services/ticket/ticket.service';
 import { ProjectService } from '../../services/project/project.service';
-import { TicketListingDTO } from '../../dto/ticket/ticket-listing.dto';
+import { TicketFormComponent } from './ticket-form/ticket-form.component';
+import { Ticket } from '../../models/ticket/ticket.model';
 import { Project } from '../../models/projects/project.model';
+import { TicketListingDTO } from '../../dto/ticket/ticket-listing.dto';
 
 @Component({
   selector: 'app-ticket',
-  imports: [NgClass, TitleCasePipe, RouterLink, FormsModule],
+  imports: [
+    NgClass,
+    TitleCasePipe,
+    RouterLink,
+    FormsModule,
+    TicketFormComponent,
+  ],
   templateUrl: './tickets.component.html',
   styleUrls: ['./tickets.component.css'],
 })
@@ -40,6 +48,8 @@ export class TicketsComponent implements OnInit {
 
   assigneeOptions: number[] = [];
   projectOptions: Project[] = [];
+
+  isSlideInPanelOpen: boolean = false;
 
   constructor(
     private ticketService: TicketService,
@@ -101,6 +111,22 @@ export class TicketsComponent implements OnInit {
         matchesAssignee &&
         matchesProject
       );
+    });
+  }
+
+  openTicketSlideInPanel() {
+    this.isSlideInPanelOpen = true;
+  }
+
+  closeTicketSlideInPanel() {
+    this.isSlideInPanelOpen = false;
+  }
+
+  addTicket(ticket: Ticket) {
+    ticket.assigneeId = Number(ticket.assigneeId);
+    this.ticketService.createTicket(ticket).subscribe(() => {
+      this.closeTicketSlideInPanel();
+      this.getTickets();
     });
   }
 }

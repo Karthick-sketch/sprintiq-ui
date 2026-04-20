@@ -65,7 +65,7 @@ export class SignupComponent implements OnInit {
       this.authService.register(userData).subscribe({
         next: () => {
           this.isSubmitting = false;
-          this.router.navigate(['/home']);
+          this.router.navigate(['/dashboard']);
         },
         error: (err) => {
           this.isSubmitting = false;
