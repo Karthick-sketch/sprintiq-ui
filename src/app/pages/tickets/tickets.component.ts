@@ -10,6 +10,11 @@ import { Project } from '../../models/projects/project.model';
 import { TicketListingDTO } from '../../dto/ticket/ticket-listing.dto';
 import { TicketFilter } from '../../filter/ticket/ticket.filter';
 
+type Assignee = {
+  id: number;
+  name: string;
+};
+
 @Component({
   selector: 'app-ticket',
   imports: [
@@ -43,7 +48,7 @@ export class TicketsComponent implements OnInit {
     { value: 'URGENT', label: 'Urgent' },
   ];
 
-  assigneeOptions: number[] = [];
+  assigneeOptions: Assignee[] = [];
   projectOptions: Project[] = [];
 
   isSlideInPanelOpen: boolean = false;
@@ -63,10 +68,14 @@ export class TicketsComponent implements OnInit {
       this.tickets = tickets;
       this.filteredTickets = tickets;
 
-      // Extract unique assignee IDs for the filter dropdown
-      this.assigneeOptions = [
-        ...new Set(tickets.map((t) => t.assigneeId)),
-      ].sort((a, b) => a - b);
+      // Extract unique assignees for the filter dropdown
+      const assigneesMap = new Map<number, Assignee>();
+      tickets.forEach((t) => {
+        if (t.assignee) {
+          assigneesMap.set(t.assignee.id, { id: t.assignee.id, name: t.assignee.name });
+        }
+      });
+      this.assigneeOptions = Array.from(assigneesMap.values());
     });
   }
 
@@ -115,5 +124,52 @@ export class TicketsComponent implements OnInit {
       this.closeTicketSlideInPanel();
       this.getTickets();
     });
+  }
+
+  getUserIcon(name: string) {
+    if (!name) {
+      return '';
+    }
+    const names = name.split(' ');
+    if (names.length > 1) {
+      return (
+        names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase()
+      );
+    }
+    return name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase();
+  }
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const daysDiff = this.getDateDiff(dateString);
+
+    if (daysDiff === 0) {
+      return 'Today';
+    } else if (daysDiff === 1) {
+      return 'Tomorrow';
+    } else if (daysDiff === -1) {
+      return 'Yesterday';
+    }
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  }
+
+  isOverdue(dateString: string): boolean {
+    return this.getDateDiff(dateString) < 0;
+  }
+
+  private getDateDiff(dateString: string): number {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const date = new Date(dateString);
+    date.setHours(0, 0, 0, 0);
+
+    const timeDiff = date.getTime() - today.getTime();
+    const daysDiff = Math.round(timeDiff / 86400000);
+
+    return daysDiff;
   }
 }

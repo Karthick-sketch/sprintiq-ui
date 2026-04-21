@@ -10,6 +10,7 @@
   --text-muted: #6b7280;
   --input-bg: #ffffff;
   --error-color: #ef4444;
+  --icon-bg-color: #2d7f43;
 }
 
 body {
@@ -50,4 +51,12 @@ body {
 
 .completed-task-bg-color {
   background-color: #d4edda;
+}
+
+.error-color {
+  color: var(--error-color);
+}
+
+.icon-bg-color {
+  background-color: var(--icon-bg-color);
 }

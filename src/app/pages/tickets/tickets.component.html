@@ -55,8 +55,8 @@
           (change)="applyFilters()"
         >
           <option value="">All</option>
-          @for (assignee of assigneeOptions; track assignee) {
-            <option [value]="assignee">{{ assignee }}</option>
+          @for (assignee of assigneeOptions; track assignee.id) {
+            <option [value]="assignee.id">{{ assignee.name }}</option>
           }
         </select>
       </div>
@@ -131,8 +131,17 @@
                 {{ ticket.priority | titlecase }}
               </span>
             </td>
-            <td class="col-default">{{ ticket.assigneeId }}</td>
-            <td class="col-default">{{ ticket.dueDate }}</td>
+            <td class="col-default">
+              <div class="inline rounded-full icon-bg-color p-2 text-white">
+                {{ getUserIcon(ticket.assignee.name) }}
+              </div>
+            </td>
+            <td
+              class="col-default"
+              [class.error-color]="isOverdue(ticket.dueDate)"
+            >
+              {{ formatDate(ticket.dueDate) }}
+            </td>
             <td class="col-default">{{ ticket.projectId }}</td>
           </tr>
         }
