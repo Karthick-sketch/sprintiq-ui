@@ -1,3 +1,4 @@
+import { ProjectTicketDTO } from '../project/project-ticket.dto';
 import { UserDTO } from '../user/user.dto';
 
 export class TicketListingDTO {
@@ -7,5 +8,5 @@ export class TicketListingDTO {
   priority: string = '';
   assignee: UserDTO = new UserDTO();
   dueDate: string = '';
-  projectId: number = 0;
+  project: ProjectTicketDTO = new ProjectTicketDTO();
 }

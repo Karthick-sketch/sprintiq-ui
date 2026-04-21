@@ -142,7 +142,14 @@
             >
               {{ formatDate(ticket.dueDate) }}
             </td>
-            <td class="col-default">{{ ticket.projectId }}</td>
+            <td class="col-default">
+              <div
+                class="ticket-title hover:underline cursor-pointer"
+                [routerLink]="['/project', ticket.project.id]"
+              >
+                {{ ticket.project.name }}
+              </div>
+            </td>
           </tr>
         }
       </tbody>
