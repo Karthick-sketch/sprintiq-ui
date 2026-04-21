@@ -1,9 +1,17 @@
 <main class="flex min-h-screen">
-  <app-left-navigation-bar
-    class="fixed left-0 top-0 h-screen w-64 z-10"
-  ></app-left-navigation-bar>
-  <section class="flex-1 ml-64 p-6 w-[calc(100%-16rem)] text-black">
-    <app-header></app-header>
+  @if (!isAuthPage()) {
+    <app-left-navigation-bar
+      class="fixed left-0 top-0 h-screen w-64 z-10"
+    ></app-left-navigation-bar>
+  }
+  <section
+    [class]="isAuthPage()
+      ? 'flex-1 p-0 w-full text-black'
+      : 'flex-1 ml-64 p-6 w-[calc(100%-16rem)] text-black'"
+  >
+    @if (!isAuthPage()) {
+      <app-header></app-header>
+    }
     <router-outlet></router-outlet>
   </section>
 </main>

@@ -3,7 +3,6 @@ import { IconComponent } from '../../icon/icon.component';
 
 @Component({
   selector: 'app-dashboard-card',
-  standalone: true,
   imports: [IconComponent],
   templateUrl: './dashboard-card.component.html',
   styleUrl: './dashboard-card.component.css',

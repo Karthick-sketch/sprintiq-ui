@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
       this.authService.login(credentials).subscribe({
         next: () => {
           this.isSubmitting = false;
-          this.router.navigate(['/home']);
+          this.router.navigate(['/dashboard']);
         },
         error: (err) => {
           this.isSubmitting = false;

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SectionTicketComponent } from './section-ticket/section-ticket.component';
-import { TicketFormComponent } from '../../../ticket/ticket-form/ticket-form.component';
+import { TicketFormComponent } from '../../../tickets/ticket-form/ticket-form.component';
 import { TicketService } from '../../../../services/ticket/ticket.service';
 import { Section } from '../../../../models/projects/section.model';
 import { TicketDTO } from '../../../../dto/ticket/ticket.dto';
@@ -10,7 +10,6 @@ import { TicketDTO } from '../../../../dto/ticket/ticket.dto';
   selector: 'app-section',
   templateUrl: './section.component.html',
   styleUrls: ['./section.component.css'],
-  standalone: true,
   imports: [SectionTicketComponent, FormsModule, TicketFormComponent],
 })
 export class SectionComponent {

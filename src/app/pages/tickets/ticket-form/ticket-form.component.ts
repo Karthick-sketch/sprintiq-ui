@@ -10,6 +10,8 @@ import { DropdownDTO } from '../../../dto/common/dropdown.dto';
 import { TicketPriority } from '../../../enums/ticket/ticket-priority.enums';
 import { TicketStatus } from '../../../enums/ticket/ticket-status.enums';
 import { TicketDTO } from '../../../dto/ticket/ticket.dto';
+import { ProjectDTO } from '../../../dto/project/project.dto';
+import { SectionDTO } from '../../../dto/project/section.dto';
 
 @Component({
   selector: 'app-ticket-form',
@@ -18,12 +20,15 @@ import { TicketDTO } from '../../../dto/ticket/ticket.dto';
   imports: [FormsModule],
 })
 export class TicketFormComponent implements AfterViewInit {
+  @Input() isInProject: boolean = false;
   @Input() isSlideInPanelOpen: boolean = true;
+  @Input() projects: ProjectDTO[] = [];
 
   @Output() ticketSlideInPanel = new EventEmitter<boolean>();
   @Output() ticketEvent = new EventEmitter<TicketDTO>();
 
   ticket = new TicketDTO();
+  sections: SectionDTO[] | null = null;
 
   ticketStatus = [
     new DropdownDTO('To Do', TicketStatus.TODO),

@@ -5,7 +5,6 @@ import { IconComponent } from '../../icon/icon.component';
 
 @Component({
   selector: 'app-dashboard-tasks',
-  standalone: true,
   templateUrl: './dashboard-tasks.component.html',
   styleUrl: './dashboard-tasks.component.css',
   imports: [IconComponent],

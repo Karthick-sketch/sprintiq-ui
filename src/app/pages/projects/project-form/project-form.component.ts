@@ -10,7 +10,6 @@ import { ProjectDTO } from '../../../dto/project/project.dto';
 
 @Component({
   selector: 'app-project-form',
-  standalone: true,
   imports: [FormsModule],
   templateUrl: './project-form.component.html',
   styleUrl: './project-form.component.css',

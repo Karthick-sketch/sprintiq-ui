@@ -43,23 +43,23 @@
     </p>
   </div>
   <div
-    routerLink="/my-tasks"
+    routerLink="/tickets"
     routerLinkActive="bg-gray-200"
-    #rlaTasks="routerLinkActive"
+    #rlaTickets="routerLinkActive"
     class="flex items-center p-4 hover:bg-gray-100 cursor-pointer"
   >
     <app-icon
       url="/left-navigation-bar/my-tasks.svg"
-      [isActive]="rlaTasks.isActive"
+      [isActive]="rlaTickets.isActive"
       activeClasses="primary-color"
       inactiveClasses="bg-gray-800"
     ></app-icon>
     <p
       class="font-medium"
-      [class.primary-color]="rlaTasks.isActive"
-      [class.text-gray-800]="!rlaTasks.isActive"
+      [class.primary-color]="rlaTickets.isActive"
+      [class.text-gray-800]="!rlaTickets.isActive"
     >
-      My Tasks
+      Tickets
     </p>
   </div>
   <div

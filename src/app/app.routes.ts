@@ -45,16 +45,18 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'ticket/:id',
+    path: 'tickets',
     loadComponent: () =>
-      import('./pages/ticket/ticket.component').then((m) => m.TicketComponent),
+      import('./pages/tickets/tickets.component').then(
+        (m) => m.TicketsComponent,
+      ),
     canActivate: [AuthGuard],
   },
   {
-    path: 'my-tasks',
+    path: 'ticket/:id',
     loadComponent: () =>
-      import('./pages/my-tasks/my-tasks.component').then(
-        (m) => m.MyTasksComponent,
+      import('./pages/tickets/ticket/ticket.component').then(
+        (m) => m.TicketComponent,
       ),
     canActivate: [AuthGuard],
   },

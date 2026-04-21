@@ -3,7 +3,6 @@ import { RecentActivityDTO } from '../../../dto/dashboard/recent-activit.dto';
 
 @Component({
   selector: 'app-recent-activity',
-  standalone: true,
   templateUrl: './recent-activity.component.html',
   styleUrl: './recent-activity.component.css',
 })
