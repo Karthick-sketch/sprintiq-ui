@@ -12,8 +12,8 @@ export class TicketService {
 
   constructor(private http: HttpClient) {}
 
-  getTickets() {
-    return this.http.get<TicketListingDTO[]>(this.baseUrl);
+  getTickets(queryString: string = '') {
+    return this.http.get<TicketListingDTO[]>(`${this.baseUrl}${queryString}`);
   }
 
   getTicket(id: number) {

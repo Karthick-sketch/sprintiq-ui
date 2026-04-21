@@ -8,6 +8,7 @@ import { TicketFormComponent } from './ticket-form/ticket-form.component';
 import { Ticket } from '../../models/ticket/ticket.model';
 import { Project } from '../../models/projects/project.model';
 import { TicketListingDTO } from '../../dto/ticket/ticket-listing.dto';
+import { TicketFilter } from '../../filter/ticket/ticket.filter';
 
 @Component({
   selector: 'app-ticket',
@@ -26,11 +27,7 @@ export class TicketsComponent implements OnInit {
   filteredTickets: TicketListingDTO[] = [];
 
   // Filter state
-  searchTerm = '';
-  selectedStatus = '';
-  selectedPriority = '';
-  selectedAssignee = '';
-  selectedProject = '';
+  ticketFilter: TicketFilter = new TicketFilter();
 
   // Filter options
   statusOptions = [
@@ -80,37 +77,27 @@ export class TicketsComponent implements OnInit {
   }
 
   applyFilters() {
-    this.filteredTickets = this.tickets.filter((ticket) => {
-      // Search term filter (matches title)
-      const matchesSearch =
-        !this.searchTerm ||
-        ticket.title.toLowerCase().includes(this.searchTerm.toLowerCase());
+    const params = new URLSearchParams();
+    if (this.ticketFilter.search) {
+      params.append('search', this.ticketFilter.search);
+    }
+    if (this.ticketFilter.status) {
+      params.append('status', this.ticketFilter.status);
+    }
+    if (this.ticketFilter.priority) {
+      params.append('priority', this.ticketFilter.priority);
+    }
+    if (this.ticketFilter.assignee) {
+      params.append('assigneeId', this.ticketFilter.assignee.toString());
+    }
+    if (this.ticketFilter.project) {
+      params.append('projectId', this.ticketFilter.project.toString());
+    }
 
-      // Status filter
-      const matchesStatus =
-        !this.selectedStatus || ticket.status === this.selectedStatus;
+    const queryString = params.toString() ? `?${params.toString()}` : '';
 
-      // Priority filter
-      const matchesPriority =
-        !this.selectedPriority || ticket.priority === this.selectedPriority;
-
-      // Assignee filter
-      const matchesAssignee =
-        !this.selectedAssignee ||
-        ticket.assigneeId === Number(this.selectedAssignee);
-
-      // Project filter
-      const matchesProject =
-        !this.selectedProject ||
-        ticket.projectId === Number(this.selectedProject);
-
-      return (
-        matchesSearch &&
-        matchesStatus &&
-        matchesPriority &&
-        matchesAssignee &&
-        matchesProject
-      );
+    this.ticketService.getTickets(queryString).subscribe((tickets) => {
+      this.filteredTickets = tickets;
     });
   }
 

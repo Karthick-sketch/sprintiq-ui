@@ -13,7 +13,7 @@
         type="text"
         placeholder="Search tickets..."
         class="filter-search"
-        [(ngModel)]="searchTerm"
+        [(ngModel)]="ticketFilter.search"
         (input)="applyFilters()"
       />
     </div>
@@ -23,7 +23,7 @@
         <label for="filter-status">Status</label>
         <select
           id="filter-status"
-          [(ngModel)]="selectedStatus"
+          [(ngModel)]="ticketFilter.status"
           (change)="applyFilters()"
         >
           <option value="">All</option>
@@ -37,7 +37,7 @@
         <label for="filter-priority">Priority</label>
         <select
           id="filter-priority"
-          [(ngModel)]="selectedPriority"
+          [(ngModel)]="ticketFilter.priority"
           (change)="applyFilters()"
         >
           <option value="">All</option>
@@ -51,7 +51,7 @@
         <label for="filter-assignee">Assignee</label>
         <select
           id="filter-assignee"
-          [(ngModel)]="selectedAssignee"
+          [(ngModel)]="ticketFilter.assignee"
           (change)="applyFilters()"
         >
           <option value="">All</option>
@@ -65,7 +65,7 @@
         <label for="filter-project">Project</label>
         <select
           id="filter-project"
-          [(ngModel)]="selectedProject"
+          [(ngModel)]="ticketFilter.project"
           (change)="applyFilters()"
         >
           <option value="">All</option>
