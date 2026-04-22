@@ -37,4 +37,11 @@ export class SectionComponent {
       this.closeTicketSlideInPanel();
     });
   }
+
+  getLength(): number {
+    if (this.section.tickets) {
+      return this.section.tickets.length;
+    }
+    return 0;
+  }
 }
