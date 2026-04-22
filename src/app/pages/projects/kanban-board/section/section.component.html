@@ -16,6 +16,7 @@
   </button>
 
   <app-ticket-form
+    [users]="users"
     [isSlideInPanelOpen]="isSlideInPanelOpen"
     (ticketSlideInPanel)="closeTicketSlideInPanel()"
     (ticketEvent)="addTicket($event)"

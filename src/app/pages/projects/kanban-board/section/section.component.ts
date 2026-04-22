@@ -5,6 +5,7 @@ import { TicketFormComponent } from '../../../tickets/ticket-form/ticket-form.co
 import { TicketService } from '../../../../services/ticket/ticket.service';
 import { Section } from '../../../../models/projects/section.model';
 import { TicketDTO } from '../../../../dto/ticket/ticket.dto';
+import { UserDTO } from '../../../../dto/user/user.dto';
 
 @Component({
   selector: 'app-section',
@@ -14,6 +15,7 @@ import { TicketDTO } from '../../../../dto/ticket/ticket.dto';
 })
 export class SectionComponent {
   @Input() section!: Section;
+  @Input() users: UserDTO[] = [];
 
   isSlideInPanelOpen: boolean = false;
 

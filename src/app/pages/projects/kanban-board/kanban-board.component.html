@@ -1,6 +1,6 @@
 <div class="kanban-board">
   @for (section of sections; track $index) {
-    <app-section [section]="section"></app-section>
+    <app-section [section]="section" [users]="users"></app-section>
   }
   @if (isAddSectionClicked) {
     <div class="add-section-form">
@@ -12,7 +12,9 @@
       />
       <div class="add-section-actions">
         <button class="btn-add-confirm" (click)="addSection()">Add</button>
-        <button class="btn-add-cancel" (click)="closeAddSection()">Cancel</button>
+        <button class="btn-add-cancel" (click)="closeAddSection()">
+          Cancel
+        </button>
       </div>
     </div>
   } @else {

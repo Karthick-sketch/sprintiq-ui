@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Section } from '../../../models/projects/section.model';
 import { SectionComponent } from './section/section.component';
 import { ProjectService } from '../../../services/project/project.service';
+import { UserDTO } from '../../../dto/user/user.dto';
 
 @Component({
   selector: 'app-kanban-board',
@@ -12,6 +13,7 @@ import { ProjectService } from '../../../services/project/project.service';
 })
 export class KanbanBoardComponent {
   @Input() projectId!: number;
+  @Input() users: UserDTO[] = [];
 
   sections: Section[] = [];
   isAddSectionClicked = false;

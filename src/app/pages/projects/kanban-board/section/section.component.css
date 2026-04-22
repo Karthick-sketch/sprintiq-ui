@@ -13,7 +13,7 @@
   flex-direction: column;
   width: 280px;
   min-height: 200px;
-  background: #f3f4f6;
+  background-color: var(--bg-gray-color);
   border: 1px solid var(--border-color);
   border-radius: 0.875rem;
   padding: 0.75rem;
@@ -34,7 +34,7 @@
 }
 
 .section-title {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--text-main);
@@ -55,7 +55,7 @@
   border-radius: 999px;
   font-size: 0.7rem;
   font-weight: 600;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   color: var(--text-muted);
   background: #e5e7eb;
   flex-shrink: 0;
@@ -81,7 +81,7 @@
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.8125rem;
   font-weight: 500;
   color: var(--text-muted);
@@ -92,7 +92,9 @@
   cursor: pointer;
   width: 100%;
   text-align: left;
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
   margin-top: 0.25rem;
 }
 
