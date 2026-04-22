@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { TicketDTO } from '../../../../../dto/ticket/ticket.dto';
 import { TicketStatus } from '../../../../../enums/ticket/ticket-status.enums';
 import { TicketPriority } from '../../../../../enums/ticket/ticket-priority.enums';
@@ -7,6 +8,7 @@ import { TicketPriority } from '../../../../../enums/ticket/ticket-priority.enum
   selector: 'app-section-ticket',
   templateUrl: './section-ticket.component.html',
   styleUrls: ['./section-ticket.component.css'],
+  imports: [DatePipe],
 })
 export class SectionTicketComponent {
   @Input() ticket!: TicketDTO;

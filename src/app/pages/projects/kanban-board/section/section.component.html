@@ -1,13 +1,20 @@
-<section>
-  <div class="border-solid border-2 border-gray-200">
-    <h2 class="text-center">{{ section.name }}</h2>
+<section class="section-column">
+  <div class="section-header">
+    <h2 class="section-title">{{ section.name }}</h2>
+    <span class="section-ticket-count">{{ section.tickets.length }}</span>
+  </div>
+
+  <div class="section-tickets">
     @for (ticket of section.tickets; track $index) {
       <app-section-ticket [ticket]="ticket"></app-section-ticket>
     }
-    <button class="cursor-pointer" (click)="openTicketSlideInPanel()">
-      Add Ticket
-    </button>
   </div>
+
+  <button class="btn-add-ticket" (click)="openTicketSlideInPanel()">
+    <span class="add-ticket-icon">+</span>
+    Add Ticket
+  </button>
+
   <app-ticket-form
     [isSlideInPanelOpen]="isSlideInPanelOpen"
     (ticketSlideInPanel)="closeTicketSlideInPanel()"
