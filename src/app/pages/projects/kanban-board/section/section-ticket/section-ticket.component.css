@@ -5,7 +5,7 @@
 .ticket-card {
   display: flex;
   flex-direction: column;
-  gap: 0.625rem;
+  gap: 1rem;
   background: #ffffff;
   border: 1px solid var(--border-color);
   border-radius: 0.625rem;
@@ -36,7 +36,7 @@
 }
 
 .ticket-title {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-main);
@@ -56,7 +56,7 @@
 .ticket-priority {
   display: inline-flex;
   align-items: center;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -108,7 +108,7 @@
 .ticket-status {
   display: inline-flex;
   align-items: center;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -141,9 +141,19 @@
    ========================================================= */
 
 .ticket-due {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.7rem;
   font-weight: 500;
   color: var(--text-muted);
   margin-left: auto;
+}
+
+/* =========================================================
+   Assignee icon
+   ========================================================= */
+
+.ticket-assignee {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }

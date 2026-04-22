@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { DropdownDTO } from '../../../dto/common/dropdown.dto';
 import { TicketPriority } from '../../../enums/ticket/ticket-priority.enums';
 import { TicketStatus } from '../../../enums/ticket/ticket-status.enums';
-import { TicketDTO } from '../../../dto/ticket/ticket.dto';
+import { TicketRequestDTO } from '../../../dto/ticket/ticket.dto';
 import { ProjectDTO } from '../../../dto/project/project.dto';
 import { SectionDTO } from '../../../dto/project/section.dto';
 import { UserDTO } from '../../../dto/user/user.dto';
@@ -27,9 +27,9 @@ export class TicketFormComponent implements AfterViewInit {
   @Input() projects: ProjectDTO[] = [];
 
   @Output() ticketSlideInPanel = new EventEmitter<boolean>();
-  @Output() ticketEvent = new EventEmitter<TicketDTO>();
+  @Output() ticketEvent = new EventEmitter<TicketRequestDTO>();
 
-  ticket = new TicketDTO();
+  ticket = new TicketRequestDTO();
   sections: SectionDTO[] | null = null;
 
   ticketStatus = [

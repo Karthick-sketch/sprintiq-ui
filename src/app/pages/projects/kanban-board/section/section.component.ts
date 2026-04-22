@@ -4,7 +4,7 @@ import { SectionTicketComponent } from './section-ticket/section-ticket.componen
 import { TicketFormComponent } from '../../../tickets/ticket-form/ticket-form.component';
 import { TicketService } from '../../../../services/ticket/ticket.service';
 import { Section } from '../../../../models/projects/section.model';
-import { TicketDTO } from '../../../../dto/ticket/ticket.dto';
+import { TicketRequestDTO } from '../../../../dto/ticket/ticket.dto';
 import { UserDTO } from '../../../../dto/user/user.dto';
 
 @Component({
@@ -29,8 +29,7 @@ export class SectionComponent {
     this.isSlideInPanelOpen = false;
   }
 
-  addTicket(ticket: TicketDTO) {
-    ticket.assigneeId = Number(ticket.assigneeId);
+  addTicket(ticket: TicketRequestDTO) {
     ticket.sectionId = this.section.id;
     ticket.projectId = this.section.projectId;
     this.ticketService.createTicket(ticket).subscribe((ticket) => {

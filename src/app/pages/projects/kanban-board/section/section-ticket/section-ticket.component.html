@@ -1,22 +1,28 @@
 @if (ticket) {
-  <div class="ticket-card">
+  <div class="ticket-card" [routerLink]="['/ticket', ticket.id]">
     <div class="ticket-top">
       <span class="ticket-title">{{ ticket.title }}</span>
       <span
         class="ticket-priority"
         [class]="'priority-' + ticket.priority.toLowerCase()"
-      >{{ getPriority(ticket.priority) }}</span>
+      >
+        {{ getPriority(ticket.priority) }}
+      </span>
     </div>
 
     <div class="ticket-meta">
       <span
         class="ticket-status"
         [class]="'status-' + ticket.status.toLowerCase()"
-      >{{ getStatus(ticket.status) }}</span>
+      >
+        {{ getStatus(ticket.status) }}
+      </span>
 
-      @if (ticket.dueDate) {
-        <span class="ticket-due">📅 {{ ticket.dueDate | date: 'MMM d' }}</span>
-      }
+      <span class="ticket-due">{{ ticket.dueDate | date: "MMM d" }}</span>
+
+      <span class="ticket-assignee">
+        <app-user-icon [userName]="ticket.assignee.name" size="small"></app-user-icon>
+      </span>
     </div>
   </div>
 }
