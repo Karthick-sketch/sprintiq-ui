@@ -132,9 +132,7 @@
               </span>
             </td>
             <td class="col-default">
-              <div class="inline rounded-full icon-bg-color p-2 text-white">
-                {{ getUserIcon(ticket.assignee.name) }}
-              </div>
+              <app-user-icon [userName]="ticket.assignee.name"></app-user-icon>
             </td>
             <td
               class="col-default"

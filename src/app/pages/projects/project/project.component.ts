@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Project } from '../../../models/projects/project.model';
 import { ProjectService } from '../../../services/project/project.service';
 import { KanbanBoardComponent } from '../kanban-board/kanban-board.component';
+import { UserService } from '../../../services/user/user.service';
+import { UserDTO } from '../../../dto/user/user.dto';
 
 @Component({
   selector: 'app-project',
@@ -12,15 +14,18 @@ import { KanbanBoardComponent } from '../kanban-board/kanban-board.component';
 })
 export class ProjectComponent implements OnInit {
   project!: Project;
+  users: UserDTO[] = [];
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private projectService: ProjectService,
+    private userService: UserService,
   ) {}
 
   ngOnInit(): void {
     this.getProject();
+    this.getUsers();
   }
 
   getProject() {
@@ -38,6 +43,12 @@ export class ProjectComponent implements OnInit {
       error: () => {
         this.router.navigate(['/page-not-found']);
       },
+    });
+  }
+
+  getUsers() {
+    this.userService.getUsers().subscribe((users) => {
+      this.users = users;
     });
   }
 }

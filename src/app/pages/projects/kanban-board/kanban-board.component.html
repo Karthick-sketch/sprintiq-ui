@@ -1,16 +1,26 @@
-<div class="flex gap-4">
+<div cdkDropListGroup class="kanban-board">
   @for (section of sections; track $index) {
-    <app-section [section]="section"></app-section>
+    <app-section [section]="section" [users]="users"></app-section>
   }
   @if (isAddSectionClicked) {
-    <div>
-      <input type="text" [(ngModel)]="newSection.name" />
-      <button (click)="addSection()">Add Section</button>
-      <button (click)="closeAddSection()">Cancel</button>
+    <div class="add-section-form">
+      <input
+        class="add-section-input"
+        type="text"
+        [(ngModel)]="newSection.name"
+        placeholder="Section name…"
+      />
+      <div class="add-section-actions">
+        <button class="btn-add-confirm" (click)="addSection()">Add</button>
+        <button class="btn-add-cancel" (click)="closeAddSection()">
+          Cancel
+        </button>
+      </div>
     </div>
   } @else {
-    <div>
-      <button class="cursor-pointer" (click)="enableAddSection()">
+    <div class="add-section-trigger">
+      <button class="btn-add-section" (click)="enableAddSection()">
+        <span class="add-section-icon">+</span>
         Add Section
       </button>
     </div>

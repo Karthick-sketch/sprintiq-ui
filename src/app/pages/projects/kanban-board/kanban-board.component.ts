@@ -1,17 +1,20 @@
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Section } from '../../../models/projects/section.model';
-import { SectionComponent } from './section/section.component';
+import { CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { ProjectService } from '../../../services/project/project.service';
+import { SectionComponent } from './section/section.component';
+import { Section } from '../../../models/projects/section.model';
+import { UserDTO } from '../../../dto/user/user.dto';
 
 @Component({
   selector: 'app-kanban-board',
   templateUrl: './kanban-board.component.html',
   styleUrls: ['./kanban-board.component.css'],
-  imports: [SectionComponent, FormsModule],
+  imports: [SectionComponent, FormsModule, CdkDropListGroup],
 })
 export class KanbanBoardComponent {
   @Input() projectId!: number;
+  @Input() users: UserDTO[] = [];
 
   sections: Section[] = [];
   isAddSectionClicked = false;
@@ -25,7 +28,10 @@ export class KanbanBoardComponent {
 
   getSections() {
     this.projectService.getSections(this.projectId).subscribe((sections) => {
-      this.sections = sections;
+      this.sections = sections.map((s) => ({
+        ...s,
+        tickets: s.tickets ?? [],
+      }));
     });
   }
 
@@ -45,6 +51,7 @@ export class KanbanBoardComponent {
     }
     this.newSection.projectId = this.projectId;
     this.projectService.createSection(this.newSection).subscribe((section) => {
+      section.tickets = section.tickets ?? [];
       this.sections.push(section);
       this.closeAddSection();
     });

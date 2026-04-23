@@ -6,22 +6,26 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 import { ProjectDTO } from '../../../dto/project/project.dto';
+import { UserDTO } from '../../../dto/user/user.dto';
 
 @Component({
   selector: 'app-project-form',
-  imports: [FormsModule],
+  imports: [FormsModule, ClickOutsideDirective],
   templateUrl: './project-form.component.html',
   styleUrl: './project-form.component.css',
 })
 export class ProjectFormComponent implements AfterViewInit {
   @Input() isSlideInPanelOpen: boolean = true;
+  @Input() users: UserDTO[] = [];
 
   @Output() projectSlideInPanel = new EventEmitter<boolean>();
   @Output() project = new EventEmitter<ProjectDTO>();
 
   newProject = new ProjectDTO();
   initialized = false;
+  teamDropdownOpen = false;
 
   constructor() {}
 
@@ -43,6 +47,44 @@ export class ProjectFormComponent implements AfterViewInit {
     this.project.emit(this.newProject);
   }
 
+  // ── Team Members multi-select helpers ──────────────────────────────────────
+
+  selectedTeamMembers(): UserDTO[] {
+    if (!this.newProject.teamMemberIds) return [];
+    return this.users.filter((u) =>
+      this.newProject.teamMemberIds!.includes(u.id),
+    );
+  }
+
+  isTeamMemberSelected(id: number): boolean {
+    return (this.newProject.teamMemberIds ?? []).includes(id);
+  }
+
+  toggleTeamMember(id: number): void {
+    if (!this.newProject.teamMemberIds) {
+      this.newProject.teamMemberIds = [];
+    }
+    const idx = this.newProject.teamMemberIds.indexOf(id);
+    if (idx === -1) {
+      this.newProject.teamMemberIds = [...this.newProject.teamMemberIds, id];
+    } else {
+      this.newProject.teamMemberIds = this.newProject.teamMemberIds.filter(
+        (mid) => mid !== id,
+      );
+    }
+  }
+
+  removeTeamMember(event: MouseEvent, id: number): void {
+    event.stopPropagation(); // prevent toggling the dropdown
+    this.toggleTeamMember(id);
+  }
+
+  // ── Validation ─────────────────────────────────────────────────────────────
+
+  // getUserName(name: string) {
+  //   return name.split(' ')[0];
+  // }
+
   private validateProject() {
     if (!this.newProject.name) {
       return false;
@@ -53,7 +95,7 @@ export class ProjectFormComponent implements AfterViewInit {
     if (!this.newProject.ownerId) {
       return false;
     }
-    if (!this.newProject.teamMemberIds) {
+    if (!this.newProject.teamMemberIds?.length) {
       return false;
     }
     return true;

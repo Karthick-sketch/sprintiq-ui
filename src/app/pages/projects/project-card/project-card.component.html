@@ -1,7 +1,4 @@
-<div
-  class="border border-gray-200 rounded-md p-4 cursor-pointer hover:border-gray-400 transition-colors duration-200"
-  routerLink="/project/{{ project.id }}"
->
+<div class="card-container" routerLink="/project/{{ project.id }}">
   <h3 class="text-xl font-bold">{{ project.name }}</h3>
   <p class="text-gray-600">
     {{ project.description }}

@@ -5,6 +5,8 @@ import { ProjectFormComponent } from './project-form/project-form.component';
 import { ProjectService } from '../../services/project/project.service';
 import { Project } from '../../models/projects/project.model';
 import { ProjectDTO } from '../../dto/project/project.dto';
+import { UserDTO } from '../../dto/user/user.dto';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-projects',
@@ -14,12 +16,17 @@ import { ProjectDTO } from '../../dto/project/project.dto';
 })
 export class ProjectsComponent implements OnInit {
   projects: Project[] = [];
+  users: UserDTO[] = [];
   isSlideInPanelOpen: boolean = false;
 
-  constructor(private projectService: ProjectService) {}
+  constructor(
+    private projectService: ProjectService,
+    private userService: UserService,
+  ) {}
 
   ngOnInit(): void {
     this.getProjects();
+    this.getUsers();
   }
 
   openProjectSlideInPanel() {
@@ -36,9 +43,17 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
+  getUsers() {
+    this.userService.getUsers().subscribe((users) => {
+      this.users = users;
+    });
+  }
+
   createProject(newProject: ProjectDTO) {
-    newProject.ownerId = Number(newProject.ownerId);
-    newProject.teamMemberIds = [Number(newProject.teamMemberIds.toString())];
+    if (newProject.ownerId === null || newProject.teamMemberIds === null) {
+      return;
+    }
+
     this.projectService.createProject(newProject).subscribe((project) => {
       this.projects.push(project);
       this.closeProjectSlideInPanel();

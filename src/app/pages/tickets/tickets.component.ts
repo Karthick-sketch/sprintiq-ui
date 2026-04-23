@@ -5,10 +5,11 @@ import { RouterLink } from '@angular/router';
 import { TicketService } from '../../services/ticket/ticket.service';
 import { ProjectService } from '../../services/project/project.service';
 import { TicketFormComponent } from './ticket-form/ticket-form.component';
-import { Ticket } from '../../models/ticket/ticket.model';
 import { Project } from '../../models/projects/project.model';
 import { TicketListingDTO } from '../../dto/ticket/ticket-listing.dto';
 import { TicketFilter } from '../../filter/ticket/ticket.filter';
+import { TicketRequestDTO } from '../../dto/ticket/ticket.dto';
+import { UserIconComponent } from '../user/user-icon/user-icon.component';
 
 type Assignee = {
   id: number;
@@ -23,6 +24,7 @@ type Assignee = {
     RouterLink,
     FormsModule,
     TicketFormComponent,
+    UserIconComponent,
   ],
   templateUrl: './tickets.component.html',
   styleUrls: ['./tickets.component.css'],
@@ -72,7 +74,10 @@ export class TicketsComponent implements OnInit {
       const assigneesMap = new Map<number, Assignee>();
       tickets.forEach((t) => {
         if (t.assignee) {
-          assigneesMap.set(t.assignee.id, { id: t.assignee.id, name: t.assignee.name });
+          assigneesMap.set(t.assignee.id, {
+            id: t.assignee.id,
+            name: t.assignee.name,
+          });
         }
       });
       this.assigneeOptions = Array.from(assigneesMap.values());
@@ -118,8 +123,7 @@ export class TicketsComponent implements OnInit {
     this.isSlideInPanelOpen = false;
   }
 
-  addTicket(ticket: Ticket) {
-    ticket.assigneeId = Number(ticket.assigneeId);
+  addTicket(ticket: TicketRequestDTO) {
     this.ticketService.createTicket(ticket).subscribe(() => {
       this.closeTicketSlideInPanel();
       this.getTickets();
