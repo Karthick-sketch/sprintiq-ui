@@ -4,9 +4,14 @@
     <span class="section-ticket-count">{{ getLength() }}</span>
   </div>
 
-  <div class="section-tickets">
+  <div
+    cdkDropList
+    [cdkDropListData]="section.tickets"
+    (cdkDropListDropped)="dropTicket($event)"
+    class="section-tickets"
+  >
     @for (ticket of section.tickets; track $index) {
-      <app-section-ticket [ticket]="ticket"></app-section-ticket>
+      <app-section-ticket cdkDrag [ticket]="ticket"></app-section-ticket>
     }
   </div>
 

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Ticket } from '../../models/ticket/ticket.model';
 import { TicketDTO, TicketRequestDTO } from '../../dto/ticket/ticket.dto';
 import { TicketListingDTO } from '../../dto/ticket/ticket-listing.dto';
+import { TicketOrderDTO } from '../../dto/ticket/ticket-order.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -30,5 +31,12 @@ export class TicketService {
 
   deleteTicket(id: number) {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  reorderTickets(sectionId: number, ticketOrderDTO: TicketOrderDTO[]) {
+    return this.http.put<void>(
+      `${this.baseUrl}/section/${sectionId}/reorder`,
+      ticketOrderDTO,
+    );
   }
 }

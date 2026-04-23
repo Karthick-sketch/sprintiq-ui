@@ -1,4 +1,4 @@
-<div class="kanban-board">
+<div cdkDropListGroup class="kanban-board">
   @for (section of sections; track $index) {
     <app-section [section]="section" [users]="users"></app-section>
   }
