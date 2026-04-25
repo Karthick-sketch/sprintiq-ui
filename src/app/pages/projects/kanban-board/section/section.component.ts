@@ -61,31 +61,36 @@ export class SectionComponent {
 
   dropTicket(event: CdkDragDrop<TicketDTO[]>) {
     if (event.previousContainer === event.container) {
-      // ticket moved within same section
+      // ticket moved within same section — reorder in place
       moveItemInArray(
         event.container.data,
         event.previousIndex,
         event.currentIndex,
       );
-      // reorder tickets in the same section
       this.reorderTickets(this.section.id, event.container.data);
     } else {
-      // ticket moved to a different section
+      // Capture the previous section id BEFORE mutating the arrays,
+      // because the ticket's sectionId may be stale after prior moves.
+      // The previousContainer's id is set to the section id via [id] binding.
+      const previousSectionId = Number(event.previousContainer.id);
+
+      // Move ticket between sections
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex,
       );
-      const tickets = event.container.data;
-      // reorder tickets in this section
-      this.reorderTickets(this.section.id, tickets);
-      // find previous section id by added ticket to this section
-      const addedTicket = tickets.find(
-        (ticket) => ticket.sectionId !== this.section.id,
-      );
-      // reorder tickets in previous section
-      this.reorderTickets(addedTicket!.sectionId, event.previousContainer.data);
+
+      // Update the moved ticket's sectionId to reflect its new home
+      const movedTicket = event.container.data[event.currentIndex];
+      if (movedTicket) {
+        movedTicket.sectionId = this.section.id;
+      }
+
+      // Reorder tickets in both sections
+      this.reorderTickets(this.section.id, event.container.data);
+      this.reorderTickets(previousSectionId, event.previousContainer.data);
     }
   }
 

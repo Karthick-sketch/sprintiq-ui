@@ -6,11 +6,12 @@
 
   <div
     cdkDropList
+    [id]="section.id.toString()"
     [cdkDropListData]="section.tickets"
     (cdkDropListDropped)="dropTicket($event)"
     class="section-tickets"
   >
-    @for (ticket of section.tickets; track $index) {
+    @for (ticket of section.tickets; track ticket.id) {
       <app-section-ticket cdkDrag [ticket]="ticket"></app-section-ticket>
     }
   </div>

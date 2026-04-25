@@ -46,7 +46,6 @@ export class KanbanBoardComponent {
 
   addSection() {
     if (!this.newSection.name) {
-      alert('Please enter a section name');
       return;
     }
     this.newSection.projectId = this.projectId;
