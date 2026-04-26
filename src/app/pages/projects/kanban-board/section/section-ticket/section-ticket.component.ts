@@ -1,12 +1,16 @@
 import { Component, Input } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { TicketDTO } from '../../../../../dto/ticket/ticket.dto';
 import { TicketStatus } from '../../../../../enums/ticket/ticket-status.enums';
 import { TicketPriority } from '../../../../../enums/ticket/ticket-priority.enums';
+import { UserIconComponent } from '../../../../user/user-icon/user-icon.component';
 
 @Component({
   selector: 'app-section-ticket',
   templateUrl: './section-ticket.component.html',
   styleUrls: ['./section-ticket.component.css'],
+  imports: [RouterLink, DatePipe, UserIconComponent],
 })
 export class SectionTicketComponent {
   @Input() ticket!: TicketDTO;
@@ -20,7 +24,6 @@ export class SectionTicketComponent {
       case TicketStatus.DONE:
         return 'Done';
     }
-    return '';
   }
 
   getPriority(priority: TicketPriority) {
@@ -34,6 +37,5 @@ export class SectionTicketComponent {
       case TicketPriority.URGENT:
         return 'Urgent';
     }
-    return '';
   }
 }

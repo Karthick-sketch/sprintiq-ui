@@ -21,6 +21,7 @@
 
   <app-project-form
     [isSlideInPanelOpen]="isSlideInPanelOpen"
+    [users]="users"
     (projectSlideInPanel)="closeProjectSlideInPanel()"
     (project)="createProject($event)"
   ></app-project-form>
