@@ -70,7 +70,7 @@
         >
           <option value="">All</option>
           @for (project of projectOptions; track project.id) {
-            <option [value]="project.id">{{ project.name }}</option>
+            <option [value]="project.id">{{ project.title }}</option>
           }
         </select>
       </div>
@@ -143,9 +143,9 @@
             <td class="col-default">
               <div
                 class="ticket-title hover:underline cursor-pointer"
-                [routerLink]="['/project', ticket.project.id]"
+                [routerLink]="['/projects', ticket.project.id]"
               >
-                {{ ticket.project.name }}
+                {{ ticket.project.title }}
               </div>
             </td>
           </tr>

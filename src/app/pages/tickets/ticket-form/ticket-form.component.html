@@ -132,7 +132,7 @@
         >
           <option value="">Select Project</option>
           @for (project of projects; track $index) {
-            <option [value]="project.id">{{ project.name }}</option>
+            <option [value]="project.id">{{ project.title }}</option>
           }
         </select>
       </div>
@@ -146,7 +146,7 @@
         >
           <option value="">Select Section</option>
           @for (section of sections; track $index) {
-            <option [value]="section.id">{{ section.name }}</option>
+            <option [value]="section.id">{{ section.title }}</option>
           }
         </select>
       </div>

@@ -47,7 +47,7 @@ export class ProjectComponent implements OnInit {
       next: (project) => {
         this.project = project;
         this.breadcrumbRoutes.push(
-          new BreadcrumbRouteDTO(this.project.name, null),
+          new BreadcrumbRouteDTO(this.project.title, null),
         );
       },
       error: () => {

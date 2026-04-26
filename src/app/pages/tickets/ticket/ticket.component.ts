@@ -36,7 +36,7 @@ export class TicketComponent {
         this.ticket = ticket;
         this.breadcrumbRoutes = [
           new BreadcrumbRouteDTO('Projects', '/projects'),
-          new BreadcrumbRouteDTO(project.name, `/projects/${projectId}`),
+          new BreadcrumbRouteDTO(project.title, `/projects/${projectId}`),
           new BreadcrumbRouteDTO(ticket.title, null),
         ];
       });
