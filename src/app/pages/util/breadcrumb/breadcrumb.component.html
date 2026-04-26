@@ -1,6 +1,6 @@
-<div class="flex items-center gap-2">
+<div class="flex items-center gap-2 font-semibold">
   @for (breadcrumb of breadcrumbRoutes; track $index) {
-    @if ($index < breadcrumbRoutes.length - 1) {
+    @if (breadcrumb.route) {
       <span
         class="cursor-pointer primary-color hover:underline"
         (click)="navigate(breadcrumb.route)"

@@ -1,8 +1,7 @@
 @if (ticket) {
   <div
     class="ticket-card"
-    [routerLink]="['/ticket', ticket.id]"
-    [state]="{ breadcrumbRoutes: breadcrumbRoutes }"
+    [routerLink]="['/projects', project.id, 'tickets', ticket.id]"
   >
     <div class="ticket-top">
       <span class="ticket-title">{{ ticket.title }}</span>
