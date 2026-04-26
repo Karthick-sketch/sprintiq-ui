@@ -1,5 +1,9 @@
 @if (ticket) {
-  <div class="ticket-card" [routerLink]="['/ticket', ticket.id]">
+  <div
+    class="ticket-card"
+    [routerLink]="['/ticket', ticket.id]"
+    [state]="{ breadcrumbRoutes: breadcrumbRoutes }"
+  >
     <div class="ticket-top">
       <span class="ticket-title">{{ ticket.title }}</span>
       <span
@@ -21,7 +25,10 @@
       <span class="ticket-due">{{ ticket.dueDate | date: "MMM d" }}</span>
 
       <span class="ticket-assignee">
-        <app-user-icon [userName]="ticket.assignee.name" size="small"></app-user-icon>
+        <app-user-icon
+          [userName]="ticket.assignee.name"
+          size="small"
+        ></app-user-icon>
       </span>
     </div>
   </div>

@@ -1,6 +1,10 @@
 <div cdkDropListGroup class="kanban-board">
   @for (section of sections; track $index) {
-    <app-section [section]="section" [users]="users"></app-section>
+    <app-section
+      [section]="section"
+      [users]="users"
+      [project]="project"
+    ></app-section>
   }
   @if (isAddSectionClicked) {
     <div class="add-section-form">

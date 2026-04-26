@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DropdownDTO } from '../../../dto/common/dropdown.dto';
+import { DropdownDTO } from '../../../dto/util/dropdown.dto';
 import { TicketPriority } from '../../../enums/ticket/ticket-priority.enums';
 import { TicketStatus } from '../../../enums/ticket/ticket-status.enums';
 import { TicketRequestDTO } from '../../../dto/ticket/ticket.dto';

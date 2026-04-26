@@ -96,6 +96,12 @@
               <div
                 class="ticket-title hover:underline cursor-pointer"
                 [routerLink]="['/ticket', ticket.id]"
+                [state]="{
+                  breadcrumbRoutes: [
+                    { label: 'Tickets', route: '/tickets' },
+                    { label: ticket.title, route: `/ticket/${ticket.id}` },
+                  ],
+                }"
               >
                 {{ ticket.title }}
               </div>

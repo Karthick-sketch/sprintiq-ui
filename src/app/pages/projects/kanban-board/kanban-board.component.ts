@@ -4,6 +4,7 @@ import { CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { ProjectService } from '../../../services/project/project.service';
 import { SectionComponent } from './section/section.component';
 import { Section } from '../../../models/projects/section.model';
+import { ProjectDTO } from '../../../dto/project/project.dto';
 import { UserDTO } from '../../../dto/user/user.dto';
 
 @Component({
@@ -13,7 +14,7 @@ import { UserDTO } from '../../../dto/user/user.dto';
   imports: [SectionComponent, FormsModule, CdkDropListGroup],
 })
 export class KanbanBoardComponent {
-  @Input() projectId!: number;
+  @Input() project!: ProjectDTO;
   @Input() users: UserDTO[] = [];
 
   sections: Section[] = [];
@@ -27,7 +28,7 @@ export class KanbanBoardComponent {
   }
 
   getSections() {
-    this.projectService.getSections(this.projectId).subscribe((sections) => {
+    this.projectService.getSections(this.project.id).subscribe((sections) => {
       this.sections = sections.map((s) => ({
         ...s,
         tickets: s.tickets ?? [],
@@ -48,7 +49,7 @@ export class KanbanBoardComponent {
     if (!this.newSection.name) {
       return;
     }
-    this.newSection.projectId = this.projectId;
+    this.newSection.projectId = this.project.id;
     this.newSection.orderIndex = this.sections.length;
     this.projectService.createSection(this.newSection).subscribe((section) => {
       section.tickets = section.tickets ?? [];

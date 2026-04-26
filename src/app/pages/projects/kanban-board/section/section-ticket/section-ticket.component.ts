@@ -1,10 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { TicketDTO } from '../../../../../dto/ticket/ticket.dto';
+import { UserIconComponent } from '../../../../user/user-icon/user-icon.component';
 import { TicketStatus } from '../../../../../enums/ticket/ticket-status.enums';
 import { TicketPriority } from '../../../../../enums/ticket/ticket-priority.enums';
-import { UserIconComponent } from '../../../../user/user-icon/user-icon.component';
+import { TicketDTO } from '../../../../../dto/ticket/ticket.dto';
+import { ProjectDTO } from '../../../../../dto/project/project.dto';
+import { BreadcrumbRouteDTO } from '../../../../../dto/util/breadcrump-route.dto';
 
 @Component({
   selector: 'app-section-ticket',
@@ -12,8 +14,23 @@ import { UserIconComponent } from '../../../../user/user-icon/user-icon.componen
   styleUrls: ['./section-ticket.component.css'],
   imports: [RouterLink, DatePipe, UserIconComponent],
 })
-export class SectionTicketComponent {
+export class SectionTicketComponent implements OnInit {
   @Input() ticket!: TicketDTO;
+  @Input() project!: ProjectDTO;
+
+  breadcrumbRoutes: BreadcrumbRouteDTO[] = [
+    new BreadcrumbRouteDTO('Projects', '/projects'),
+  ];
+
+  constructor() {}
+
+  ngOnInit(): void {
+    this.breadcrumbRoutes = [
+      ...this.breadcrumbRoutes,
+      new BreadcrumbRouteDTO(this.project.name, `/project/${this.project.id}`),
+      new BreadcrumbRouteDTO(this.ticket.title, `/ticket/${this.ticket.id}`),
+    ];
+  }
 
   getStatus(status: TicketStatus) {
     switch (status) {
