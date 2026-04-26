@@ -37,10 +37,18 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'project/:id',
+    path: 'projects/:projectId',
     loadComponent: () =>
       import('./pages/projects/project/project.component').then(
         (m) => m.ProjectComponent,
+      ),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'projects/:projectId/tickets/:ticketId',
+    loadComponent: () =>
+      import('./pages/tickets/ticket/ticket.component').then(
+        (m) => m.TicketComponent,
       ),
     canActivate: [AuthGuard],
   },
@@ -53,7 +61,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'ticket/:id',
+    path: 'tickets/:ticketId',
     loadComponent: () =>
       import('./pages/tickets/ticket/ticket.component').then(
         (m) => m.TicketComponent,

@@ -12,7 +12,11 @@
     class="section-tickets"
   >
     @for (ticket of section.tickets; track ticket.id) {
-      <app-section-ticket cdkDrag [ticket]="ticket"></app-section-ticket>
+      <app-section-ticket
+        cdkDrag
+        [ticket]="ticket"
+        [project]="project"
+      ></app-section-ticket>
     }
   </div>
 

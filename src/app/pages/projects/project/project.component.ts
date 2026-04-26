@@ -3,18 +3,26 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Project } from '../../../models/projects/project.model';
 import { ProjectService } from '../../../services/project/project.service';
 import { KanbanBoardComponent } from '../kanban-board/kanban-board.component';
+import { BreadcrumbComponent } from '../../util/breadcrumb/breadcrumb.component';
 import { UserService } from '../../../services/user/user.service';
 import { UserDTO } from '../../../dto/user/user.dto';
+import { BreadcrumbRouteDTO } from '../../../dto/util/breadcrump-route.dto';
 
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.css'],
-  imports: [KanbanBoardComponent],
+  imports: [KanbanBoardComponent, BreadcrumbComponent],
 })
 export class ProjectComponent implements OnInit {
   project!: Project;
   users: UserDTO[] = [];
+  breadcrumbRoutes: BreadcrumbRouteDTO[] = [
+    {
+      label: 'Projects',
+      route: '/projects',
+    },
+  ];
 
   constructor(
     private router: Router,
@@ -29,16 +37,18 @@ export class ProjectComponent implements OnInit {
   }
 
   getProject() {
-    const id = this.route.snapshot.paramMap.get('id');
-
-    if (!id) {
+    const projectId = this.route.snapshot.paramMap.get('projectId');
+    if (!projectId) {
       this.router.navigate(['/page-not-found']);
       return;
     }
 
-    this.projectService.getProject(Number(id)).subscribe({
+    this.projectService.getProject(parseInt(projectId)).subscribe({
       next: (project) => {
         this.project = project;
+        this.breadcrumbRoutes.push(
+          new BreadcrumbRouteDTO(this.project.name, null),
+        );
       },
       error: () => {
         this.router.navigate(['/page-not-found']);

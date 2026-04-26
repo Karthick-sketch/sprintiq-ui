@@ -14,6 +14,7 @@ import { Section } from '../../../../models/projects/section.model';
 import { TicketDTO, TicketRequestDTO } from '../../../../dto/ticket/ticket.dto';
 import { TicketOrderDTO } from '../../../../dto/ticket/ticket-order.dto';
 import { UserDTO } from '../../../../dto/user/user.dto';
+import { ProjectDTO } from '../../../../dto/project/project.dto';
 
 @Component({
   selector: 'app-section',
@@ -30,6 +31,7 @@ import { UserDTO } from '../../../../dto/user/user.dto';
 export class SectionComponent {
   @Input() section!: Section;
   @Input() users: UserDTO[] = [];
+  @Input() project!: ProjectDTO;
 
   isSlideInPanelOpen: boolean = false;
 
