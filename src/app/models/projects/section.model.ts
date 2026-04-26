@@ -5,4 +5,5 @@ export class Section {
   name: string = '';
   tickets: TicketDTO[] = [];
   projectId: number = 0;
+  orderIndex: number = 0;
 }

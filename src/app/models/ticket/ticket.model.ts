@@ -11,4 +11,5 @@ export class Ticket {
   dueDate: string = '';
   projectId: number = 0;
   sectionId: number = 0;
+  orderIndex: number = 0;
 }

@@ -49,6 +49,7 @@ export class KanbanBoardComponent {
       return;
     }
     this.newSection.projectId = this.projectId;
+    this.newSection.orderIndex = this.sections.length;
     this.projectService.createSection(this.newSection).subscribe((section) => {
       section.tickets = section.tickets ?? [];
       this.sections.push(section);

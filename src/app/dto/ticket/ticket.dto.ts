@@ -12,6 +12,7 @@ export class TicketDTO {
   dueDate: string = '';
   projectId: number = 0;
   sectionId: number = 0;
+  orderIndex: number = 0;
 }
 
 export class TicketRequestDTO {
