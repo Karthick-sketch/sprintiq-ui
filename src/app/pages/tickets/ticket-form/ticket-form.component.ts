@@ -26,7 +26,7 @@ export class TicketFormComponent implements AfterViewInit {
   @Input() isInProject: boolean = false;
   @Input() projects: ProjectDTO[] = [];
 
-  @Output() ticketSlideInPanel = new EventEmitter<boolean>();
+  @Output() ticketSlideInPanel = new EventEmitter<void>();
   @Output() ticketEvent = new EventEmitter<TicketRequestDTO>();
 
   ticket = new TicketRequestDTO();
@@ -52,7 +52,8 @@ export class TicketFormComponent implements AfterViewInit {
 
   closeSlideInPanel() {
     this.isSlideInPanelOpen = false;
-    this.ticketSlideInPanel.emit(false);
+    this.ticket = new TicketRequestDTO();
+    this.ticketSlideInPanel.emit();
   }
 
   addTicket() {
@@ -60,6 +61,7 @@ export class TicketFormComponent implements AfterViewInit {
       return;
     }
     this.ticketEvent.emit(this.ticket);
+    this.closeSlideInPanel();
   }
 
   private validateTicket() {

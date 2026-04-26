@@ -46,6 +46,8 @@ export class SectionComponent {
   addTicket(ticket: TicketRequestDTO) {
     ticket.sectionId = this.section.id;
     ticket.projectId = this.section.projectId;
+    ticket.orderIndex = this.section.tickets.length;
+
     this.ticketService.createTicket(ticket).subscribe((ticket) => {
       this.section.tickets.push(ticket);
       this.closeTicketSlideInPanel();
