@@ -132,13 +132,19 @@
               </span>
             </td>
             <td class="col-default">
-              <app-user-icon [userName]="ticket.assignee.name"></app-user-icon>
+              @if (ticket.assignee) {
+                <app-user-icon
+                  [userName]="ticket.assignee.name"
+                ></app-user-icon>
+              }
             </td>
             <td
               class="col-default"
               [class.error-color]="isOverdue(ticket.dueDate)"
             >
-              {{ formatDate(ticket.dueDate) }}
+              @if (ticket.dueDate) {
+                {{ formatDate(ticket.dueDate) }}
+              }
             </td>
             <td class="col-default">
               <div

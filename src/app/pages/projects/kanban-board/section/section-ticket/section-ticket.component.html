@@ -21,14 +21,18 @@
         {{ getStatus(ticket.status) }}
       </span>
 
-      <span class="ticket-due">{{ ticket.dueDate | date: "MMM d" }}</span>
+      @if (ticket.dueDate) {
+        <span class="ticket-due">{{ ticket.dueDate | date: "MMM d" }}</span>
+      }
 
-      <span class="ticket-assignee">
-        <app-user-icon
-          [userName]="ticket.assignee.name"
-          size="small"
-        ></app-user-icon>
-      </span>
+      @if (ticket.assignee) {
+        <span class="ticket-assignee">
+          <app-user-icon
+            [userName]="ticket.assignee.name"
+            size="small"
+          ></app-user-icon>
+        </span>
+      }
     </div>
   </div>
 }
