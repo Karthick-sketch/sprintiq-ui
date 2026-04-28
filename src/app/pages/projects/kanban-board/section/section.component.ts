@@ -11,7 +11,10 @@ import { SectionTicketComponent } from './section-ticket/section-ticket.componen
 import { TicketFormComponent } from '../../../tickets/ticket-form/ticket-form.component';
 import { TicketService } from '../../../../services/ticket/ticket.service';
 import { Section } from '../../../../models/projects/section.model';
-import { TicketDTO, TicketRequestDTO } from '../../../../dto/ticket/ticket.dto';
+import {
+  TicketDTO,
+  TicketCreateRequestDTO,
+} from '../../../../dto/ticket/ticket.dto';
 import { TicketOrderDTO } from '../../../../dto/ticket/ticket-order.dto';
 import { UserDTO } from '../../../../dto/user/user.dto';
 import { ProjectDTO } from '../../../../dto/project/project.dto';
@@ -45,7 +48,7 @@ export class SectionComponent {
     this.isSlideInPanelOpen = false;
   }
 
-  addTicket(ticket: TicketRequestDTO) {
+  addTicket(ticket: TicketCreateRequestDTO) {
     ticket.sectionId = this.section.id;
     ticket.projectId = this.section.projectId;
     ticket.orderIndex = this.section.tickets.length;

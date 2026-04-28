@@ -8,7 +8,7 @@ import { TicketFormComponent } from './ticket-form/ticket-form.component';
 import { Project } from '../../models/projects/project.model';
 import { TicketListingDTO } from '../../dto/ticket/ticket-listing.dto';
 import { TicketFilter } from '../../filter/ticket/ticket.filter';
-import { TicketRequestDTO } from '../../dto/ticket/ticket.dto';
+import { TicketCreateRequestDTO } from '../../dto/ticket/ticket.dto';
 import { UserIconComponent } from '../user/user-icon/user-icon.component';
 
 type Assignee = {
@@ -123,8 +123,8 @@ export class TicketsComponent implements OnInit {
     this.isSlideInPanelOpen = false;
   }
 
-  addTicket(ticket: TicketRequestDTO) {
-    this.ticketService.createTicket(ticket).subscribe(() => {
+  addTicket(ticketRequest: TicketCreateRequestDTO) {
+    this.ticketService.createTicket(ticketRequest).subscribe(() => {
       this.closeTicketSlideInPanel();
       this.getTickets();
     });

@@ -38,7 +38,7 @@ export class KanbanBoardComponent {
 
   enableAddSection() {
     this.isAddSectionClicked = true;
-    this.newSection.name = `Section ${this.sections.length + 1}`;
+    this.newSection.title = `Section ${this.sections.length + 1}`;
   }
 
   closeAddSection() {
@@ -46,7 +46,7 @@ export class KanbanBoardComponent {
   }
 
   addSection() {
-    if (!this.newSection.name) {
+    if (!this.newSection.title) {
       return;
     }
     this.newSection.projectId = this.project.id;

@@ -1,5 +1,5 @@
 <div>
-  <section>
+  <section class="flex justify-between items-center mb-4">
     <h2 class="text-2xl font-bold">Tickets</h2>
     <button class="primary-btn" (click)="openTicketSlideInPanel()">
       Create Ticket
@@ -70,7 +70,7 @@
         >
           <option value="">All</option>
           @for (project of projectOptions; track project.id) {
-            <option [value]="project.id">{{ project.name }}</option>
+            <option [value]="project.id">{{ project.title }}</option>
           }
         </select>
       </div>
@@ -132,20 +132,26 @@
               </span>
             </td>
             <td class="col-default">
-              <app-user-icon [userName]="ticket.assignee.name"></app-user-icon>
+              @if (ticket.assignee) {
+                <app-user-icon
+                  [userName]="ticket.assignee.name"
+                ></app-user-icon>
+              }
             </td>
             <td
               class="col-default"
               [class.error-color]="isOverdue(ticket.dueDate)"
             >
-              {{ formatDate(ticket.dueDate) }}
+              @if (ticket.dueDate) {
+                {{ formatDate(ticket.dueDate) }}
+              }
             </td>
             <td class="col-default">
               <div
                 class="ticket-title hover:underline cursor-pointer"
-                [routerLink]="['/project', ticket.project.id]"
+                [routerLink]="['/projects', ticket.project.id]"
               >
-                {{ ticket.project.name }}
+                {{ ticket.project.title }}
               </div>
             </td>
           </tr>

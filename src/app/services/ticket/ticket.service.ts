@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Ticket } from '../../models/ticket/ticket.model';
-import { TicketDTO, TicketRequestDTO } from '../../dto/ticket/ticket.dto';
+import {
+  TicketDTO,
+  TicketCreateRequestDTO,
+  TicketUpdateRequestDTO,
+} from '../../dto/ticket/ticket.dto';
 import { TicketListingDTO } from '../../dto/ticket/ticket-listing.dto';
 import { TicketOrderDTO } from '../../dto/ticket/ticket-order.dto';
 
@@ -21,12 +25,15 @@ export class TicketService {
     return this.http.get<Ticket>(`${this.baseUrl}/${id}`);
   }
 
-  createTicket(ticketRequestDTO: TicketRequestDTO) {
+  createTicket(ticketRequestDTO: TicketCreateRequestDTO) {
     return this.http.post<TicketDTO>(this.baseUrl, ticketRequestDTO);
   }
 
-  updateTicket(ticket: Ticket) {
-    return this.http.put<Ticket>(`${this.baseUrl}/${ticket.id}`, ticket);
+  updateTicket(ticketRequestDTO: TicketUpdateRequestDTO) {
+    return this.http.put<void>(
+      `${this.baseUrl}/${ticketRequestDTO.id}`,
+      ticketRequestDTO,
+    );
   }
 
   deleteTicket(id: number) {

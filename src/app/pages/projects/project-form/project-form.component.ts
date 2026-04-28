@@ -81,12 +81,8 @@ export class ProjectFormComponent implements AfterViewInit {
 
   // ── Validation ─────────────────────────────────────────────────────────────
 
-  // getUserName(name: string) {
-  //   return name.split(' ')[0];
-  // }
-
   private validateProject() {
-    if (!this.newProject.name) {
+    if (!this.newProject.title) {
       return false;
     }
     if (!this.newProject.description) {
