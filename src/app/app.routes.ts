@@ -37,7 +37,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'project/:id',
+    path: 'projects/:projectId',
     loadComponent: () =>
       import('./pages/projects/project/project.component').then(
         (m) => m.ProjectComponent,
@@ -45,16 +45,26 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'ticket/:id',
+    path: 'projects/:projectId/tickets/:ticketId',
     loadComponent: () =>
-      import('./pages/ticket/ticket.component').then((m) => m.TicketComponent),
+      import('./pages/tickets/ticket/ticket.component').then(
+        (m) => m.TicketComponent,
+      ),
     canActivate: [AuthGuard],
   },
   {
-    path: 'my-tasks',
+    path: 'tickets',
     loadComponent: () =>
-      import('./pages/my-tasks/my-tasks.component').then(
-        (m) => m.MyTasksComponent,
+      import('./pages/tickets/tickets.component').then(
+        (m) => m.TicketsComponent,
+      ),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'tickets/:ticketId',
+    loadComponent: () =>
+      import('./pages/tickets/ticket/ticket.component').then(
+        (m) => m.TicketComponent,
       ),
     canActivate: [AuthGuard],
   },

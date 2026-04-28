@@ -99,12 +99,15 @@
       <label class="block text-sm font-medium text-gray-700 mb-1">
         Assignee
       </label>
-      <input
-        type="text"
+      <select
         class="w-full border border-gray-300 rounded-md p-2 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-        placeholder="Select assignee"
         [(ngModel)]="ticket.assigneeId"
-      />
+      >
+        <option value="0">Select Assignee</option>
+        @for (user of users; track $index) {
+          <option [value]="user.id">{{ user.name }}</option>
+        }
+      </select>
     </div>
 
     <div>
@@ -117,21 +120,47 @@
         [(ngModel)]="ticket.dueDate"
       />
     </div>
+
+    @if (isInProject) {
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">
+          Project
+        </label>
+        <select
+          class="w-full border border-gray-300 rounded-md p-2 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          [(ngModel)]="ticket.projectId"
+        >
+          <option value="">Select Project</option>
+          @for (project of projects; track $index) {
+            <option [value]="project.id">{{ project.title }}</option>
+          }
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">
+          Section
+        </label>
+        <select
+          class="w-full border border-gray-300 rounded-md p-2 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          [(ngModel)]="ticket.sectionId"
+        >
+          <option value="">Select Section</option>
+          @for (section of sections; track $index) {
+            <option [value]="section.id">{{ section.title }}</option>
+          }
+        </select>
+      </div>
+    }
   </div>
 
   <!-- Footer -->
   <div class="p-4 border-t flex justify-end space-x-3">
     <button
       (click)="closeSlideInPanel()"
-      class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none"
+      class="cursor-pointer px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none"
     >
       Cancel
     </button>
-    <button
-      class="px-4 py-2 primary-btn text-white rounded-md hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      (click)="addTicket()"
-    >
-      Create
-    </button>
+    <button class="primary-btn" (click)="addTicket()">Create</button>
   </div>
 </div>

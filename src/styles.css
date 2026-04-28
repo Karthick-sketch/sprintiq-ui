@@ -3,6 +3,15 @@
 
 :root {
   --primary-color: #4338ca;
+  --primary-hover: #3730a3;
+  --card-bg: #ffffff;
+  --border-color: #e5e7eb;
+  --text-main: #1f2937;
+  --text-muted: #6b7280;
+  --input-bg: #ffffff;
+  --error-color: #ef4444;
+  --icon-bg-color: #2d7f43;
+  --bg-gray-color: #f3f4f6;
 }
 
 body {
@@ -15,8 +24,14 @@ body {
 
 .primary-btn {
   color: white;
-  background-color: var(--primary-color);
+  background: linear-gradient(
+    to right,
+    var(--primary-color),
+    var(--primary-hover)
+  );
   cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
 }
 
 .primary-bg-color {
@@ -37,4 +52,12 @@ body {
 
 .completed-task-bg-color {
   background-color: #d4edda;
+}
+
+.error-color {
+  color: var(--error-color);
+}
+
+.icon-bg-color {
+  background-color: var(--icon-bg-color);
 }

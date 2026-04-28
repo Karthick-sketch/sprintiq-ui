@@ -1,0 +1,23 @@
+.user-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+  color: white;
+  background-color: var(--icon-bg-color);
+}
+
+.user-icon--normal {
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.9rem;
+}
+
+.user-icon--small {
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: 0.75rem;
+}

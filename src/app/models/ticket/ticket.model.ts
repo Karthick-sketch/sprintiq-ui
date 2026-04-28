@@ -1,3 +1,4 @@
+import { UserDTO } from '../../dto/user/user.dto';
 import { TicketPriority } from '../../enums/ticket/ticket-priority.enums';
 import { TicketStatus } from '../../enums/ticket/ticket-status.enums';
 
@@ -7,8 +8,9 @@ export class Ticket {
   description: string = '';
   status: TicketStatus = TicketStatus.TODO;
   priority: TicketPriority = TicketPriority.MEDIUM;
-  assigneeId: number = 0;
-  dueDate: string = '';
+  assignee: UserDTO | null = null;
+  dueDate: string | null = null;
   projectId: number = 0;
   sectionId: number = 0;
+  orderIndex: number = 0;
 }

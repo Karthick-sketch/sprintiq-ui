@@ -1,4 +1,4 @@
-<div class="project-card" routerLink="/project/{{ project.id }}">
+<div class="project-card" [routerLink]="['/projects', project.id]">
   <div class="flex items-start justify-between gap-3">
     <div class="project-card-icon rounded-md bg-gray-100 p-2">
       <app-icon

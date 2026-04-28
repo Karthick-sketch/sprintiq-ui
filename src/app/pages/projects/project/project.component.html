@@ -1,8 +1,14 @@
 @if (project) {
-  <div>
-    <h1>{{ project.name }}</h1>
+  <div class="mb-4">
+    <app-breadcrumb [breadcrumbRoutes]="breadcrumbRoutes"></app-breadcrumb>
+  </div>
+  <div class="project-header">
+    <h1 class="project-title">{{ project.title }}</h1>
+    <p class="project-description">
+      {{ project.description }}
+    </p>
   </div>
   <div>
-    <app-kanban-board [projectId]="project.id"></app-kanban-board>
+    <app-kanban-board [project]="project" [users]="users"></app-kanban-board>
   </div>
 }

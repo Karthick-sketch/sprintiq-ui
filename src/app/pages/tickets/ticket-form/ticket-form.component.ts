@@ -6,10 +6,13 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DropdownDTO } from '../../../dto/common/dropdown.dto';
+import { DropdownDTO } from '../../../dto/util/dropdown.dto';
 import { TicketPriority } from '../../../enums/ticket/ticket-priority.enums';
 import { TicketStatus } from '../../../enums/ticket/ticket-status.enums';
-import { TicketDTO } from '../../../dto/ticket/ticket.dto';
+import { TicketCreateRequestDTO } from '../../../dto/ticket/ticket.dto';
+import { ProjectDTO } from '../../../dto/project/project.dto';
+import { SectionDTO } from '../../../dto/project/section.dto';
+import { UserDTO } from '../../../dto/user/user.dto';
 
 @Component({
   selector: 'app-ticket-form',
@@ -18,12 +21,16 @@ import { TicketDTO } from '../../../dto/ticket/ticket.dto';
   imports: [FormsModule],
 })
 export class TicketFormComponent implements AfterViewInit {
+  @Input() users: UserDTO[] = [];
   @Input() isSlideInPanelOpen: boolean = true;
+  @Input() isInProject: boolean = false;
+  @Input() projects: ProjectDTO[] = [];
 
-  @Output() ticketSlideInPanel = new EventEmitter<boolean>();
-  @Output() ticketEvent = new EventEmitter<TicketDTO>();
+  @Output() ticketSlideInPanel = new EventEmitter<void>();
+  @Output() ticketEvent = new EventEmitter<TicketCreateRequestDTO>();
 
-  ticket = new TicketDTO();
+  ticket = new TicketCreateRequestDTO();
+  sections: SectionDTO[] | null = null;
 
   ticketStatus = [
     new DropdownDTO('To Do', TicketStatus.TODO),
@@ -45,7 +52,8 @@ export class TicketFormComponent implements AfterViewInit {
 
   closeSlideInPanel() {
     this.isSlideInPanelOpen = false;
-    this.ticketSlideInPanel.emit(false);
+    this.ticket = new TicketCreateRequestDTO();
+    this.ticketSlideInPanel.emit();
   }
 
   addTicket() {
@@ -53,6 +61,7 @@ export class TicketFormComponent implements AfterViewInit {
       return;
     }
     this.ticketEvent.emit(this.ticket);
+    this.closeSlideInPanel();
   }
 
   private validateTicket() {
@@ -68,7 +77,7 @@ export class TicketFormComponent implements AfterViewInit {
     if (!this.ticket.priority) {
       return false;
     }
-    if (!this.ticket.assigneeId) {
+    if (!this.ticket.assigneeId || this.ticket.assigneeId == 0) {
       return false;
     }
     if (!this.ticket.dueDate) {
