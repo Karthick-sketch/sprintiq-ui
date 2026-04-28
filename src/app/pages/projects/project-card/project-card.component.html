@@ -1,6 +1,29 @@
-<div class="card-container" [routerLink]="['/projects', project.id]">
-  <h3 class="text-xl font-bold">{{ project.title }}</h3>
-  <p class="text-gray-600">
+<div class="project-card" [routerLink]="['/projects', project.id]">
+  <div class="flex items-start justify-between gap-3">
+    <div class="project-card-icon rounded-md bg-gray-100 p-2">
+      <app-icon
+        url="/left-navigation-bar/projects.svg"
+        size="w-6 h-6"
+        inactiveClasses="primary-color"
+      ></app-icon>
+    </div>
+
+    <button
+      type="button"
+      class="project-card-menu-button"
+      aria-label="Project options"
+      (click)="$event.stopPropagation()"
+    >
+      <app-icon
+        url="/projects/more-horizontal.svg"
+        size="w-5 h-5"
+        inactiveClasses="bg-gray-500"
+      ></app-icon>
+    </button>
+  </div>
+
+  <h3 class="project-card-title text-xl font-bold">{{ project.title }}</h3>
+  <p class="project-card-description text-gray-600">
     {{ project.description }}
   </p>
 </div>
