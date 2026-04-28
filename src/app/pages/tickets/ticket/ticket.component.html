@@ -186,14 +186,14 @@
             title="Click to edit"
             (click)="startEditAssignee()"
           >
-            @if (ticket.assigneeId) {
+            @if (ticket.assignee) {
               <app-user-icon
-                [userName]="getAssigneeName(ticket.assigneeId)"
+                [userName]="ticket.assignee.name"
                 [size]="'small'"
               ></app-user-icon>
-              {{ getAssigneeName(ticket.assigneeId) }}
+              {{ ticket.assignee.name }}
             } @else {
-              <span>&lt;Unassigned&gt;</span>
+              <span>&lt;unassigned&gt;</span>
             }
           </span>
         } @else {
@@ -201,7 +201,8 @@
             <select
               id="ticket-assignee-select"
               class="inline-select"
-              [(ngModel)]="draftAssigneeId"
+              [ngModel]="draftAssigneeId"
+              (ngModelChange)="draftAssigneeId = +$event"
             >
               <option [value]="0">Unassigned</option>
               @for (u of users; track u.id) {
@@ -233,18 +234,16 @@
             title="Click to edit"
             (click)="startEditDueDate()"
           >
-            <svg
-              class="calendar-icon"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                d="M5 .5a.5.5 0 0 1 .5.5V2h5V1a.5.5 0 0 1 1 0v1h1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h1V1A.5.5 0 0 1 5 .5zM3 3.5A.5.5 0 0 0 2.5 4v1h11V4a.5.5 0 0 0-.5-.5H3zm-.5 3V14a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V6.5h-11z"
+            @if (ticket.dueDate) {
+              <img
+                class="calendar-icon"
+                src="/ticket/calendar.svg"
+                alt="Calendar"
               />
-            </svg>
-            {{ ticket.dueDate ? (ticket.dueDate | date: "MMM d, yyyy") : "—" }}
+              {{ ticket.dueDate | date: "MMM d, yyyy" }}
+            } @else {
+              <span>&lt;no due date&gt;</span>
+            }
           </span>
         } @else {
           <div class="inline-date-group">

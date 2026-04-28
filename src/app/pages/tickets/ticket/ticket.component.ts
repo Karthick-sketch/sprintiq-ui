@@ -13,6 +13,7 @@ import { BreadcrumbRouteDTO } from '../../../dto/util/breadcrump-route.dto';
 import { TicketStatus } from '../../../enums/ticket/ticket-status.enums';
 import { TicketPriority } from '../../../enums/ticket/ticket-priority.enums';
 import { UserIconComponent } from '../../user/user-icon/user-icon.component';
+import { TicketUpdateRequestDTO } from '../../../dto/ticket/ticket.dto';
 
 @Component({
   selector: 'app-ticket',
@@ -92,9 +93,9 @@ export class TicketComponent implements OnInit {
 
   // ── Helpers ──────────────────────────────────────────────────────────────
 
-  getAssigneeName(assigneeId: number): string {
-    const user = this.users.find((u) => u.id === assigneeId);
-    return user ? user.name : 'Unassigned';
+  findUserById(id: number): UserDTO | null {
+    const user = this.users.find((u) => u.id === id);
+    return user ?? null;
   }
 
   formatDueDateForInput(dateStr: string | null): string {
@@ -187,13 +188,14 @@ export class TicketComponent implements OnInit {
   // ── Assignee ──────────────────────────────────────────────────────────────
 
   startEditAssignee(): void {
-    this.draftAssigneeId = this.ticket.assigneeId;
+    this.draftAssigneeId = this.ticket.assignee?.id ?? 0;
     this.editingAssignee = true;
   }
 
   saveAssignee(): void {
-    this.saveField({ assigneeId: this.draftAssigneeId }, () => {
-      this.ticket.assigneeId = this.draftAssigneeId;
+    const user = this.findUserById(this.draftAssigneeId);
+    this.saveField({ assignee: user }, () => {
+      this.ticket.assignee = user;
       this.editingAssignee = false;
     });
   }
@@ -224,10 +226,13 @@ export class TicketComponent implements OnInit {
 
   private saveField(partial: Partial<Ticket>, onSuccess: () => void): void {
     this.saving = true;
-    const updated: Ticket = { ...this.ticket, ...partial };
+    const updated: TicketUpdateRequestDTO = {
+      ...this.ticket,
+      ...partial,
+      assigneeId: this.draftAssigneeId,
+    };
     this.ticketService.updateTicket(updated).subscribe({
-      next: (saved) => {
-        Object.assign(this.ticket, saved);
+      next: () => {
         onSuccess();
         this.saving = false;
       },

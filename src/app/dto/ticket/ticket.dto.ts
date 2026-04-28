@@ -8,20 +8,33 @@ export class TicketDTO {
   description: string = '';
   status: TicketStatus = TicketStatus.TODO;
   priority: TicketPriority = TicketPriority.MEDIUM;
-  assignee: UserDTO = new UserDTO();
-  dueDate: string = '';
+  assignee: UserDTO | null = null;
+  dueDate: string | null = null;
   projectId: number = 0;
   sectionId: number = 0;
   orderIndex: number = 0;
 }
 
-export class TicketRequestDTO {
+export class TicketCreateRequestDTO {
   title: string = '';
   description: string = '';
   status: TicketStatus = TicketStatus.TODO;
   priority: TicketPriority = TicketPriority.MEDIUM;
   assigneeId: number = 0;
-  dueDate: string = '';
+  dueDate: string | null = null;
+  projectId: number = 0;
+  sectionId: number = 0;
+  orderIndex: number = 0;
+}
+
+export class TicketUpdateRequestDTO {
+  id: number = 0;
+  title: string = '';
+  description: string = '';
+  status: TicketStatus = TicketStatus.TODO;
+  priority: TicketPriority = TicketPriority.MEDIUM;
+  assigneeId: number = 0;
+  dueDate: string | null = null;
   projectId: number = 0;
   sectionId: number = 0;
   orderIndex: number = 0;
