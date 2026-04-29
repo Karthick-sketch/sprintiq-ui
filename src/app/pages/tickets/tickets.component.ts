@@ -10,6 +10,7 @@ import { TicketListingDTO } from '../../dto/ticket/ticket-listing.dto';
 import { TicketFilter } from '../../filter/ticket/ticket.filter';
 import { TicketCreateRequestDTO } from '../../dto/ticket/ticket.dto';
 import { UserIconComponent } from '../user/user-icon/user-icon.component';
+import { ToastService } from '../../services/toast/toast.service';
 
 type Assignee = {
   id: number;
@@ -58,6 +59,7 @@ export class TicketsComponent implements OnInit {
   constructor(
     private ticketService: TicketService,
     private projectService: ProjectService,
+    private toastService: ToastService,
   ) {}
 
   ngOnInit(): void {
@@ -124,9 +126,16 @@ export class TicketsComponent implements OnInit {
   }
 
   addTicket(ticketRequest: TicketCreateRequestDTO) {
-    this.ticketService.createTicket(ticketRequest).subscribe(() => {
-      this.closeTicketSlideInPanel();
-      this.getTickets();
+    this.ticketService.createTicket(ticketRequest).subscribe({
+      next: () => {
+        this.closeTicketSlideInPanel();
+        this.getTickets();
+        this.toastService.success('Ticket created successfully.');
+      },
+      error: (error) => {
+        console.error('Error creating ticket:', error);
+        this.toastService.error('Unable to create ticket. Please try again.');
+      },
     });
   }
 

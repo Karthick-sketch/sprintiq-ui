@@ -7,6 +7,7 @@ import { Project } from '../../models/projects/project.model';
 import { ProjectDTO } from '../../dto/project/project.dto';
 import { UserDTO } from '../../dto/user/user.dto';
 import { UserService } from '../../services/user/user.service';
+import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'app-projects',
@@ -22,6 +23,7 @@ export class ProjectsComponent implements OnInit {
   constructor(
     private projectService: ProjectService,
     private userService: UserService,
+    private toastService: ToastService,
   ) {}
 
   ngOnInit(): void {
@@ -54,9 +56,16 @@ export class ProjectsComponent implements OnInit {
       return;
     }
 
-    this.projectService.createProject(newProject).subscribe((project) => {
-      this.projects.push(project);
-      this.closeProjectSlideInPanel();
+    this.projectService.createProject(newProject).subscribe({
+      next: (project) => {
+        this.projects.push(project);
+        this.closeProjectSlideInPanel();
+        this.toastService.success('Project created successfully.');
+      },
+      error: (error) => {
+        console.error('Error creating project:', error);
+        this.toastService.error('Unable to create project. Please try again.');
+      },
     });
   }
 }

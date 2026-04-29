@@ -4,6 +4,7 @@ import { UserService } from '../../../services/user/user.service';
 import { UserFormComponent } from './user-form/user-form.component';
 import { Role } from '../../../enums/user/role.enums';
 import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
+import { ToastService } from '../../../services/toast/toast.service';
 
 @Component({
   selector: 'app-users',
@@ -17,7 +18,10 @@ export class UsersComponent implements OnInit {
   selectedUser: UserDTO | null = null;
   openMenuUserId: number | null = null;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private toastService: ToastService,
+  ) {}
 
   ngOnInit(): void {
     this.getUsers();
@@ -104,9 +108,12 @@ export class UsersComponent implements OnInit {
     this.userService.createUser(user).subscribe({
       next: (created: UserDTO) => {
         this.users = [...this.users, created];
+        this.onPanelClose();
+        this.toastService.success('User created successfully.');
       },
       error: (error: any) => {
         console.error('Error creating user:', error);
+        this.toastService.error('Unable to create user. Please try again.');
       },
     });
   }
@@ -115,9 +122,12 @@ export class UsersComponent implements OnInit {
     this.userService.updateUser(user).subscribe({
       next: (updated: UserDTO) => {
         this.users = this.users.map((u) => (u.id === updated.id ? updated : u));
+        this.onPanelClose();
+        this.toastService.success('User updated successfully.');
       },
       error: (error: any) => {
         console.error('Error updating user:', error);
+        this.toastService.error('Unable to update user. Please try again.');
       },
     });
   }

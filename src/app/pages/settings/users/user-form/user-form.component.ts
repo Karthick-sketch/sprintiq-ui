@@ -52,6 +52,14 @@ export class UserFormComponent implements AfterViewInit, OnChanges {
         this.formUser = new UserDTO();
       }
     }
+
+    if (
+      changes['isSlideInPanelOpen']?.currentValue &&
+      !changes['isSlideInPanelOpen'].firstChange &&
+      !this.editUser
+    ) {
+      this.formUser = new UserDTO();
+    }
   }
 
   closeSlideInPanel() {
@@ -64,7 +72,6 @@ export class UserFormComponent implements AfterViewInit, OnChanges {
       return;
     }
     this.userSubmit.emit({ ...this.formUser });
-    this.closeSlideInPanel();
   }
 
   private validate(): boolean {

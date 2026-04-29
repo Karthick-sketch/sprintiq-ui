@@ -3,10 +3,16 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { LeftNavigationBarComponent } from './pages/left-navigation-bar/left-navigation-bar.component';
 import { HeaderComponent } from './pages/header/header.component';
+import { ToastComponent } from './pages/util/toast/toast.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, LeftNavigationBarComponent, HeaderComponent],
+  imports: [
+    RouterOutlet,
+    LeftNavigationBarComponent,
+    HeaderComponent,
+    ToastComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

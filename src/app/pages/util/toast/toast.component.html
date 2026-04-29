@@ -1,0 +1,15 @@
+<div class="toast-container" aria-live="polite" aria-atomic="true">
+  @for (toast of toasts$ | async; track toast.id) {
+    <div class="toast" [ngClass]="toast.type">
+      <span class="toast-icon">{{ toast.type === "success" ? "✓" : "!" }}</span>
+      <p>{{ toast.message }}</p>
+      <button
+        type="button"
+        aria-label="Dismiss notification"
+        (click)="dismiss(toast.id)"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+  }
+</div>

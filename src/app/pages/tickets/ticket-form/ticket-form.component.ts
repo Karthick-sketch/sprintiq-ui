@@ -3,7 +3,9 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DropdownDTO } from '../../../dto/util/dropdown.dto';
@@ -20,7 +22,7 @@ import { UserDTO } from '../../../dto/user/user.dto';
   styleUrls: ['./ticket-form.component.css'],
   imports: [FormsModule],
 })
-export class TicketFormComponent implements AfterViewInit {
+export class TicketFormComponent implements AfterViewInit, OnChanges {
   @Input() users: UserDTO[] = [];
   @Input() isSlideInPanelOpen: boolean = true;
   @Input() isInProject: boolean = false;
@@ -50,6 +52,15 @@ export class TicketFormComponent implements AfterViewInit {
     setTimeout(() => (this.initialized = true), 0);
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes['isSlideInPanelOpen']?.currentValue &&
+      !changes['isSlideInPanelOpen'].firstChange
+    ) {
+      this.ticket = new TicketCreateRequestDTO();
+    }
+  }
+
   closeSlideInPanel() {
     this.isSlideInPanelOpen = false;
     this.ticket = new TicketCreateRequestDTO();
@@ -61,7 +72,6 @@ export class TicketFormComponent implements AfterViewInit {
       return;
     }
     this.ticketEvent.emit(this.ticket);
-    this.closeSlideInPanel();
   }
 
   private validateTicket() {

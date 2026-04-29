@@ -18,6 +18,7 @@ import {
 import { TicketOrderDTO } from '../../../../dto/ticket/ticket-order.dto';
 import { UserDTO } from '../../../../dto/user/user.dto';
 import { ProjectDTO } from '../../../../dto/project/project.dto';
+import { ToastService } from '../../../../services/toast/toast.service';
 
 @Component({
   selector: 'app-section',
@@ -38,7 +39,10 @@ export class SectionComponent {
 
   isSlideInPanelOpen: boolean = false;
 
-  constructor(private ticketService: TicketService) {}
+  constructor(
+    private ticketService: TicketService,
+    private toastService: ToastService,
+  ) {}
 
   openTicketSlideInPanel() {
     this.isSlideInPanelOpen = true;
@@ -53,9 +57,16 @@ export class SectionComponent {
     ticket.projectId = this.section.projectId;
     ticket.orderIndex = this.section.tickets.length;
 
-    this.ticketService.createTicket(ticket).subscribe((ticket) => {
-      this.section.tickets.push(ticket);
-      this.closeTicketSlideInPanel();
+    this.ticketService.createTicket(ticket).subscribe({
+      next: (ticket) => {
+        this.section.tickets.push(ticket);
+        this.closeTicketSlideInPanel();
+        this.toastService.success('Ticket created successfully.');
+      },
+      error: (error) => {
+        console.error('Error creating ticket:', error);
+        this.toastService.error('Unable to create ticket. Please try again.');
+      },
     });
   }
 

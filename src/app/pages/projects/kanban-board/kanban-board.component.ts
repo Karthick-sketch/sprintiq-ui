@@ -6,6 +6,7 @@ import { SectionComponent } from './section/section.component';
 import { Section } from '../../../models/projects/section.model';
 import { ProjectDTO } from '../../../dto/project/project.dto';
 import { UserDTO } from '../../../dto/user/user.dto';
+import { ToastService } from '../../../services/toast/toast.service';
 
 @Component({
   selector: 'app-kanban-board',
@@ -21,7 +22,10 @@ export class KanbanBoardComponent {
   isAddSectionClicked = false;
   newSection: Section = new Section();
 
-  constructor(private projectService: ProjectService) {}
+  constructor(
+    private projectService: ProjectService,
+    private toastService: ToastService,
+  ) {}
 
   ngOnInit(): void {
     this.getSections();
@@ -51,10 +55,17 @@ export class KanbanBoardComponent {
     }
     this.newSection.projectId = this.project.id;
     this.newSection.orderIndex = this.sections.length;
-    this.projectService.createSection(this.newSection).subscribe((section) => {
-      section.tickets = section.tickets ?? [];
-      this.sections.push(section);
-      this.closeAddSection();
+    this.projectService.createSection(this.newSection).subscribe({
+      next: (section) => {
+        section.tickets = section.tickets ?? [];
+        this.sections.push(section);
+        this.closeAddSection();
+        this.toastService.success('Section created successfully.');
+      },
+      error: (error) => {
+        console.error('Error creating section:', error);
+        this.toastService.error('Unable to create section. Please try again.');
+      },
     });
   }
 }

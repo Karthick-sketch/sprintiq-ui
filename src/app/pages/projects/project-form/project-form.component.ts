@@ -3,7 +3,9 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
@@ -16,7 +18,7 @@ import { UserDTO } from '../../../dto/user/user.dto';
   templateUrl: './project-form.component.html',
   styleUrl: './project-form.component.css',
 })
-export class ProjectFormComponent implements AfterViewInit {
+export class ProjectFormComponent implements AfterViewInit, OnChanges {
   @Input() isSlideInPanelOpen: boolean = true;
   @Input() users: UserDTO[] = [];
 
@@ -33,6 +35,16 @@ export class ProjectFormComponent implements AfterViewInit {
     // Enable transitions only after the initial render to prevent
     // the closing animation from playing when the page first loads.
     setTimeout(() => (this.initialized = true), 0);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes['isSlideInPanelOpen']?.currentValue &&
+      !changes['isSlideInPanelOpen'].firstChange
+    ) {
+      this.newProject = new ProjectDTO();
+      this.teamDropdownOpen = false;
+    }
   }
 
   closeSlideInPanel() {
