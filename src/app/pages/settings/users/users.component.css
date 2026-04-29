@@ -1,7 +1,6 @@
 /* ===== Page Layout ===== */
 .users-page {
   padding: 1rem 0;
-  max-width: 900px;
 }
 
 /* ===== Header ===== */
@@ -27,7 +26,11 @@
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--primary-hover)
+  );
   color: #ffffff;
   flex-shrink: 0;
 }
@@ -56,7 +59,9 @@
   font-weight: 600;
   border-radius: 8px;
   white-space: nowrap;
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
 }
 
 .btn-create:hover {
@@ -115,7 +120,6 @@
 .users-table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
 }
 
 .users-table th,
@@ -135,12 +139,11 @@
   border-bottom: 1px solid var(--border-color);
 }
 
-/* Column widths */
-.col-user    { width: 28%; }
-.col-email   { width: 30%; }
-.col-role    { width: 14%; }
-.col-status  { width: 14%; }
-.col-actions { width: 14%; text-align: right; }
+/* Shrink the actions column to the bare minimum */
+.col-actions {
+  width: 1%;
+  white-space: nowrap;
+}
 
 /* ===== Body Rows ===== */
 .user-row {
@@ -177,9 +180,14 @@
   flex-shrink: 0;
 }
 
-.user-avatar.avatar-admin {
+.user-avatar.avatar-super-admin {
   background: linear-gradient(135deg, #fde68a, #f59e0b);
   color: #7c2d12;
+}
+
+.user-avatar.avatar-admin {
+  background: linear-gradient(135deg, #e9d5ff, #a855f7);
+  color: #581c87;
 }
 
 .user-name {
@@ -205,6 +213,11 @@
 }
 
 .role-admin {
+  background: linear-gradient(135deg, #f3e8ff, #d8b4fe);
+  color: #581c87;
+}
+
+.role-super-admin {
   background: linear-gradient(135deg, #fef3c7, #fde68a);
   color: #92400e;
 }
@@ -250,33 +263,106 @@
   background-color: #9ca3af;
 }
 
-/* ===== Edit Button ===== */
-.edit-btn {
+/* ===== Actions Kebab Menu ===== */
+.action-menu-wrapper {
+  position: relative;
   display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.35rem 0.75rem;
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  background: #ffffff;
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition:
-    border-color 0.15s ease,
-    color 0.15s ease,
-    background-color 0.15s ease,
-    box-shadow 0.15s ease;
-  white-space: nowrap;
-  float: right;
+  justify-content: flex-end;
+  margin-left: 0.75rem;
 }
 
-.edit-btn:hover {
-  border-color: var(--primary-color);
-  color: var(--primary-color);
-  background-color: #f0f1ff;
-  box-shadow: 0 1px 4px rgba(67, 56, 202, 0.1);
+/* ⋯ trigger button */
+.kebab-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  width: 32px;
+  height: 32px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+  padding: 0;
+}
+
+.kebab-btn:hover {
+  background-color: #f3f4f6;
+  border-color: var(--border-color);
+}
+
+.kebab-dot {
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--text-muted);
+  transition: background-color 0.15s ease;
+}
+
+.kebab-btn:hover .kebab-dot {
+  background-color: var(--text-main);
+}
+
+/* Dropdown panel */
+.action-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 100;
+  min-width: 130px;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.1),
+    0 1px 4px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  animation: dropdown-in 0.12s ease-out;
+}
+
+@keyframes dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Dropdown items */
+.action-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.55rem 0.875rem;
+  border: none;
+  background: transparent;
+  font-size: 0.8375rem;
+  font-weight: 500;
+  color: var(--text-main);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.12s ease;
+}
+
+.action-item:hover {
+  background-color: #f3f4f6;
+}
+
+.action-item-delete {
+  color: #dc2626;
+}
+
+.action-item-delete:hover {
+  background-color: #fef2f2;
 }
 
 /* ===== Empty State ===== */
@@ -305,6 +391,11 @@
 
 /* ===== Responsive ===== */
 @media (max-width: 640px) {
-  .col-email { display: none; }
-  .users-summary { gap: 1rem; padding: 0.875rem 1rem; }
+  .col-email {
+    display: none;
+  }
+  .users-summary {
+    gap: 1rem;
+    padding: 0.875rem 1rem;
+  }
 }

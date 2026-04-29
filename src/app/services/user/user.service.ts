@@ -21,4 +21,8 @@ export class UserService {
   updateUser(user: UserDTO) {
     return this.http.put<UserDTO>(`${this.baseUrl}/${user.id}`, user);
   }
+
+  deleteUser(id: number) {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
 }

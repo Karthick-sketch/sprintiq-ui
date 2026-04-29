@@ -1,24 +1,50 @@
 <section class="users-page">
-
   <!-- Page Header -->
   <div class="users-header">
     <div class="users-header-info">
       <div class="users-header-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-          <circle cx="9" cy="7" r="4"/>
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
         </svg>
       </div>
       <div>
         <h2 class="users-title">Users &amp; Roles</h2>
-        <p class="users-subtitle">Manage team members and their access levels</p>
+        <p class="users-subtitle">
+          Manage team members and their access levels
+        </p>
       </div>
     </div>
-    <button class="btn-create primary-btn" (click)="openCreatePanel()" id="create-user-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+    <button
+      class="btn-create primary-btn"
+      (click)="openCreatePanel()"
+      id="create-user-btn"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <line x1="12" y1="5" x2="12" y2="19" />
+        <line x1="5" y1="12" x2="19" y2="12" />
       </svg>
       Create User
     </button>
@@ -59,11 +85,21 @@
           <tr>
             <td colspan="5" class="empty-state">
               <div class="empty-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                  <circle cx="9" cy="7" r="4"/>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                 </svg>
               </div>
               <p>No users found. Create the first one!</p>
@@ -75,7 +111,11 @@
             <!-- Avatar + Name -->
             <td class="col-user">
               <div class="user-cell">
-                <div class="user-avatar" [class.avatar-admin]="user.role === 'ADMIN'">
+                <div
+                  class="user-avatar"
+                  [class.avatar-admin]="user.role === 'ADMIN'"
+                  [class.avatar-super-admin]="user.role === 'SUPER_ADMIN'"
+                >
                   {{ user.name.charAt(0).toUpperCase() }}
                 </div>
                 <span class="user-name">{{ user.name }}</span>
@@ -89,40 +129,103 @@
 
             <!-- Role Badge -->
             <td class="col-role">
-              <span class="role-badge" [class.role-admin]="user.role === 'ADMIN'" [class.role-user]="user.role === 'USER'">
-                {{ user.role }}
+              <span
+                class="role-badge"
+                [class.role-super-admin]="user.role === 'SUPER_ADMIN'"
+                [class.role-admin]="user.role === 'ADMIN'"
+                [class.role-user]="user.role === 'USER'"
+              >
+                {{ roleLabel(user.role) }}
               </span>
             </td>
 
             <!-- Status Badge -->
             <td class="col-status">
-              <span class="status-badge" [class.status-active]="user.active" [class.status-inactive]="!user.active">
+              <span
+                class="status-badge"
+                [class.status-active]="user.active"
+                [class.status-inactive]="!user.active"
+              >
                 <span class="status-dot"></span>
-                {{ user.active ? 'Active' : 'Inactive' }}
+                {{ user.active ? "Active" : "Inactive" }}
               </span>
             </td>
 
-            <!-- Edit Button -->
+            <!-- Actions Menu -->
             <td class="col-actions">
-              <button
-                class="edit-btn"
-                (click)="openEditPanel(user)"
-                [id]="'edit-user-' + user.id"
-                [attr.aria-label]="'Edit user ' + user.name"
+              <div
+                class="action-menu-wrapper"
+                appClickOutside
+                (clickOutside)="closeMenu()"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                </svg>
-                Edit
-              </button>
+                <button
+                  class="kebab-btn"
+                  [id]="'action-menu-' + user.id"
+                  [attr.aria-label]="'Actions for ' + user.name"
+                  (click)="toggleMenu(user.id); $event.stopPropagation()"
+                >
+                  <span class="kebab-dot"></span>
+                  <span class="kebab-dot"></span>
+                  <span class="kebab-dot"></span>
+                </button>
+
+                @if (openMenuUserId === user.id) {
+                  <div class="action-dropdown">
+                    <button class="action-item" (click)="onEditClick(user)">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path
+                          d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                        />
+                        <path
+                          d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                        />
+                      </svg>
+                      Edit
+                    </button>
+                    <button
+                      class="action-item action-item-delete"
+                      (click)="onDeleteClick(user)"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <polyline points="3 6 5 6 21 6" />
+                        <path
+                          d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"
+                        />
+                        <path d="M10 11v6" />
+                        <path d="M14 11v6" />
+                        <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                      </svg>
+                      Delete
+                    </button>
+                  </div>
+                }
+              </div>
             </td>
           </tr>
         }
       </tbody>
     </table>
   </div>
-
 </section>
 
 <!-- User Form Slide-in Panel -->

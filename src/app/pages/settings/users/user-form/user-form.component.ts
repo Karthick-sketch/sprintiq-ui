@@ -28,7 +28,12 @@ export class UserFormComponent implements AfterViewInit, OnChanges {
   formUser: UserDTO = new UserDTO();
   initialized = false;
 
-  roles = [Role.ADMIN, Role.USER];
+  roles = [Role.USER, Role.ADMIN, Role.SUPER_ADMIN];
+  roleLabels = {
+    [Role.USER]: 'User',
+    [Role.ADMIN]: 'Admin',
+    [Role.SUPER_ADMIN]: 'Super Admin',
+  };
 
   get isEditMode(): boolean {
     return this.editUser !== null;
