@@ -84,4 +84,20 @@ export const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'settings/users',
+    loadComponent: () =>
+      import('./pages/settings/users/users.component').then(
+        (m) => m.UsersComponent,
+      ),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'settings/fields',
+    loadComponent: () =>
+      import('./pages/settings/fields/fields.component').then(
+        (m) => m.FieldsComponent,
+      ),
+    canActivate: [AuthGuard],
+  },
 ];

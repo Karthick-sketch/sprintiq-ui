@@ -6,9 +6,19 @@ import { UserDTO } from '../../dto/user/user.dto';
   providedIn: 'root',
 })
 export class UserService {
+  private baseUrl = '/api/users';
+
   constructor(private http: HttpClient) {}
 
   getUsers() {
-    return this.http.get<UserDTO[]>('/api/users');
+    return this.http.get<UserDTO[]>(this.baseUrl);
+  }
+
+  createUser(user: UserDTO) {
+    return this.http.post<UserDTO>(this.baseUrl, user);
+  }
+
+  updateUser(user: UserDTO) {
+    return this.http.put<UserDTO>(`${this.baseUrl}/${user.id}`, user);
   }
 }
