@@ -3,6 +3,7 @@ import { UserDTO } from '../../../dto/user/user.dto';
 import { UserService } from '../../../services/user/user.service';
 import { UserFormComponent } from './user-form/user-form.component';
 import { Role } from '../../../enums/user/role.enums';
+import { UserStatus } from '../../../enums/user/user-status.enums';
 import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 import { ToastService } from '../../../services/toast/toast.service';
 
@@ -28,7 +29,7 @@ export class UsersComponent implements OnInit {
   }
 
   get activeCount(): number {
-    return this.users.filter((u) => u.active).length;
+    return this.users.filter((u) => u.status === UserStatus.ACTIVE).length;
   }
 
   get adminCount(): number {

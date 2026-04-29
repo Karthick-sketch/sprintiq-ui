@@ -101,6 +101,13 @@
   flex-wrap: wrap;
 }
 
+.ticket-meta-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
 /* =========================================================
    Status badges
    ========================================================= */
@@ -145,7 +152,6 @@
   font-size: 0.7rem;
   font-weight: 500;
   color: var(--text-muted);
-  margin-left: auto;
 }
 
 /* =========================================================

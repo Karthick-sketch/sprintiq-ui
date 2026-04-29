@@ -1,6 +1,7 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { ToastService } from '../../../services/toast/toast.service';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Toast, ToastService } from '../../../services/toast/toast.service';
 
 @Component({
   selector: 'app-toast',
@@ -9,8 +10,11 @@ import { ToastService } from '../../../services/toast/toast.service';
   styleUrl: './toast.component.css',
 })
 export class ToastComponent {
-  private toastService = inject(ToastService);
-  toasts$ = this.toastService.toasts$;
+  toasts$: Observable<Toast[]>;
+
+  constructor(private toastService: ToastService) {
+    this.toasts$ = this.toastService.toasts$;
+  }
 
   dismiss(id: number): void {
     this.toastService.dismiss(id);

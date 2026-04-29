@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { TokenService } from './token.service';
+import { UserRegisterDTO } from '../../dto/user/user.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -25,8 +26,8 @@ export class AuthService {
     );
   }
 
-  register(userData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/register`, userData).pipe(
+  register(userRegister: UserRegisterDTO): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/register`, userRegister).pipe(
       tap((response) => {
         if (response && response.accessToken) {
           this.setAccessToken(response.accessToken);

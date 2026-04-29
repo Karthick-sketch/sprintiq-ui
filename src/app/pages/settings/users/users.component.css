@@ -114,7 +114,7 @@
   background: #ffffff;
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .users-table {
@@ -137,6 +137,22 @@
   letter-spacing: 0.05em;
   background-color: #f9fafb;
   border-bottom: 1px solid var(--border-color);
+}
+
+/* Round top corners on the header row */
+.users-table thead th:first-child {
+  border-top-left-radius: 11px;
+}
+.users-table thead th:last-child {
+  border-top-right-radius: 11px;
+}
+
+/* Round bottom corners on the last body row */
+.users-table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 11px;
+}
+.users-table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 11px;
 }
 
 /* Shrink the actions column to the bare minimum */
@@ -261,6 +277,15 @@
 
 .status-inactive .status-dot {
   background-color: #9ca3af;
+}
+
+.status-unregistered {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.status-unregistered .status-dot {
+  background-color: #fde68a;
 }
 
 /* ===== Actions Kebab Menu ===== */

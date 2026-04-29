@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
+import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
+    private toastService: ToastService,
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -51,6 +53,7 @@ export class LoginComponent implements OnInit {
       this.authService.login(credentials).subscribe({
         next: () => {
           this.isSubmitting = false;
+          this.toastService.success('Login successful.');
           this.router.navigate(['/dashboard']);
         },
         error: (err) => {
@@ -58,6 +61,7 @@ export class LoginComponent implements OnInit {
           this.errorMessage =
             err.error?.message ||
             'Login failed. Please check your credentials.';
+          this.toastService.error(this.errorMessage);
         },
       });
     } else {

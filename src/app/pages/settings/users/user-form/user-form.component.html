@@ -96,21 +96,27 @@
       </select>
     </div>
 
-    <!-- Active Status -->
-    <div class="form-group">
-      <label class="form-label">Status</label>
-      <div class="toggle-row">
-        <span class="toggle-label">{{
-          formUser.active ? "Active" : "Inactive"
-        }}</span>
-        <label class="toggle-switch" aria-label="Toggle active status">
-          <input type="checkbox" [(ngModel)]="formUser.active" />
-          <span class="toggle-track">
-            <span class="toggle-thumb"></span>
-          </span>
-        </label>
+    <!-- Active Status (edit mode only) -->
+    @if (isEditMode) {
+      <div class="form-group">
+        <label class="form-label">Status</label>
+        <div class="toggle-row">
+          <span class="toggle-label">{{
+            formUser.status === UserStatus.ACTIVE ? "Active" : "Inactive"
+          }}</span>
+          <label class="toggle-switch" aria-label="Toggle active status">
+            <input
+              type="checkbox"
+              [checked]="formUser.status === UserStatus.ACTIVE"
+              (change)="changeStatus($event)"
+            />
+            <span class="toggle-track">
+              <span class="toggle-thumb"></span>
+            </span>
+          </label>
+        </div>
       </div>
-    </div>
+    }
   </div>
 
   <!-- Footer -->

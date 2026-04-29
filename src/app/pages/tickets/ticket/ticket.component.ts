@@ -74,6 +74,7 @@ export class TicketComponent implements OnInit {
         ticket: this.ticketService.getTicket(parseInt(ticketId)),
       }).subscribe(({ project, ticket }) => {
         this.ticket = ticket;
+        this.draftAssigneeId = ticket.assignee?.id || 0;
         this.breadcrumbRoutes = [
           new BreadcrumbRouteDTO('Projects', '/projects'),
           new BreadcrumbRouteDTO(project.title, `/projects/${projectId}`),
@@ -83,6 +84,7 @@ export class TicketComponent implements OnInit {
     } else if (ticketId) {
       this.ticketService.getTicket(parseInt(ticketId)).subscribe((ticket) => {
         this.ticket = ticket;
+        this.draftAssigneeId = ticket.assignee?.id || 0;
         this.breadcrumbRoutes = [
           new BreadcrumbRouteDTO('Tickets', '/tickets'),
           new BreadcrumbRouteDTO(ticket.title, null),

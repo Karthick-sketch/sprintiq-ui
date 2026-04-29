@@ -10,6 +10,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { UserDTO } from '../../../../dto/user/user.dto';
 import { Role } from '../../../../enums/user/role.enums';
+import { UserStatus } from '../../../../enums/user/user-status.enums';
 
 @Component({
   selector: 'app-user-form',
@@ -34,6 +35,8 @@ export class UserFormComponent implements AfterViewInit, OnChanges {
     [Role.ADMIN]: 'Admin',
     [Role.SUPER_ADMIN]: 'Super Admin',
   };
+
+  UserStatus = UserStatus;
 
   get isEditMode(): boolean {
     return this.editUser !== null;
@@ -65,6 +68,11 @@ export class UserFormComponent implements AfterViewInit, OnChanges {
   closeSlideInPanel() {
     this.isSlideInPanelOpen = false;
     this.slideInPanelClose.emit();
+  }
+
+  changeStatus(event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    this.formUser.status = isChecked ? UserStatus.ACTIVE : UserStatus.INACTIVE;
   }
 
   submit() {

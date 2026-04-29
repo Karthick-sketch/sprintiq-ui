@@ -143,11 +143,12 @@
             <td class="col-status">
               <span
                 class="status-badge"
-                [class.status-active]="user.active"
-                [class.status-inactive]="!user.active"
+                [class.status-active]="user.status === 'ACTIVE'"
+                [class.status-inactive]="user.status === 'INACTIVE'"
+                [class.status-unregistered]="user.status === 'UNREGISTERED'"
               >
                 <span class="status-dot"></span>
-                {{ user.active ? "Active" : "Inactive" }}
+                {{ user.status }}
               </span>
             </td>
 

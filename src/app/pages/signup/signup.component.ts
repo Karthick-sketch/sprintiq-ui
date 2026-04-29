@@ -8,6 +8,8 @@ import {
 } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
+import { ToastService } from '../../services/toast/toast.service';
+import { UserRegisterDTO } from '../../dto/user/user.dto';
 
 @Component({
   selector: 'app-signup',
@@ -21,9 +23,10 @@ export class SignupComponent implements OnInit {
   errorMessage = '';
 
   constructor(
+    private router: Router,
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router,
+    private toastService: ToastService,
   ) {
     this.signupForm = this.fb.group(
       {
@@ -56,21 +59,22 @@ export class SignupComponent implements OnInit {
       this.isSubmitting = true;
       this.errorMessage = '';
 
-      const userData = {
-        name: this.signupForm.get('name')?.value,
-        email: this.signupForm.get('email')?.value,
-        password: this.signupForm.get('password')?.value,
-      };
+      const user: UserRegisterDTO = new UserRegisterDTO();
+      user.name = this.signupForm.get('name')?.value;
+      user.email = this.signupForm.get('email')?.value;
+      user.password = this.signupForm.get('password')?.value;
 
-      this.authService.register(userData).subscribe({
+      this.authService.register(user).subscribe({
         next: () => {
           this.isSubmitting = false;
+          this.toastService.success('Sign up successful.');
           this.router.navigate(['/dashboard']);
         },
         error: (err) => {
           this.isSubmitting = false;
           this.errorMessage =
             err.error?.message || 'Registration failed. Please try again.';
+          this.toastService.error(this.errorMessage);
         },
       });
     } else {
