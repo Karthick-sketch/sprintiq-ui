@@ -1,6 +1,636 @@
-<section>
-  <div>
-    <h2>Fields</h2>
-    <p>Manage fields</p>
+<section class="fields-page">
+  <div class="fields-header">
+    <div class="fields-header-info">
+      <div class="fields-header-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 3v18" />
+          <path d="M3 8h18" />
+          <path d="M3 16h18" />
+          <path d="M7 3v18" />
+          <path d="M17 3v18" />
+        </svg>
+      </div>
+      <div>
+        <h2 class="fields-title">Fields Management</h2>
+        <p class="fields-subtitle">
+          Configure ticket fields, dropdown values, validation, and scope
+        </p>
+      </div>
+    </div>
+    <button class="btn-create primary-btn" (click)="openCreateCustomPanel()">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <line x1="12" y1="5" x2="12" y2="19" />
+        <line x1="5" y1="12" x2="19" y2="12" />
+      </svg>
+      Custom Field
+    </button>
+  </div>
+
+  <div class="fields-summary">
+    <div class="summary-stat">
+      <span class="summary-count">{{ enabledStandardCount }}</span>
+      <span class="summary-label">Standard Visible</span>
+    </div>
+    <div class="summary-divider"></div>
+    <div class="summary-stat">
+      <span class="summary-count">{{ activeCustomCount }}</span>
+      <span class="summary-label">Custom Active</span>
+    </div>
+    <div class="summary-divider"></div>
+    <div class="summary-stat">
+      <span class="summary-count">{{ requiredFieldsCount }}</span>
+      <span class="summary-label">Required</span>
+    </div>
+    <div class="summary-divider"></div>
+    <div class="summary-stat">
+      <span class="summary-count">{{ dropdownFieldsCount }}</span>
+      <span class="summary-label">Dropdown Sets</span>
+    </div>
+  </div>
+
+  <div class="fields-tabs" role="tablist" aria-label="Field categories">
+    <button
+      class="tab-button"
+      [class.active]="activeTab === 'standard'"
+      (click)="setActiveTab('standard')"
+      type="button"
+    >
+      Standard Fields
+    </button>
+    <button
+      class="tab-button"
+      [class.active]="activeTab === 'custom'"
+      (click)="setActiveTab('custom')"
+      type="button"
+    >
+      Custom Fields
+    </button>
+  </div>
+
+  <div class="fields-layout">
+    <aside class="fields-list" aria-label="Configured fields">
+      @for (field of fields; track field.id) {
+        <button
+          class="field-list-item"
+          [class.active]="selectedField.id === field.id"
+          [class.disabled]="!field.enabled"
+          (click)="selectField(field)"
+          type="button"
+        >
+          <span class="field-list-main">
+            <span class="field-list-name">{{ field.name }}</span>
+            <span class="field-list-meta">
+              {{ fieldTypeLabel(field.type) }} &middot; {{ field.assignmentScope }}
+            </span>
+          </span>
+          @if (field.required) {
+            <span class="field-pill required">Required</span>
+          } @else {
+            <span class="field-pill optional">Optional</span>
+          }
+        </button>
+      }
+    </aside>
+
+    <main class="field-detail">
+      <div class="detail-header">
+        <div>
+          <div class="detail-title-row">
+            <h3>{{ selectedField.name }}</h3>
+            <span class="type-badge">{{ fieldTypeLabel(selectedField.type) }}</span>
+          </div>
+          <p>{{ selectedField.description }}</p>
+        </div>
+
+        @if (selectedField.kind === 'custom') {
+          <div class="detail-actions">
+            <button
+              class="icon-btn"
+              type="button"
+              title="Edit custom field"
+              (click)="openEditCustomPanel(selectedField)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 20h9" />
+                <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+              </svg>
+            </button>
+            <button
+              class="icon-btn danger"
+              type="button"
+              title="Delete custom field"
+              (click)="deleteCustomField(selectedField)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M3 6h18" />
+                <path d="M8 6V4h8v2" />
+                <path d="m19 6-1 14H6L5 6" />
+                <path d="M10 11v5" />
+                <path d="M14 11v5" />
+              </svg>
+            </button>
+          </div>
+        }
+      </div>
+
+      <div class="field-settings">
+        <div class="setting-row">
+          <div>
+            <span class="setting-label">Visibility</span>
+            <p>Controls whether new ticket forms render this field.</p>
+          </div>
+          <button
+            class="switch"
+            [class.on]="selectedField.enabled"
+            type="button"
+            role="switch"
+            [attr.aria-checked]="selectedField.enabled"
+            (click)="toggleEnabled(selectedField)"
+          >
+            <span></span>
+          </button>
+        </div>
+
+        <div class="setting-row">
+          <div>
+            <span class="setting-label">Required</span>
+            <p>Existing tickets remain valid; new edits enforce the rule.</p>
+          </div>
+          <button
+            class="switch"
+            [class.on]="selectedField.required"
+            [disabled]="!selectedField.enabled"
+            type="button"
+            role="switch"
+            [attr.aria-checked]="selectedField.required"
+            (click)="toggleRequired(selectedField)"
+          >
+            <span></span>
+          </button>
+        </div>
+
+        <div class="validation-grid">
+          <div>
+            <label>Default value</label>
+            <input
+              [ngModel]="defaultValueText(selectedField)"
+              (ngModelChange)="selectedField.defaultValue = $event"
+              [disabled]="!selectedField.enabled"
+              placeholder="No default"
+            />
+          </div>
+
+          @if (selectedField.type === 'text' || selectedField.type === 'textarea') {
+            <div>
+              <label>Character limit</label>
+              <input
+                type="number"
+                [(ngModel)]="selectedField.charLimit"
+                [disabled]="!selectedField.enabled"
+                min="1"
+              />
+            </div>
+          }
+
+          @if (selectedField.type === 'number') {
+            <div>
+              <label>Minimum</label>
+              <input type="number" [(ngModel)]="selectedField.min" />
+            </div>
+            <div>
+              <label>Maximum</label>
+              <input type="number" [(ngModel)]="selectedField.max" />
+            </div>
+          }
+        </div>
+      </div>
+
+      @if (hasOptions(selectedField)) {
+        <section class="option-manager">
+          <div class="section-heading">
+            <div>
+              <h4>Dropdown Options</h4>
+              <p>Create, edit, delete, and reorder values.</p>
+            </div>
+          </div>
+
+          <div class="option-add-row">
+            <input
+              [(ngModel)]="optionDraft"
+              placeholder="Add option"
+              (keyup.enter)="addOption(selectedField, optionDraft)"
+            />
+            <button
+              type="button"
+              class="secondary-btn"
+              (click)="addOption(selectedField, optionDraft)"
+            >
+              Add
+            </button>
+          </div>
+
+          <div
+            class="option-list"
+            cdkDropList
+            [cdkDropListData]="optionList(selectedField)"
+            (cdkDropListDropped)="dropOption(selectedField, $event)"
+          >
+            @for (option of optionList(selectedField); track option.id; let i = $index) {
+              <div class="option-row" cdkDrag>
+                <div class="drag-handle" cdkDragHandle aria-hidden="true">::</div>
+                <input
+                  [ngModel]="option.label"
+                  (ngModelChange)="updateOption(option, $event)"
+                />
+                <span class="usage-badge">{{ option.inUseCount }} in use</span>
+                <div class="row-actions">
+                  <button
+                    class="icon-btn"
+                    type="button"
+                    title="Move option up"
+                    [disabled]="i === 0"
+                    (click)="moveOption(selectedField, i, -1)"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="m18 15-6-6-6 6" />
+                    </svg>
+                  </button>
+                  <button
+                    class="icon-btn"
+                    type="button"
+                    title="Move option down"
+                    [disabled]="i === optionList(selectedField).length - 1"
+                    (click)="moveOption(selectedField, i, 1)"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </button>
+                  <button
+                    class="icon-btn danger"
+                    type="button"
+                    title="Delete option"
+                    [disabled]="option.inUseCount > 0"
+                    (click)="deleteOption(selectedField, option)"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M18 6 6 18" />
+                      <path d="m6 6 12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        </section>
+      }
+
+      <section class="backend-contract">
+        <div class="section-heading">
+          <div>
+            <h4>Storage Contract</h4>
+            <p>Configuration and values stay versioned for old tickets.</p>
+          </div>
+        </div>
+        <div class="schema-grid">
+          <code>ticket_field_definitions</code>
+          <code>ticket_field_options</code>
+          <code>ticket_custom_field_values JSONB</code>
+        </div>
+      </section>
+    </main>
+
+    <aside class="ticket-preview" aria-label="Ticket form preview">
+      <div class="section-heading">
+        <div>
+          <h4>Ticket Form Preview</h4>
+          <p>Enabled fields render here with their current validation.</p>
+        </div>
+      </div>
+
+      <div class="preview-form">
+        @for (field of visibleTicketFields; track field.key) {
+          <label class="preview-field">
+            <span>
+              {{ field.name }}
+              @if (field.required) {
+                <strong>*</strong>
+              }
+            </span>
+
+            @if (field.type === 'textarea') {
+              <textarea rows="3" [placeholder]="field.description"></textarea>
+            } @else if (hasOptions(field)) {
+              <select>
+                <option>{{ field.defaultValue || 'Select value' }}</option>
+                @for (option of optionList(field); track option.id) {
+                  <option>{{ option.label }}</option>
+                }
+              </select>
+            } @else if (field.type === 'user' || field.type === 'user-multi') {
+              <select [multiple]="field.type === 'user-multi'">
+                <option>Select user</option>
+                @for (user of users; track user) {
+                  <option>{{ user }}</option>
+                }
+              </select>
+            } @else {
+              <input
+                [type]="inputType(field)"
+                [placeholder]="previewPlaceholder(field)"
+              />
+            }
+          </label>
+        }
+      </div>
+    </aside>
   </div>
 </section>
+
+@if (isCustomPanelOpen) {
+  <div class="panel-overlay" (click)="closeCustomPanel()"></div>
+  <aside class="custom-panel" aria-label="Custom field editor">
+    <div class="panel-header">
+      <div>
+        <h3>{{ fieldDraft.id ? 'Edit Custom Field' : 'Create Custom Field' }}</h3>
+        <p>Define schema, validation, options, and assignment scope.</p>
+      </div>
+      <button
+        class="icon-btn"
+        type="button"
+        title="Close panel"
+        (click)="closeCustomPanel()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M18 6 6 18" />
+          <path d="m6 6 12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="panel-body">
+      <label>
+        Field name
+        <input [(ngModel)]="fieldDraft.name" placeholder="e.g. Release URL" />
+      </label>
+
+      <label>
+        Description
+        <textarea
+          rows="3"
+          [(ngModel)]="fieldDraft.description"
+          placeholder="Explain where this field appears and why"
+        ></textarea>
+      </label>
+
+      <div class="panel-grid">
+        <label>
+          Field type
+          <select [(ngModel)]="fieldDraft.type" (ngModelChange)="onDraftTypeChange()">
+            @for (type of fieldTypes; track type.value) {
+              <option [value]="type.value">{{ type.label }}</option>
+            }
+          </select>
+        </label>
+
+        <label>
+          Assignment
+          <select [(ngModel)]="fieldDraft.assignmentScope">
+            <option value="global">Global</option>
+            <option value="project">Project</option>
+            <option value="section">Section</option>
+          </select>
+        </label>
+      </div>
+
+      @if (fieldDraft.assignmentScope !== 'global') {
+        <label>
+          Target {{ fieldDraft.assignmentScope }}
+          <select [(ngModel)]="fieldDraft.assignmentTarget">
+            @for (target of assignmentTargets(fieldDraft.assignmentScope); track target) {
+              <option [value]="target">{{ target }}</option>
+            }
+          </select>
+        </label>
+      }
+
+      <div class="checkbox-row">
+        <input id="custom-required" type="checkbox" [(ngModel)]="fieldDraft.required" />
+        <label for="custom-required">Required on ticket forms</label>
+      </div>
+
+      <label>
+        Default value
+        <input [(ngModel)]="fieldDraft.defaultValue" placeholder="Optional" />
+      </label>
+
+      @if (fieldDraft.type === 'text') {
+        <label>
+          Character limit
+          <input type="number" min="1" [(ngModel)]="fieldDraft.charLimit" />
+        </label>
+      }
+
+      @if (fieldDraft.type === 'number') {
+        <div class="panel-grid">
+          <label>
+            Minimum
+            <input type="number" [(ngModel)]="fieldDraft.min" />
+          </label>
+          <label>
+            Maximum
+            <input type="number" [(ngModel)]="fieldDraft.max" />
+          </label>
+        </div>
+      }
+
+      @if (hasOptions(fieldDraft)) {
+        <div
+          class="draft-options"
+          cdkDropList
+          [cdkDropListData]="fieldDraft.options"
+          (cdkDropListDropped)="dropDraftOption($event)"
+        >
+          <div class="option-add-row">
+            <input
+              [(ngModel)]="customOptionDraft"
+              placeholder="Add option"
+              (keyup.enter)="addDraftOption(customOptionDraft)"
+            />
+            <button
+              type="button"
+              class="secondary-btn"
+              (click)="addDraftOption(customOptionDraft)"
+            >
+              Add
+            </button>
+          </div>
+
+          @for (option of fieldDraft.options; track option.id; let i = $index) {
+            <div class="option-row" cdkDrag>
+              <div class="drag-handle" cdkDragHandle aria-hidden="true">::</div>
+              <input
+                [ngModel]="option.label"
+                (ngModelChange)="updateDraftOption(option, $event)"
+              />
+              <div class="row-actions">
+                <button
+                  class="icon-btn"
+                  type="button"
+                  title="Move option up"
+                  [disabled]="i === 0"
+                  (click)="moveDraftOption(i, -1)"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m18 15-6-6-6 6" />
+                  </svg>
+                </button>
+                <button
+                  class="icon-btn"
+                  type="button"
+                  title="Move option down"
+                  [disabled]="i === fieldDraft.options.length - 1"
+                  (click)="moveDraftOption(i, 1)"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <button
+                  class="icon-btn danger"
+                  type="button"
+                  title="Delete option"
+                  (click)="deleteDraftOption(option)"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="panel-footer">
+      <button class="secondary-btn" type="button" (click)="closeCustomPanel()">
+        Cancel
+      </button>
+      <button class="primary-btn" type="button" (click)="saveCustomField()">
+        Save Field
+      </button>
+    </div>
+  </aside>
+}
