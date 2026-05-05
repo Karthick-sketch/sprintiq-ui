@@ -1,12 +1,14 @@
-import { Comment } from '../../models/ticket/comment.model';
+import { TicketComment } from '../../models/ticket/ticket-comment.model';
+import { TicketFieldDTO } from './ticket-field.dto';
 
 export class TicketDTO {
   id: number = 0;
   title: string = '';
   description: string = '';
-  comments: Comment[] = [];
+  comments: TicketComment[] = [];
+  fields: TicketFieldDTO[] = [];
   subTickets: number[] = [];
-  parentId: number | null = null;
+  parentId: number = 0;
   projectId: number = 0;
   sectionId: number = 0;
   orderIndex: number = 0;

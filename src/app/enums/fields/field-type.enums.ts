@@ -1,0 +1,11 @@
+export enum FieldType {
+  TEXT = 'TEXT',
+  NUMBER = 'NUMBER',
+  BOOLEAN = 'BOOLEAN',
+  DATE = 'DATE',
+  URL = 'URL',
+  USER = 'USER',
+  MULTI_USER = 'MULTI_USER',
+  DROPDOWN = 'DROPDOWN',
+  MULTI_DROPDOWN = 'MULTI_DROPDOWN',
+}

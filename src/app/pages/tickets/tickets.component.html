@@ -55,8 +55,8 @@
           (change)="applyFilters()"
         >
           <option value="">All</option>
-          @for (assignee of assigneeOptions; track assignee.id) {
-            <option [value]="assignee.id">{{ assignee.name }}</option>
+          @for (user of users; track user.id) {
+            <option [value]="user.id">{{ user.name }}</option>
           }
         </select>
       </div>
@@ -109,26 +109,12 @@
                   'badge-done': ticket.status === 'DONE',
                 }"
               >
-                {{
-                  ticket.status === "IN_PROGRESS"
-                    ? "In Progress"
-                    : ticket.status === "TODO"
-                      ? "To Do"
-                      : "Done"
-                }}
+                {{ ticket.status }}
               </span>
             </td>
             <td class="col-default">
-              <span
-                class="badge"
-                [ngClass]="{
-                  'badge-low': ticket.priority === 'LOW',
-                  'badge-medium': ticket.priority === 'MEDIUM',
-                  'badge-high': ticket.priority === 'HIGH',
-                  'badge-urgent': ticket.priority === 'URGENT',
-                }"
-              >
-                {{ ticket.priority | titlecase }}
+              <span class="badge">
+                {{ ticket.priority }}
               </span>
             </td>
             <td class="col-default">

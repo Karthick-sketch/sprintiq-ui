@@ -1,9 +1,4 @@
 @if (ticket) {
-  <!-- Saving overlay indicator -->
-  @if (saving) {
-    <div class="save-toast"><span class="save-dot"></span> Saving&hellip;</div>
-  }
-
   <div class="mb-4">
     <app-breadcrumb [breadcrumbRoutes]="breadcrumbRoutes"></app-breadcrumb>
   </div>
@@ -12,74 +7,34 @@
     <!-- ── Main Content ── -->
     <section class="ticket-main">
       <!-- Title -->
-      @if (!editingTitle) {
-        <h2
-          class="ticket-title editable-field"
-          title="Click to edit"
-          (click)="startEditTitle()"
-        >
-          {{ ticket.title }}
-          <span class="edit-pencil">✏</span>
-        </h2>
-      } @else {
-        <div class="inline-edit-group title-edit">
-          <input
-            id="ticket-title-input"
-            class="inline-input title-input"
-            [(ngModel)]="draftTitle"
-            (keyup.enter)="saveTitle()"
-            (keyup.escape)="cancelTitle()"
-            autofocus
-          />
-          <div class="edit-actions">
-            <button class="btn-save" (click)="saveTitle()" [disabled]="saving">
-              Save
-            </button>
-            <button class="btn-cancel" (click)="cancelTitle()">Cancel</button>
-          </div>
-        </div>
-      }
+      <h2 class="ticket-title">{{ ticket.title }}</h2>
 
       <!-- Description -->
       <div class="ticket-description-card">
         <h3 class="section-heading">Description</h3>
 
-        @if (!editingDescription) {
-          <div
-            class="description-text editable-field"
-            title="Click to edit"
-            (click)="startEditDescription()"
-          >
-            @if (ticket.description) {
-              <span>{{ ticket.description }}</span>
-            } @else {
-              <span class="placeholder-text"
-                >No description provided. Click to add one.</span
-              >
-            }
-            <span class="edit-pencil">✏</span>
-          </div>
-        } @else {
-          <div class="inline-edit-group">
-            <textarea
-              id="ticket-description-input"
-              class="inline-textarea"
-              [(ngModel)]="draftDescription"
-              rows="5"
-              placeholder="Add a description…"
-              (keydown.escape)="cancelDescription()"
-            ></textarea>
-            <div class="edit-actions">
-              <button
-                class="btn-save"
-                (click)="saveDescription()"
-                [disabled]="saving"
-              >
-                Save
-              </button>
-              <button class="btn-cancel" (click)="cancelDescription()">
-                Cancel
-              </button>
+        <div class="description-text editable-field" title="Click to edit">
+          @if (ticket.description) {
+            <span>{{ ticket.description }}</span>
+          } @else {
+            <span class="placeholder-text"
+              >No description provided. Click to add one.</span
+            >
+          }
+        </div>
+      </div>
+      <div class="ticket-comments-section">
+        <h2>Comments</h2>
+        @for (comment of ticket.comments; track comment.id) {
+          <div class="comment-card">
+            <div class="comment-header">
+              <span class="comment-author">{{
+                findUsernameById(comment.userId)
+              }}</span>
+              <span class="comment-date">{{ comment.createdAt | date }}</span>
+            </div>
+            <div class="comment-content">
+              <p>{{ comment.content }}</p>
             </div>
           </div>
         }
@@ -90,190 +45,48 @@
     <aside class="ticket-sidebar">
       <h3 class="sidebar-heading">Details</h3>
 
-      <!-- Status -->
-      <div class="detail-row">
-        <span class="detail-label">Status</span>
-        @if (!editingStatus) {
-          <span
-            class="badge editable-badge"
-            [class]="{
-              'badge-todo': ticket.status === 'TODO',
-              'badge-in-progress': ticket.status === 'IN_PROGRESS',
-              'badge-done': ticket.status === 'DONE',
-            }"
-            title="Click to edit"
-            (click)="startEditStatus()"
-          >
-            {{ statusLabel(ticket.status) }}
-          </span>
-        } @else {
-          <div class="inline-select-group">
-            <select
-              id="ticket-status-select"
-              class="inline-select"
-              [(ngModel)]="draftStatus"
-            >
-              @for (s of statuses; track s) {
-                <option [value]="s">{{ statusLabel(s) }}</option>
-              }
-            </select>
-            <div class="edit-actions-row">
-              <button
-                class="btn-save btn-xs"
-                (click)="saveStatus()"
-                [disabled]="saving"
-              >
-                ✓
-              </button>
-              <button class="btn-cancel btn-xs" (click)="cancelStatus()">
-                ✕
-              </button>
-            </div>
-          </div>
-        }
-      </div>
-
-      <!-- Priority -->
-      <div class="detail-row">
-        <span class="detail-label">Priority</span>
-        @if (!editingPriority) {
-          <span
-            class="badge editable-badge"
-            [class]="{
-              'badge-low': ticket.priority === 'LOW',
-              'badge-medium': ticket.priority === 'MEDIUM',
-              'badge-high': ticket.priority === 'HIGH',
-              'badge-urgent': ticket.priority === 'URGENT',
-            }"
-            title="Click to edit"
-            (click)="startEditPriority()"
-          >
-            {{ ticket.priority | titlecase }}
-          </span>
-        } @else {
-          <div class="inline-select-group">
-            <select
-              id="ticket-priority-select"
-              class="inline-select"
-              [(ngModel)]="draftPriority"
-            >
-              @for (p of priorities; track p) {
-                <option [value]="p">{{ p | titlecase }}</option>
-              }
-            </select>
-            <div class="edit-actions-row">
-              <button
-                class="btn-save btn-xs"
-                (click)="savePriority()"
-                [disabled]="saving"
-              >
-                ✓
-              </button>
-              <button class="btn-cancel btn-xs" (click)="cancelPriority()">
-                ✕
-              </button>
-            </div>
-          </div>
-        }
-      </div>
-
-      <!-- Assignee -->
-      <div class="detail-row">
-        <span class="detail-label">Assignee</span>
-        @if (!editingAssignee) {
-          <span
-            class="detail-value editable-value"
-            title="Click to edit"
-            (click)="startEditAssignee()"
-          >
-            @if (ticket.assignee) {
-              <app-user-icon
-                [userName]="ticket.assignee.name"
-                [size]="'small'"
-              ></app-user-icon>
-              {{ ticket.assignee.name }}
-            } @else {
-              <span>&lt;unassigned&gt;</span>
-            }
-          </span>
-        } @else {
-          <div class="inline-select-group">
-            <select
-              id="ticket-assignee-select"
-              class="inline-select"
-              [ngModel]="draftAssigneeId"
-              (ngModelChange)="draftAssigneeId = +$event"
-            >
-              <option [value]="0">Unassigned</option>
-              @for (u of users; track u.id) {
-                <option [value]="u.id">{{ u.name }}</option>
-              }
-            </select>
-            <div class="edit-actions-row">
-              <button
-                class="btn-save btn-xs"
-                (click)="saveAssignee()"
-                [disabled]="saving"
-              >
-                ✓
-              </button>
-              <button class="btn-cancel btn-xs" (click)="cancelAssignee()">
-                ✕
-              </button>
-            </div>
-          </div>
-        }
-      </div>
-
-      <!-- Due Date -->
-      <div class="detail-row">
-        <span class="detail-label">Due Date</span>
-        @if (!editingDueDate) {
-          <span
-            class="detail-value editable-value due-date-value"
-            title="Click to edit"
-            (click)="startEditDueDate()"
-          >
-            @if (ticket.dueDate) {
+      @for (ticketField of ticket.ticketFields; track ticketField.id) {
+        <div class="detail-row">
+          <span class="detail-label">{{ ticketField.field.name }}</span>
+          @if (ticketField.field.type === FieldType.TEXT) {
+            <span class="detail-value">{{ ticketField.value }}</span>
+          } @else if (ticketField.field.type === FieldType.NUMBER) {
+            <span class="detail-value">{{ ticketField.value }}</span>
+          } @else if (ticketField.field.type === FieldType.BOOLEAN) {
+            <span class="detail-value">{{ ticketField.value }}</span>
+          } @else if (ticketField.field.type === FieldType.DATE) {
+            <span class="detail-value due-date-value">
               <img
                 class="calendar-icon"
                 src="/ticket/calendar.svg"
                 alt="Calendar"
               />
-              {{ ticket.dueDate | date: "MMM d, yyyy" }}
-            } @else {
-              <span>&lt;no due date&gt;</span>
-            }
-          </span>
-        } @else {
-          <div class="inline-date-group">
-            <input
-              id="ticket-due-date-input"
-              type="date"
-              class="inline-date"
-              [(ngModel)]="draftDueDate"
-              (keyup.escape)="cancelDueDate()"
-            />
-            <div class="edit-actions-row">
-              <button
-                class="btn-save btn-xs"
-                (click)="saveDueDate()"
-                [disabled]="saving"
-              >
-                ✓
-              </button>
-              <button class="btn-cancel btn-xs" (click)="cancelDueDate()">
-                ✕
-              </button>
-            </div>
-          </div>
-        }
-      </div>
+              {{ ticketField.value | date: "MMM d, yyyy" }}
+            </span>
+          } @else if (ticketField.field.type === FieldType.URL) {
+            <span class="detail-value">{{ ticketField.value }}</span>
+          } @else if (ticketField.field.type === FieldType.USER) {
+            <span class="detail-value">
+              <app-user-icon
+                [userName]="findUsernameById(ticketField.value)"
+                [size]="'small'"
+              ></app-user-icon>
+              {{ findUsernameById(ticketField.value) }}
+            </span>
+          } @else if (ticketField.field.type === FieldType.MULTI_USER) {
+            <span class="detail-value">{{ ticketField.value }}</span>
+          } @else if (ticketField.field.type === FieldType.DROPDOWN) {
+            <span class="detail-value">{{ ticketField.value }}</span>
+          } @else if (ticketField.field.type === FieldType.MULTI_DROPDOWN) {
+            <span class="detail-value">{{ ticketField.value }}</span>
+          }
+        </div>
+      }
 
-      <!-- Project (read-only) -->
+      <!-- Project -->
       <div class="detail-row">
         <span class="detail-label">Project</span>
-        <span class="detail-value">#{{ ticket.projectId }}</span>
+        <span class="detail-value">{{ ticket.projectId }}</span>
       </div>
     </aside>
   </div>
