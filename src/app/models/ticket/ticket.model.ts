@@ -1,3 +1,4 @@
+import { ProjectTitleDTO } from '../../dto/project/project-ticket.dto';
 import { TicketFieldDTO } from '../../dto/ticket/ticket-field.dto';
 import { TicketComment } from './ticket-comment.model';
 
@@ -9,7 +10,7 @@ export class Ticket {
   ticketFields: TicketFieldDTO[] = [];
   subTickets: number[] = [];
   parentId: number = 0;
-  projectId: number = 0;
+  project!: ProjectTitleDTO;
   sectionId: number = 0;
   orderIndex: number = 0;
 }

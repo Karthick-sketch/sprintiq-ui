@@ -5,3 +5,11 @@ export class FieldDTO {
   name: string = '';
   type: FieldType = FieldType.TEXT;
 }
+
+export class FieldOptionDTO {
+  id: number = 0;
+  fieldId: number = 0;
+  value: string = '';
+  orderIndex: number = 0;
+  colorNumber: number = 0;
+}

@@ -1,4 +1,4 @@
-export class ProjectTicketDTO {
-  id: number = 0;
-  title: string = '';
+export interface ProjectTitleDTO {
+  id: number;
+  title: string;
 }

@@ -23,6 +23,8 @@
           }
         </div>
       </div>
+
+      <!-- Comments -->
       <div class="ticket-comments-section">
         <h2>Comments</h2>
         @for (comment of ticket.comments; track comment.id) {
@@ -45,6 +47,17 @@
     <aside class="ticket-sidebar">
       <h3 class="sidebar-heading">Details</h3>
 
+      <!-- Project -->
+      <div class="detail-row">
+        <span class="detail-label">Project</span>
+        <span
+          class="detail-value cursor-pointer hover:underline"
+          [routerLink]="['/projects', ticket.project.id]"
+        >
+          {{ ticket.project.title }}
+        </span>
+      </div>
+
       @for (ticketField of ticket.ticketFields; track ticketField.id) {
         <div class="detail-row">
           <span class="detail-label">{{ ticketField.field.name }}</span>
@@ -64,7 +77,9 @@
               {{ ticketField.value | date: "MMM d, yyyy" }}
             </span>
           } @else if (ticketField.field.type === FieldType.URL) {
-            <span class="detail-value">{{ ticketField.value }}</span>
+            <span class="detail-value cursor-pointer hover:underline">
+              {{ ticketField.value }}
+            </span>
           } @else if (ticketField.field.type === FieldType.USER) {
             <span class="detail-value">
               <app-user-icon
@@ -76,18 +91,19 @@
           } @else if (ticketField.field.type === FieldType.MULTI_USER) {
             <span class="detail-value">{{ ticketField.value }}</span>
           } @else if (ticketField.field.type === FieldType.DROPDOWN) {
-            <span class="detail-value">{{ ticketField.value }}</span>
+            <span
+              class="detail-value badge"
+              [class]="
+                findOptionColorClass(ticketField.field.id, ticketField.value)
+              "
+            >
+              {{ ticketField.value }}
+            </span>
           } @else if (ticketField.field.type === FieldType.MULTI_DROPDOWN) {
             <span class="detail-value">{{ ticketField.value }}</span>
           }
         </div>
       }
-
-      <!-- Project -->
-      <div class="detail-row">
-        <span class="detail-label">Project</span>
-        <span class="detail-value">{{ ticket.projectId }}</span>
-      </div>
     </aside>
   </div>
 }
