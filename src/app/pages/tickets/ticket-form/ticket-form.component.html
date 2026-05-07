@@ -69,57 +69,62 @@
       ></textarea>
     </div>
 
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-      <select
-        class="w-full border border-gray-300 rounded-md p-2 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-        [(ngModel)]="ticket.status"
-      >
-        @for (status of ticketStatus; track $index) {
-          <option [value]="status.value">{{ status.key }}</option>
-        }
-      </select>
-    </div>
-
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">
-        Priority
-      </label>
-      <select
-        class="w-full border border-gray-300 rounded-md p-2 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-        [(ngModel)]="ticket.priority"
-      >
-        @for (priority of ticketPriority; track $index) {
-          <option [value]="priority.value">{{ priority.key }}</option>
-        }
-      </select>
-    </div>
-
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">
-        Assignee
-      </label>
-      <select
-        class="w-full border border-gray-300 rounded-md p-2 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-        [(ngModel)]="ticket.assigneeId"
-      >
-        <option value="0">Select Assignee</option>
-        @for (user of users; track $index) {
-          <option [value]="user.id">{{ user.name }}</option>
-        }
-      </select>
-    </div>
-
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">
-        Due Date
-      </label>
-      <input
-        type="date"
-        class="w-full border border-gray-300 rounded-md p-2 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-        [(ngModel)]="ticket.dueDate"
-      />
-    </div>
+    @for (field of ticket.fields; track field.id) {
+      @if (field.field.type === fieldTypes.DROPDOWN) {
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            {{ field.field.name }}
+          </label>
+          <select
+            class="w-full border border-gray-300 rounded-md p-2 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            [(ngModel)]="field.value"
+          >
+            @for (option of getFieldOptions(field.field.id); track option.id) {
+              <option [value]="option.value">
+                {{ option.value | titlecase }}
+              </option>
+            }
+          </select>
+        </div>
+      } @else if (field.field.type === fieldTypes.USER) {
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            {{ field.field.name }}
+          </label>
+          <select
+            class="w-full border border-gray-300 rounded-md p-2 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            [(ngModel)]="field.value"
+          >
+            <option value="0">Select User</option>
+            @for (user of users; track $index) {
+              <option [value]="user.id">{{ user.name }}</option>
+            }
+          </select>
+        </div>
+      } @else if (field.field.type === fieldTypes.DATE) {
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            {{ field.field.name }}
+          </label>
+          <input
+            type="date"
+            class="w-full border border-gray-300 rounded-md p-2 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            [(ngModel)]="field.value"
+          />
+        </div>
+      } @else if (field.field.type === fieldTypes.TEXT) {
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            {{ field.field.name }}
+          </label>
+          <input
+            type="text"
+            class="w-full border border-gray-300 rounded-md p-2 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            [(ngModel)]="field.value"
+          />
+        </div>
+      }
+    }
 
     @if (isInProject) {
       <div>

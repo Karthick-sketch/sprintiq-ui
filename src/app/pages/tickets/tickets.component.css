@@ -14,7 +14,9 @@
   font-size: 0.875rem;
   color: #111827;
   background-color: #fff;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .filter-search:focus {
@@ -53,7 +55,9 @@
   color: #374151;
   background-color: #fff;
   cursor: pointer;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
   appearance: auto;
 }
 

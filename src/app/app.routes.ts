@@ -52,14 +52,14 @@ export const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
-  // {
-  //   path: 'tickets',
-  //   loadComponent: () =>
-  //     import('./pages/tickets/tickets.component').then(
-  //       (m) => m.TicketsComponent,
-  //     ),
-  //   canActivate: [AuthGuard],
-  // },
+  {
+    path: 'tickets',
+    loadComponent: () =>
+      import('./pages/tickets/tickets.component').then(
+        (m) => m.TicketsComponent,
+      ),
+    canActivate: [AuthGuard],
+  },
   {
     path: 'tickets/:ticketId',
     loadComponent: () =>

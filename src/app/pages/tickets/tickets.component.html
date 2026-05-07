@@ -27,8 +27,8 @@
           (change)="applyFilters()"
         >
           <option value="">All</option>
-          @for (status of statusOptions; track status.value) {
-            <option [value]="status.value">{{ status.label }}</option>
+          @for (status of statusOptions; track status.id) {
+            <option [value]="status.value">{{ status.value }}</option>
           }
         </select>
       </div>
@@ -41,8 +41,8 @@
           (change)="applyFilters()"
         >
           <option value="">All</option>
-          @for (priority of priorityOptions; track priority.value) {
-            <option [value]="priority.value">{{ priority.label }}</option>
+          @for (priority of priorityOptions; track priority.id) {
+            <option [value]="priority.value">{{ priority.value }}</option>
           }
         </select>
       </div>
@@ -51,7 +51,7 @@
         <label for="filter-assignee">Assignee</label>
         <select
           id="filter-assignee"
-          [(ngModel)]="ticketFilter.assignee"
+          [(ngModel)]="ticketFilter.assigneeId"
           (change)="applyFilters()"
         >
           <option value="">All</option>
@@ -65,7 +65,7 @@
         <label for="filter-project">Project</label>
         <select
           id="filter-project"
-          [(ngModel)]="ticketFilter.project"
+          [(ngModel)]="ticketFilter.projectId"
           (change)="applyFilters()"
         >
           <option value="">All</option>
@@ -100,38 +100,41 @@
                 {{ ticket.title }}
               </div>
             </td>
-            <td class="col-default">
-              <span
-                class="badge"
-                [ngClass]="{
-                  'badge-todo': ticket.status === 'TODO',
-                  'badge-in-progress': ticket.status === 'IN_PROGRESS',
-                  'badge-done': ticket.status === 'DONE',
-                }"
-              >
-                {{ ticket.status }}
-              </span>
-            </td>
-            <td class="col-default">
-              <span class="badge">
-                {{ ticket.priority }}
-              </span>
-            </td>
-            <td class="col-default">
-              @if (ticket.assignee) {
-                <app-user-icon
-                  [userName]="ticket.assignee.name"
-                ></app-user-icon>
+            @for (field of ticket.fields; track field.id) {
+              @if (field.field.name.toLowerCase() === "status") {
+                <td class="col-default">
+                  <span
+                    class="badge"
+                    [class]="findOptionColorClass(field.field.id, field.value)"
+                  >
+                    {{ field.value }}
+                  </span>
+                </td>
+              } @else if (field.field.name.toLowerCase() === "priority") {
+                <td class="col-default">
+                  <span
+                    class="badge"
+                    [class]="findOptionColorClass(field.field.id, field.value)"
+                    >{{ field.value }}
+                  </span>
+                </td>
+              } @else if (field.field.name.toLowerCase() === "assignee") {
+                <td class="col-default">
+                  @if (field.value) {
+                    <app-user-icon [userName]="field.value"></app-user-icon>
+                  }
+                </td>
+              } @else if (field.field.name.toLowerCase() === "due_date") {
+                <td
+                  class="col-default"
+                  [class.error-color]="isOverdue(field.value)"
+                >
+                  @if (field.value) {
+                    {{ formatDate(field.value) }}
+                  }
+                </td>
               }
-            </td>
-            <td
-              class="col-default"
-              [class.error-color]="isOverdue(ticket.dueDate)"
-            >
-              @if (ticket.dueDate) {
-                {{ formatDate(ticket.dueDate) }}
-              }
-            </td>
+            }
             <td class="col-default">
               <div
                 class="ticket-title hover:underline cursor-pointer"

@@ -18,6 +18,7 @@ export class TicketDTO {
 export class TicketCreateRequestDTO {
   title: string = '';
   description: string = '';
+  fields: TicketFieldDTO[] = [];
   projectId: number = 0;
   sectionId: number = 0;
   orderIndex: number = 0;

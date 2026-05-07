@@ -5,5 +5,5 @@ export class TicketListingDTO {
   id: number = 0;
   title: string = '';
   fields: TicketFieldDTO[] = [];
-  project: ProjectTitleDTO | null = null;
+  project!: ProjectTitleDTO;
 }
