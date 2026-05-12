@@ -44,11 +44,16 @@ export class TicketFormComponent implements AfterViewInit, OnChanges {
   constructor(private fieldService: FieldService) {}
 
   ngOnInit() {
-    this.fieldService
-      .getRequiredFieldsByProjectId(this.project.id)
-      .subscribe((fields) => {
-        this.requiredFields = fields;
-      });
+    if (this.project?.id) {
+      this.fieldService
+        .getProjectFields(this.project.id)
+        .subscribe((projectFields) => {
+          // Map project fields to FieldDTO shape for template compatibility
+          this.requiredFields = projectFields
+            .filter(pf => pf.required)
+            .map(pf => ({ id: pf.fieldId, name: pf.displayName || pf.name, fieldType: pf.fieldType, systemKey: pf.systemKey, active: pf.enabled, searchable: true, locked: false, system: false, options: pf.options } as any));
+        });
+    }
   }
 
   ngAfterViewInit() {

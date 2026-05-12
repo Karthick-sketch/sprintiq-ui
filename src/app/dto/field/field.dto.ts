@@ -1,15 +1,29 @@
 import { FieldType } from '../../enums/fields/field-type.enums';
-
-export class FieldDTO {
-  id: number = 0;
-  name: string = '';
-  type: FieldType = FieldType.TEXT;
-}
+import { WorkflowSemanticKey } from '../../enums/fields/workflow-semantic-key.enums';
 
 export class FieldOptionDTO {
   id: number = 0;
-  fieldId: number = 0;
-  value: string = '';
-  orderIndex: number = 0;
-  colorNumber: number = 0;
+  fieldId?: number;
+  label: string = '';
+  valueKey: string = '';
+  color?: string;
+  icon?: string;
+  sortOrder: number = 0;
+  workflowSemanticKey?: WorkflowSemanticKey;
+  defaultOption: boolean = false;
+  active: boolean = true;
+}
+
+export class FieldDTO {
+  id: number = 0;
+  systemKey?: string;
+  name: string = '';
+  description?: string;
+  fieldKind?: 'STANDARD' | 'CUSTOM';
+  fieldType: FieldType = FieldType.TEXT;
+  system: boolean = false;
+  locked: boolean = false;
+  searchable: boolean = true;
+  active: boolean = true;
+  options: FieldOptionDTO[] = [];
 }

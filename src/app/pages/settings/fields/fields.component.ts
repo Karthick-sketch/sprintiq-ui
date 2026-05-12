@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   CdkDragDrop,
   DragDropModule,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
+import { FieldService } from '../../../services/field/field.service';
+import { FieldDTO, FieldOptionDTO } from '../../../dto/field/field.dto';
 
 type FieldKind = 'standard' | 'custom';
 type FieldType =
@@ -66,12 +68,67 @@ interface FieldDraft {
   templateUrl: './fields.component.html',
   styleUrl: './fields.component.css',
 })
-export class FieldsComponent {
+export class FieldsComponent implements OnInit {
   activeTab: FieldKind = 'standard';
   selectedFieldId = 1;
   isCustomPanelOpen = false;
   optionDraft = '';
   customOptionDraft = '';
+  loading = false;
+  saving = false;
+  error: string | null = null;
+
+
+  constructor(private fieldService: FieldService) {}
+
+
+
+  ngOnInit(): void {
+    this.loadFields();
+  }
+
+  private loadFields(): void {
+    this.loading = true;
+    this.fieldService.getAllFields(undefined, true).subscribe({
+      next: (fields: FieldDTO[]) => {
+        this.standardFields = fields
+          .filter(f => f.fieldKind === 'STANDARD')
+          .map(f => this.dtoToConfig(f));
+        this.customFields = fields
+          .filter(f => f.fieldKind === 'CUSTOM')
+          .map(f => this.dtoToConfig(f));
+        if (this.fields.length > 0) {
+          this.selectedFieldId = this.fields[0].id;
+        }
+        this.loading = false;
+      },
+      error: () => {
+        this.error = 'Failed to load fields from server.';
+        this.loading = false;
+      },
+    });
+  }
+
+  private dtoToConfig(dto: FieldDTO): FieldConfig {
+    return {
+      id: dto.id,
+      key: dto.systemKey ?? '',
+      name: dto.name,
+      description: dto.description ?? '',
+      kind: (dto.fieldKind?.toLowerCase() ?? 'custom') as FieldKind,
+      type: (dto.fieldType?.toLowerCase().replace('_', '-') ?? 'text') as FieldType,
+      enabled: dto.active,
+      required: false,
+      assignmentScope: 'global',
+      protected: dto.locked,
+      options: (dto.options ?? []).map(o => ({
+        id: o.id,
+        label: o.label,
+        value: o.valueKey,
+        inUseCount: 0,
+      })),
+    };
+  }
 
   readonly fieldTypes: { value: FieldType; label: string }[] = [
     { value: 'text', label: 'Text' },

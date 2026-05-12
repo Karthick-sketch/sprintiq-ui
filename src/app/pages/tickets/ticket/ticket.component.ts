@@ -66,8 +66,8 @@ export class TicketComponent implements OnInit {
         });
 
         // field options
-        this.fieldService.getAllFieldOptions().subscribe((options) => {
-          this.fieldOptions = options;
+        this.fieldService.getAllFields(undefined, true).subscribe((fields) => {
+          this.fieldOptions = fields.flatMap(f => f.options ?? []);
         });
 
         // breadcrumb
@@ -98,15 +98,9 @@ export class TicketComponent implements OnInit {
 
   findOptionColorClass(fieldId: number, fieldValue: string): string {
     const option = this.fieldOptions.find(
-      (opt) => opt.fieldId === fieldId && opt.value === fieldValue,
+      (opt) => opt.fieldId === fieldId && opt.valueKey === fieldValue,
     );
-
-    if (!option) return '';
-
-    const color = this.fieldOptionColor.find(
-      (color) => color.colorNumber === option.colorNumber,
-    );
-    return color?.colorClass || '';
+    return option?.color ?? '';
   }
 
   findUsernameById(id: number | string | null): string {

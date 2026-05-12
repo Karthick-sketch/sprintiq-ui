@@ -56,15 +56,9 @@ export class TicketsComponent implements OnInit {
   }
 
   setFilterOptions() {
-    const statusFieldId = this.fieldOptions.find(
-      (option) => option.field.name.toLowerCase() === 'status',
-    )?.id;
-    this.statusOptions = this.getFieldOptions(statusFieldId!);
-
-    const priorityFieldId = this.fieldOptions.find(
-      (option) => option.field.name.toLowerCase() === 'priority',
-    )?.id;
-    this.priorityOptions = this.getFieldOptions(priorityFieldId!);
+    // Status and priority options are now loaded via field metadata — leave empty for now
+    this.statusOptions = [];
+    this.priorityOptions = [];
   }
 
   getFieldOptions(fieldId: number): FieldOptionDTO[] {
@@ -164,15 +158,9 @@ export class TicketsComponent implements OnInit {
 
   findOptionColorClass(fieldId: number, fieldValue: string): string {
     const option = this.fieldOptions.find(
-      (opt) => opt.fieldId === fieldId && opt.value === fieldValue,
+      (opt) => opt.fieldId === fieldId && opt.valueKey === fieldValue,
     );
-
-    if (!option) return '';
-
-    const color = this.fieldOptionColor.find(
-      (color) => color.colorNumber === option.colorNumber,
-    );
-    return color?.colorClass || '';
+    return option?.color ?? '';
   }
 
   formatDate(dateString: string): string {
