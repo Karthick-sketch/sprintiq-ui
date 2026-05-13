@@ -8,92 +8,121 @@
       <p>Join SprintIQ to manage your projects</p>
     </div>
 
-    <div class="global-error" *ngIf="errorMessage">
-      {{ errorMessage }}
-    </div>
+    @if (errorMessage) {
+      <div class="global-error">{{ errorMessage }}</div>
+    }
 
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="auth-form">
       <div class="form-group">
         <label for="name">Full Name</label>
         <div class="input-wrapper">
-          <input 
-            type="text" 
-            id="name" 
-            formControlName="name" 
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
             placeholder="John Doe"
             [class.error]="signupForm.get('name')?.invalid && signupForm.get('name')?.touched"
           >
         </div>
-        <div class="error-message" *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched">
-          <span *ngIf="signupForm.get('name')?.errors?.['required']">Name is required</span>
-          <span *ngIf="signupForm.get('name')?.errors?.['minlength']">Name must be at least 2 characters</span>
-        </div>
+        @if (signupForm.get('name')?.invalid && signupForm.get('name')?.touched) {
+          <div class="error-message">
+            @if (signupForm.get('name')?.errors?.['required']) {
+              <span>Name is required</span>
+            }
+            @if (signupForm.get('name')?.errors?.['minlength']) {
+              <span>Name must be at least 2 characters</span>
+            }
+          </div>
+        }
       </div>
 
       <div class="form-group">
         <label for="email">Email</label>
         <div class="input-wrapper">
-          <input 
-            type="email" 
-            id="email" 
-            formControlName="email" 
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
             placeholder="name@example.com"
             [class.error]="signupForm.get('email')?.invalid && signupForm.get('email')?.touched"
           >
         </div>
-        <div class="error-message" *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
-          <span *ngIf="signupForm.get('email')?.errors?.['required']">Email is required</span>
-          <span *ngIf="signupForm.get('email')?.errors?.['email']">Please enter a valid email</span>
-        </div>
+        @if (signupForm.get('email')?.invalid && signupForm.get('email')?.touched) {
+          <div class="error-message">
+            @if (signupForm.get('email')?.errors?.['required']) {
+              <span>Email is required</span>
+            }
+            @if (signupForm.get('email')?.errors?.['email']) {
+              <span>Please enter a valid email</span>
+            }
+          </div>
+        }
       </div>
 
       <div class="form-group">
         <label for="password">Password</label>
         <div class="input-wrapper">
-          <input 
-            type="password" 
-            id="password" 
-            formControlName="password" 
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
             placeholder="Min. 8 characters"
             [class.error]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
           >
         </div>
-        <div class="error-message" *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
-          <span *ngIf="signupForm.get('password')?.errors?.['required']">Password is required</span>
-          <span *ngIf="signupForm.get('password')?.errors?.['minlength']">Must be at least 8 characters</span>
-        </div>
+        @if (signupForm.get('password')?.invalid && signupForm.get('password')?.touched) {
+          <div class="error-message">
+            @if (signupForm.get('password')?.errors?.['required']) {
+              <span>Password is required</span>
+            }
+            @if (signupForm.get('password')?.errors?.['minlength']) {
+              <span>Must be at least 8 characters</span>
+            }
+          </div>
+        }
       </div>
 
       <div class="form-group">
         <label for="confirmPassword">Confirm Password</label>
         <div class="input-wrapper">
-          <input 
-            type="password" 
-            id="confirmPassword" 
-            formControlName="confirmPassword" 
+          <input
+            type="password"
+            id="confirmPassword"
+            formControlName="confirmPassword"
             placeholder="Confirm password"
             [class.error]="(signupForm.get('confirmPassword')?.invalid || signupForm.errors?.['mismatch']) && signupForm.get('confirmPassword')?.touched"
           >
         </div>
-        <div class="error-message" *ngIf="(signupForm.get('confirmPassword')?.invalid || signupForm.errors?.['mismatch']) && signupForm.get('confirmPassword')?.touched">
-          <span *ngIf="signupForm.get('confirmPassword')?.errors?.['required']">Please confirm password</span>
-          <span *ngIf="!signupForm.get('confirmPassword')?.errors?.['required'] && signupForm.errors?.['mismatch']">Passwords do not match</span>
-        </div>
+        @if ((signupForm.get('confirmPassword')?.invalid || signupForm.errors?.['mismatch']) && signupForm.get('confirmPassword')?.touched) {
+          <div class="error-message">
+            @if (signupForm.get('confirmPassword')?.errors?.['required']) {
+              <span>Please confirm password</span>
+            }
+            @if (!signupForm.get('confirmPassword')?.errors?.['required'] && signupForm.errors?.['mismatch']) {
+              <span>Passwords do not match</span>
+            }
+          </div>
+        }
       </div>
 
       <div class="form-group checkbox-group">
         <label class="custom-checkbox">
           <input type="checkbox" formControlName="agreeTerms">
-          <span class="checkmark" [class.error-border]="signupForm.get('agreeTerms')?.invalid && signupForm.get('agreeTerms')?.touched"></span>
-          <span class="checkbox-label" [class.error-text]="signupForm.get('agreeTerms')?.invalid && signupForm.get('agreeTerms')?.touched">
+          <span class="checkmark"
+                [class.error-border]="signupForm.get('agreeTerms')?.invalid && signupForm.get('agreeTerms')?.touched"></span>
+          <span class="checkbox-label"
+                [class.error-text]="signupForm.get('agreeTerms')?.invalid && signupForm.get('agreeTerms')?.touched">
             I agree to the <a href="#" class="terms-link">Terms of Service</a> and <a href="#" class="terms-link">Privacy Policy</a>
           </span>
         </label>
       </div>
 
       <button type="submit" class="submit-btn" [disabled]="isSubmitting">
-        <span class="btn-text" *ngIf="!isSubmitting">Create account</span>
-        <span class="loader" *ngIf="isSubmitting"></span>
+        @if (!isSubmitting) {
+          <span class="btn-text">Create account</span>
+        } @else {
+          <span class="loader"></span>
+        }
       </button>
     </form>
 

@@ -5,31 +5,35 @@
   >
     <div class="ticket-top">
       <span class="ticket-title">{{ ticket.title }}</span>
-      <span
-        class="ticket-priority"
-        [class]="'priority-' + ticket.priority.toLowerCase()"
-      >
-        {{ getPriority(ticket.priority) }}
-      </span>
+      @if (priority) {
+        <span
+          class="ticket-priority"
+          [class]="'priority-' + priority.toLowerCase()"
+        >
+          {{ getPriorityLabel(priority) }}
+        </span>
+      }
     </div>
 
     <div class="ticket-meta">
-      <span
-        class="ticket-status"
-        [class]="'status-' + ticket.status.toLowerCase()"
-      >
-        {{ getStatus(ticket.status) }}
-      </span>
+      @if (status) {
+        <span
+          class="ticket-status"
+          [class]="'status-' + status.toLowerCase().replace(' ', '_')"
+        >
+          {{ getStatusLabel(status) }}
+        </span>
+      }
 
       <div class="ticket-meta-right">
-        @if (ticket.dueDate) {
-          <span class="ticket-due">{{ ticket.dueDate | date: "MMM d" }}</span>
+        @if (dueDate) {
+          <span class="ticket-due">{{ dueDate | date: "MMM d" }}</span>
         }
 
-        @if (ticket.assignee) {
+        @if (assignee) {
           <span class="ticket-assignee">
             <app-user-icon
-              [userName]="ticket.assignee.name"
+              [userName]="assignee"
               size="small"
             ></app-user-icon>
           </span>

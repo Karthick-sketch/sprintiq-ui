@@ -70,7 +70,7 @@
     </div>
 
     @for (field of ticket.fields; track field.id) {
-      @if (field.field.type === fieldTypes.DROPDOWN) {
+      @if (field.field.fieldType === fieldTypes.DROPDOWN) {
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">
             {{ field.field.name }}
@@ -80,13 +80,13 @@
             [(ngModel)]="field.value"
           >
             @for (option of getFieldOptions(field.field.id); track option.id) {
-              <option [value]="option.value">
-                {{ option.value | titlecase }}
+              <option [value]="option.valueKey">
+                {{ option.valueKey | titlecase }}
               </option>
             }
           </select>
         </div>
-      } @else if (field.field.type === fieldTypes.USER) {
+      } @else if (field.field.fieldType === fieldTypes.USER) {
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">
             {{ field.field.name }}
@@ -101,7 +101,7 @@
             }
           </select>
         </div>
-      } @else if (field.field.type === fieldTypes.DATE) {
+      } @else if (field.field.fieldType === fieldTypes.DATE) {
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">
             {{ field.field.name }}
@@ -112,7 +112,7 @@
             [(ngModel)]="field.value"
           />
         </div>
-      } @else if (field.field.type === fieldTypes.TEXT) {
+      } @else if (field.field.fieldType === fieldTypes.TEXT) {
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">
             {{ field.field.name }}

@@ -8,26 +8,34 @@
       <p>Sign in to your SprintIQ account to continue</p>
     </div>
 
-    <div class="global-error" *ngIf="errorMessage">
-      {{ errorMessage }}
-    </div>
+    @if (errorMessage) {
+      <div class="global-error">{{ errorMessage }}</div>
+    }
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
       <div class="form-group">
         <label for="email">Email</label>
         <div class="input-wrapper">
-          <input 
-            type="email" 
-            id="email" 
-            formControlName="email" 
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
             placeholder="name@example.com"
-            [class.error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
-          >
+            [class.error]="
+              loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+            "
+          />
         </div>
-        <div class="error-message" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-          <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</span>
-          <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email</span>
-        </div>
+        @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+          <div class="error-message">
+            @if (loginForm.get('email')?.errors?.['required']) {
+              <span>Email is required</span>
+            }
+            @if (loginForm.get('email')?.errors?.['email']) {
+              <span>Please enter a valid email</span>
+            }
+          </div>
+        }
       </div>
 
       <div class="form-group">
@@ -36,35 +44,48 @@
           <a href="#" class="forgot-password">Forgot password?</a>
         </div>
         <div class="input-wrapper">
-          <input 
-            type="password" 
-            id="password" 
-            formControlName="password" 
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
             placeholder="••••••••"
-            [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
-          >
+            [class.error]="
+              loginForm.get('password')?.invalid &&
+              loginForm.get('password')?.touched
+            "
+          />
         </div>
-        <div class="error-message" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-          <span *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</span>
-        </div>
+        @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+          <div class="error-message">
+            @if (loginForm.get('password')?.errors?.['required']) {
+              <span>Password is required</span>
+            }
+          </div>
+        }
       </div>
 
       <div class="form-group checkbox-group">
         <label class="custom-checkbox">
-          <input type="checkbox" formControlName="rememberMe">
+          <input type="checkbox" formControlName="rememberMe"/>
           <span class="checkmark"></span>
           <span class="checkbox-label">Remember me for 30 days</span>
         </label>
       </div>
 
       <button type="submit" class="submit-btn" [disabled]="isSubmitting">
-        <span class="btn-text" *ngIf="!isSubmitting">Sign in</span>
-        <span class="loader" *ngIf="isSubmitting"></span>
+        @if (!isSubmitting) {
+          <span class="btn-text">Sign in</span>
+        } @else {
+          <span class="loader"></span>
+        }
       </button>
     </form>
 
     <div class="auth-footer">
-      <p>Don't have an account? <a routerLink="/signup" class="signup-link">Sign up</a></p>
+      <p>
+        Don't have an account?
+        <a routerLink="/signup" class="signup-link">Sign up</a>
+      </p>
     </div>
   </div>
 </div>

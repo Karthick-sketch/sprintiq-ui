@@ -61,13 +61,13 @@
       @for (ticketField of ticket.ticketFields; track ticketField.id) {
         <div class="detail-row">
           <span class="detail-label">{{ ticketField.field.name }}</span>
-          @if (ticketField.field.type === FieldType.TEXT) {
+          @if (ticketField.field.fieldType === FieldType.TEXT) {
             <span class="detail-value">{{ ticketField.value }}</span>
-          } @else if (ticketField.field.type === FieldType.NUMBER) {
+          } @else if (ticketField.field.fieldType === FieldType.NUMBER) {
             <span class="detail-value">{{ ticketField.value }}</span>
-          } @else if (ticketField.field.type === FieldType.BOOLEAN) {
+          } @else if (ticketField.field.fieldType === FieldType.BOOLEAN) {
             <span class="detail-value">{{ ticketField.value }}</span>
-          } @else if (ticketField.field.type === FieldType.DATE) {
+          } @else if (ticketField.field.fieldType === FieldType.DATE) {
             <span class="detail-value due-date-value">
               <img
                 class="calendar-icon"
@@ -76,11 +76,11 @@
               />
               {{ ticketField.value | date: "MMM d, yyyy" }}
             </span>
-          } @else if (ticketField.field.type === FieldType.URL) {
+          } @else if (ticketField.field.fieldType === FieldType.URL) {
             <span class="detail-value cursor-pointer hover:underline">
               {{ ticketField.value }}
             </span>
-          } @else if (ticketField.field.type === FieldType.USER) {
+          } @else if (ticketField.field.fieldType === FieldType.USER) {
             <span class="detail-value">
               <app-user-icon
                 [userName]="findUsernameById(ticketField.value)"
@@ -88,9 +88,9 @@
               ></app-user-icon>
               {{ findUsernameById(ticketField.value) }}
             </span>
-          } @else if (ticketField.field.type === FieldType.MULTI_USER) {
+          } @else if (ticketField.field.fieldType === FieldType.MULTI_USER) {
             <span class="detail-value">{{ ticketField.value }}</span>
-          } @else if (ticketField.field.type === FieldType.DROPDOWN) {
+          } @else if (ticketField.field.fieldType === FieldType.DROPDOWN) {
             <span
               class="detail-value badge"
               [class]="
@@ -99,7 +99,7 @@
             >
               {{ ticketField.value }}
             </span>
-          } @else if (ticketField.field.type === FieldType.MULTI_DROPDOWN) {
+          } @else if (ticketField.field.fieldType === FieldType.MULTI_DROPDOWN) {
             <span class="detail-value">{{ ticketField.value }}</span>
           }
         </div>

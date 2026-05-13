@@ -28,7 +28,7 @@
         >
           <option value="">All</option>
           @for (status of statusOptions; track status.id) {
-            <option [value]="status.value">{{ status.value }}</option>
+            <option [value]="status.valueKey">{{ status.valueKey }}</option>
           }
         </select>
       </div>
@@ -42,7 +42,7 @@
         >
           <option value="">All</option>
           @for (priority of priorityOptions; track priority.id) {
-            <option [value]="priority.value">{{ priority.value }}</option>
+            <option [value]="priority.valueKey">{{ priority.valueKey }}</option>
           }
         </select>
       </div>
