@@ -31,7 +31,7 @@
           <div class="comment-card">
             <div class="comment-header">
               <span class="comment-author">{{
-                findUsernameById(comment.userId)
+                findUsernameById(comment.createdById)
               }}</span>
               <span class="comment-date">{{ comment.createdAt | date }}</span>
             </div>

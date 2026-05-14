@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Project } from '../../models/projects/project.model';
 import { Section } from '../../models/projects/section.model';
 import { ProjectDTO } from '../../dto/project/project.dto';
+import {ProjectTitleDTO} from '../../dto/project/project-ticket.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,10 @@ export class ProjectService {
 
   getProject(id: number) {
     return this.http.get<Project>(`${this.baseUrl}/${id}`);
+  }
+
+  getProjectList() {
+    return this.http.get<ProjectTitleDTO[]>(`${this.baseUrl}/list`);
   }
 
   createProject(projectDTO: ProjectDTO) {

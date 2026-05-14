@@ -1,21 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { TicketService } from '../../services/ticket/ticket.service';
-import { ProjectService } from '../../services/project/project.service';
-import { TicketFormComponent } from './ticket-form/ticket-form.component';
-import { Project } from '../../models/projects/project.model';
-import { TicketListingDTO } from '../../dto/ticket/ticket-listing.dto';
-import { TicketFilter } from '../../filter/ticket/ticket.filter';
-import { TicketCreateRequestDTO } from '../../dto/ticket/ticket.dto';
-import { UserIconComponent } from '../user/user-icon/user-icon.component';
-import { ToastService } from '../../services/toast/toast.service';
-import { UserDTO } from '../../dto/user/user.dto';
-import { UserService } from '../../services/user/user.service';
-import { FieldOptionDTO } from '../../dto/field/field.dto';
-import { FieldOptionColors } from '../../objects/field/field-option-color.enums';
-import { TicketFieldDTO } from '../../dto/ticket/ticket-field.dto';
-import { FieldService } from '../../services/field/field.service';
+import {Component, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
+import {TicketService} from '../../services/ticket/ticket.service';
+import {ProjectService} from '../../services/project/project.service';
+import {TicketFormComponent} from './ticket-form/ticket-form.component';
+import {TicketListingDTO} from '../../dto/ticket/ticket-listing.dto';
+import {TicketFilter} from '../../filter/ticket/ticket.filter';
+import {TicketCreateRequestDTO} from '../../dto/ticket/ticket.dto';
+import {UserIconComponent} from '../user/user-icon/user-icon.component';
+import {ToastService} from '../../services/toast/toast.service';
+import {UserDTO} from '../../dto/user/user.dto';
+import {UserService} from '../../services/user/user.service';
+import {FieldOptionDTO} from '../../dto/field/field.dto';
+import {FieldOptionColors} from '../../objects/field/field-option-color.enums';
+import {TicketFieldDTO} from '../../dto/ticket/ticket-field.dto';
+import {FieldService} from '../../services/field/field.service';
+import {ProjectTitleDTO} from '../../dto/project/project-ticket.dto';
+import {FilterFieldOptionDTO, FilterFieldOptionsDTO} from '../../dto/field/filter-field-options.dto';
 
 @Component({
   selector: 'app-ticket',
@@ -27,9 +28,11 @@ export class TicketsComponent implements OnInit {
   tickets: TicketListingDTO[] = [];
   users: UserDTO[] = [];
   filteredTickets: TicketListingDTO[] = [];
-  projectOptions: Project[] = [];
-  fieldOptions: FieldOptionDTO[] = [];
 
+  projectOptions: ProjectTitleDTO[] = [];
+  projectTitleMap: Record<number, string> = {};
+
+  fieldOptions: FieldOptionDTO[] = [];
   fieldOptionColor = FieldOptionColors;
 
   isSlideInPanelOpen: boolean = false;
@@ -37,8 +40,8 @@ export class TicketsComponent implements OnInit {
   // Filter state
   ticketFilter: TicketFilter = new TicketFilter();
 
-  statusOptions: FieldOptionDTO[] = [];
-  priorityOptions: FieldOptionDTO[] = [];
+  statusOptions: FilterFieldOptionDTO[] = [];
+  priorityOptions: FilterFieldOptionDTO[] = [];
 
   constructor(
     private userService: UserService,
@@ -46,27 +49,23 @@ export class TicketsComponent implements OnInit {
     private projectService: ProjectService,
     private toastService: ToastService,
     private fieldService: FieldService,
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
-    this.setFilterOptions();
+    this.getFieldOptions();
     this.getUsers();
     this.getTickets();
     this.getProjects();
   }
 
-  setFilterOptions() {
-    // Status and priority options are now loaded via field metadata — leave empty for now
-    this.statusOptions = [];
-    this.priorityOptions = [];
-  }
-
-  getFieldOptions(fieldId: number): FieldOptionDTO[] {
-    let options: FieldOptionDTO[] = [];
+  getFieldOptions() {
     this.fieldService
-      .getFieldOptionsByFieldId(fieldId)
-      .subscribe((opts) => (options = opts));
-    return options;
+      .getFilterFieldOptions()
+      .subscribe((options) => {
+        this.statusOptions = options.status;
+        this.priorityOptions = options.priority;
+      });
   }
 
   getUsers() {
@@ -83,8 +82,9 @@ export class TicketsComponent implements OnInit {
   }
 
   getProjects() {
-    this.projectService.getProjects().subscribe((projects) => {
+    this.projectService.getProjectList().subscribe((projects) => {
       this.projectOptions = projects;
+      projects.forEach((p) => this.projectTitleMap[p.id] = p.title)
     });
   }
 
@@ -143,17 +143,11 @@ export class TicketsComponent implements OnInit {
     return '';
   }
 
-  getUserIcon(name: string) {
-    if (!name) {
+  getUsername(userId: string): string {
+    if (!userId) {
       return '';
     }
-    const names = name.split(' ');
-    if (names.length > 1) {
-      return (
-        names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase()
-      );
-    }
-    return name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase();
+    return this.users.find((user) => user.id === parseInt(userId))?.name || '';
   }
 
   findOptionColorClass(fieldId: number, fieldValue: string): string {

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FieldDTO, FieldOptionDTO } from '../../dto/field/field.dto';
 import { ProjectFieldResponse } from '../../dto/field/project-field-response.dto';
+import {FilterFieldOptionsDTO} from '../../dto/field/filter-field-options.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,10 @@ export class FieldService {
 
   getFieldOptionsByFieldId(fieldId: number): Observable<FieldOptionDTO[]> {
     return this.http.get<FieldOptionDTO[]>(`${this.baseUrl}/${fieldId}/options`);
+  }
+
+  getFilterFieldOptions() {
+    return this.http.get<FilterFieldOptionsDTO>(`${this.baseUrl}/filter`);
   }
 
   createField(field: Partial<FieldDTO>): Observable<FieldDTO> {

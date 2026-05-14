@@ -28,7 +28,7 @@
         >
           <option value="">All</option>
           @for (status of statusOptions; track status.id) {
-            <option [value]="status.valueKey">{{ status.valueKey }}</option>
+            <option [value]="status.value">{{ status.value }}</option>
           }
         </select>
       </div>
@@ -42,7 +42,7 @@
         >
           <option value="">All</option>
           @for (priority of priorityOptions; track priority.id) {
-            <option [value]="priority.valueKey">{{ priority.valueKey }}</option>
+            <option [value]="priority.value">{{ priority.value }}</option>
           }
         </select>
       </div>
@@ -54,7 +54,7 @@
           [(ngModel)]="ticketFilter.assigneeId"
           (change)="applyFilters()"
         >
-          <option value="">All</option>
+          <option value="0">All</option>
           @for (user of users; track user.id) {
             <option [value]="user.id">{{ user.name }}</option>
           }
@@ -68,7 +68,7 @@
           [(ngModel)]="ticketFilter.projectId"
           (change)="applyFilters()"
         >
-          <option value="">All</option>
+          <option value="0">All</option>
           @for (project of projectOptions; track project.id) {
             <option [value]="project.id">{{ project.title }}</option>
           }
@@ -80,14 +80,14 @@
   <section class="ticket-table-section">
     <table class="ticket-table">
       <thead>
-        <tr>
-          <th class="col-title">Title</th>
-          <th class="col-default">Status</th>
-          <th class="col-default">Priority</th>
-          <th class="col-default">Assignee</th>
-          <th class="col-default">Due Date</th>
-          <th class="col-default">Project</th>
-        </tr>
+      <tr>
+        <th class="col-title">Title</th>
+        <th class="col-default">Status</th>
+        <th class="col-default">Priority</th>
+        <th class="col-default">Assignee</th>
+        <th class="col-default">Due Date</th>
+        <th class="col-default">Project</th>
+      </tr>
       </thead>
       <tbody>
         @for (ticket of filteredTickets; track ticket.id) {
@@ -101,7 +101,7 @@
               </div>
             </td>
             @for (field of ticket.fields; track field.id) {
-              @if (field.field.name.toLowerCase() === "status") {
+              @if (field.field.systemKey!.toLowerCase() === "status") {
                 <td class="col-default">
                   <span
                     class="badge"
@@ -110,21 +110,22 @@
                     {{ field.value }}
                   </span>
                 </td>
-              } @else if (field.field.name.toLowerCase() === "priority") {
+              } @else if (field.field.systemKey!.toLowerCase() === "priority") {
                 <td class="col-default">
                   <span
                     class="badge"
                     [class]="findOptionColorClass(field.field.id, field.value)"
-                    >{{ field.value }}
+                  >
+                    {{ field.value }}
                   </span>
                 </td>
-              } @else if (field.field.name.toLowerCase() === "assignee") {
+              } @else if (field.field.systemKey!.toLowerCase() === "assignee") {
                 <td class="col-default">
                   @if (field.value) {
-                    <app-user-icon [userName]="field.value"></app-user-icon>
+                    <app-user-icon [userName]="getUsername(field.value)"></app-user-icon>
                   }
                 </td>
-              } @else if (field.field.name.toLowerCase() === "due_date") {
+              } @else if (field.field.systemKey!.toLowerCase() === "due_date") {
                 <td
                   class="col-default"
                   [class.error-color]="isOverdue(field.value)"
@@ -138,9 +139,9 @@
             <td class="col-default">
               <div
                 class="ticket-title hover:underline cursor-pointer"
-                [routerLink]="['/projects', ticket.project.id]"
+                [routerLink]="['/projects', ticket.projectId]"
               >
-                {{ ticket.project.title }}
+                {{ projectTitleMap[ticket.projectId] }}
               </div>
             </td>
           </tr>
