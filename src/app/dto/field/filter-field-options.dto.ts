@@ -1,6 +1,6 @@
 export interface FilterFieldOptionDTO {
   id: number;
-  value: string;
+  label: string;
 }
 
 export class FilterFieldOptionsDTO {
