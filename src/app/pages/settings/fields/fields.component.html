@@ -1,3 +1,7 @@
+<div class="mb-4">
+  <app-breadcrumb [breadcrumbRoutes]="breadcrumbRoutes"></app-breadcrumb>
+</div>
+
 <section class="fields-page">
   <div class="fields-header">
     <div class="fields-header-info">
@@ -100,7 +104,8 @@
           <span class="field-list-main">
             <span class="field-list-name">{{ field.name }}</span>
             <span class="field-list-meta">
-              {{ fieldTypeLabel(field.type) }} &middot; {{ field.assignmentScope }}
+              {{ fieldTypeLabel(field.type) }} &middot;
+              {{ field.assignmentScope }}
             </span>
           </span>
           @if (field.required) {
@@ -117,12 +122,14 @@
         <div>
           <div class="detail-title-row">
             <h3>{{ selectedField.name }}</h3>
-            <span class="type-badge">{{ fieldTypeLabel(selectedField.type) }}</span>
+            <span class="type-badge">{{
+              fieldTypeLabel(selectedField.type)
+            }}</span>
           </div>
           <p>{{ selectedField.description }}</p>
         </div>
 
-        @if (selectedField.kind === 'custom') {
+        @if (selectedField.kind === "custom") {
           <div class="detail-actions">
             <button
               class="icon-btn"
@@ -220,7 +227,9 @@
             />
           </div>
 
-          @if (selectedField.type === 'text' || selectedField.type === 'textarea') {
+          @if (
+            selectedField.type === "text" || selectedField.type === "textarea"
+          ) {
             <div>
               <label>Character limit</label>
               <input
@@ -232,7 +241,7 @@
             </div>
           }
 
-          @if (selectedField.type === 'number') {
+          @if (selectedField.type === "number") {
             <div>
               <label>Minimum</label>
               <input type="number" [(ngModel)]="selectedField.min" />
@@ -275,9 +284,15 @@
             [cdkDropListData]="optionList(selectedField)"
             (cdkDropListDropped)="dropOption(selectedField, $event)"
           >
-            @for (option of optionList(selectedField); track option.id; let i = $index) {
+            @for (
+              option of optionList(selectedField);
+              track option.id;
+              let i = $index
+            ) {
               <div class="option-row" cdkDrag>
-                <div class="drag-handle" cdkDragHandle aria-hidden="true">::</div>
+                <div class="drag-handle" cdkDragHandle aria-hidden="true">
+                  ::
+                </div>
                 <input
                   [ngModel]="option.label"
                   (ngModelChange)="updateOption(option, $event)"
@@ -388,16 +403,16 @@
               }
             </span>
 
-            @if (field.type === 'textarea') {
+            @if (field.type === "textarea") {
               <textarea rows="3" [placeholder]="field.description"></textarea>
             } @else if (hasOptions(field)) {
               <select>
-                <option>{{ field.defaultValue || 'Select value' }}</option>
+                <option>{{ field.defaultValue || "Select value" }}</option>
                 @for (option of optionList(field); track option.id) {
                   <option>{{ option.label }}</option>
                 }
               </select>
-            } @else if (field.type === 'user' || field.type === 'user-multi') {
+            } @else if (field.type === "user" || field.type === "user-multi") {
               <select [multiple]="field.type === 'user-multi'">
                 <option>Select user</option>
                 @for (user of users; track user) {
@@ -422,7 +437,9 @@
   <aside class="custom-panel" aria-label="Custom field editor">
     <div class="panel-header">
       <div>
-        <h3>{{ fieldDraft.id ? 'Edit Custom Field' : 'Create Custom Field' }}</h3>
+        <h3>
+          {{ fieldDraft.id ? "Edit Custom Field" : "Create Custom Field" }}
+        </h3>
         <p>Define schema, validation, options, and assignment scope.</p>
       </div>
       <button
@@ -466,7 +483,10 @@
       <div class="panel-grid">
         <label>
           Field type
-          <select [(ngModel)]="fieldDraft.type" (ngModelChange)="onDraftTypeChange()">
+          <select
+            [(ngModel)]="fieldDraft.type"
+            (ngModelChange)="onDraftTypeChange()"
+          >
             @for (type of fieldTypes; track type.value) {
               <option [value]="type.value">{{ type.label }}</option>
             }
@@ -483,11 +503,14 @@
         </label>
       </div>
 
-      @if (fieldDraft.assignmentScope !== 'global') {
+      @if (fieldDraft.assignmentScope !== "global") {
         <label>
           Target {{ fieldDraft.assignmentScope }}
           <select [(ngModel)]="fieldDraft.assignmentTarget">
-            @for (target of assignmentTargets(fieldDraft.assignmentScope); track target) {
+            @for (
+              target of assignmentTargets(fieldDraft.assignmentScope);
+              track target
+            ) {
               <option [value]="target">{{ target }}</option>
             }
           </select>
@@ -495,7 +518,11 @@
       }
 
       <div class="checkbox-row">
-        <input id="custom-required" type="checkbox" [(ngModel)]="fieldDraft.required" />
+        <input
+          id="custom-required"
+          type="checkbox"
+          [(ngModel)]="fieldDraft.required"
+        />
         <label for="custom-required">Required on ticket forms</label>
       </div>
 
@@ -504,14 +531,14 @@
         <input [(ngModel)]="fieldDraft.defaultValue" placeholder="Optional" />
       </label>
 
-      @if (fieldDraft.type === 'text') {
+      @if (fieldDraft.type === "text") {
         <label>
           Character limit
           <input type="number" min="1" [(ngModel)]="fieldDraft.charLimit" />
         </label>
       }
 
-      @if (fieldDraft.type === 'number') {
+      @if (fieldDraft.type === "number") {
         <div class="panel-grid">
           <label>
             Minimum

@@ -6,14 +6,21 @@ import { Role } from '../../../enums/user/role.enums';
 import { UserStatus } from '../../../enums/user/user-status.enums';
 import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 import { ToastService } from '../../../services/toast/toast.service';
+import { BreadcrumbComponent } from '../../util/breadcrumb/breadcrumb.component';
+import { BreadcrumbRouteDTO } from '../../../dto/util/breadcrump-route.dto';
 
 @Component({
   selector: 'app-users',
-  imports: [UserFormComponent, ClickOutsideDirective],
+  imports: [UserFormComponent, ClickOutsideDirective, BreadcrumbComponent],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
 })
 export class UsersComponent implements OnInit {
+  breadcrumbRoutes = [
+    new BreadcrumbRouteDTO('Settings', '/settings'),
+    new BreadcrumbRouteDTO('Users', null),
+  ];
+
   users: UserDTO[] = [];
   isPanelOpen: boolean = false;
   selectedUser: UserDTO | null = null;
