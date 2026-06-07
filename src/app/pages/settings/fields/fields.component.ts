@@ -122,8 +122,8 @@ export class FieldsComponent implements OnInit {
       kind: (dto.fieldKind?.toLowerCase() ?? 'custom') as FieldKind,
       type: (dto.fieldType?.toLowerCase().replace('_', '-') ??
         'text') as FieldType,
-      enabled: dto.active,
-      required: false,
+      enabled: dto.enabled,
+      required: dto.required,
       assignmentScope: 'global',
       protected: dto.locked,
       options: (dto.options ?? []).map((o) => ({
@@ -149,127 +149,8 @@ export class FieldsComponent implements OnInit {
   readonly sections = ['Backlog', 'In Progress', 'QA Review', 'Released'];
   readonly users = ['Aarav Patel', 'Maya Singh', 'Nina Rao', 'Vikram Iyer'];
 
-  standardFields: FieldConfig[] = [
-    {
-      id: 1,
-      key: 'title',
-      name: 'Title',
-      description: 'Primary summary displayed in ticket lists and boards.',
-      kind: 'standard',
-      type: 'text',
-      enabled: true,
-      required: true,
-      charLimit: 140,
-      assignmentScope: 'global',
-      protected: true,
-    },
-    {
-      id: 2,
-      key: 'description',
-      name: 'Description',
-      description: 'Long-form ticket details, acceptance notes, and context.',
-      kind: 'standard',
-      type: 'textarea',
-      enabled: true,
-      required: true,
-      charLimit: 4000,
-      assignmentScope: 'global',
-      protected: true,
-    },
-    {
-      id: 3,
-      key: 'status',
-      name: 'Status',
-      description: 'Workflow state used by ticket boards and reporting.',
-      kind: 'standard',
-      type: 'dropdown',
-      enabled: true,
-      required: true,
-      defaultValue: 'To Do',
-      assignmentScope: 'global',
-      options: [
-        this.createOption('To Do', 18),
-        this.createOption('In Progress', 11),
-        this.createOption('Done', 27),
-      ],
-    },
-    {
-      id: 4,
-      key: 'priority',
-      name: 'Priority',
-      description: 'Relative urgency used for planning and triage.',
-      kind: 'standard',
-      type: 'dropdown',
-      enabled: true,
-      required: false,
-      defaultValue: 'Medium',
-      assignmentScope: 'global',
-      options: [
-        this.createOption('Low', 4),
-        this.createOption('Medium', 16),
-        this.createOption('High', 9),
-        this.createOption('Urgent', 2),
-      ],
-    },
-    {
-      id: 5,
-      key: 'assignee',
-      name: 'Assignee',
-      description: 'User responsible for the next action on the ticket.',
-      kind: 'standard',
-      type: 'user',
-      enabled: true,
-      required: false,
-      assignmentScope: 'global',
-    },
-    {
-      id: 6,
-      key: 'dueDate',
-      name: 'Due Date',
-      description: 'Target completion date used for reminders and reports.',
-      kind: 'standard',
-      type: 'date',
-      enabled: true,
-      required: false,
-      assignmentScope: 'global',
-    },
-  ];
-
-  customFields: FieldConfig[] = [
-    {
-      id: 101,
-      key: 'customer-impact',
-      name: 'Customer Impact',
-      description: 'Captures which customer segment is affected.',
-      kind: 'custom',
-      type: 'dropdown',
-      enabled: true,
-      required: true,
-      defaultValue: 'Internal',
-      assignmentScope: 'project',
-      assignmentTarget: 'Customer Portal',
-      options: [
-        this.createOption('Internal', 7),
-        this.createOption('Enterprise', 3),
-        this.createOption('Self-serve', 0),
-      ],
-    },
-    {
-      id: 102,
-      key: 'story-points',
-      name: 'Story Points',
-      description: 'Relative delivery estimate for planning.',
-      kind: 'custom',
-      type: 'number',
-      enabled: true,
-      required: false,
-      defaultValue: 3,
-      min: 1,
-      max: 13,
-      assignmentScope: 'section',
-      assignmentTarget: 'Backlog',
-    },
-  ];
+  standardFields: FieldConfig[] = [];
+  customFields: FieldConfig[] = [];
 
   fieldDraft: FieldDraft = this.createEmptyDraft();
 

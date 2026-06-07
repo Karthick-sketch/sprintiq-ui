@@ -17,9 +17,9 @@
           stroke-linecap="round"
           stroke-linejoin="round"
         >
-          <rect width="18" height="18" x="3" y="3" rx="2" />
-          <path d="M3 9h18" />
-          <path d="M9 21V9" />
+          <rect width="18" height="18" x="3" y="3" rx="2"/>
+          <path d="M3 9h18"/>
+          <path d="M9 21V9"/>
         </svg>
       </div>
       <div>
@@ -41,8 +41,8 @@
         stroke-linecap="round"
         stroke-linejoin="round"
       >
-        <line x1="12" y1="5" x2="12" y2="19" />
-        <line x1="5" y1="12" x2="19" y2="12" />
+        <line x1="12" y1="5" x2="12" y2="19"/>
+        <line x1="5" y1="12" x2="19" y2="12"/>
       </svg>
       Custom Field
     </button>
@@ -115,273 +115,257 @@
       }
     </aside>
 
-    <main class="field-detail">
-      <div class="detail-header">
-        <div>
-          <div class="detail-title-row">
-            <h3>{{ selectedField.name }}</h3>
-            <span class="type-badge">{{
-              fieldTypeLabel(selectedField.type)
-            }}</span>
+    @if (selectedField) {
+      <main class="field-detail">
+        <div class="detail-header">
+          <div>
+            <div class="detail-title-row">
+              <h3>{{ selectedField.name }}</h3>
+              <span class="type-badge">
+              {{ fieldTypeLabel(selectedField.type) }}
+            </span>
+            </div>
+            <p>{{ selectedField.description }}</p>
           </div>
-          <p>{{ selectedField.description }}</p>
-        </div>
 
-        @if (selectedField.kind === "custom") {
-          <div class="detail-actions">
-            <button
-              class="icon-btn"
-              type="button"
-              title="Edit custom field"
-              (click)="openEditCustomPanel(selectedField)"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+          @if (selectedField.kind === "custom") {
+            <div class="detail-actions">
+              <button
+                class="icon-btn"
+                type="button"
+                title="Edit custom field"
+                (click)="openEditCustomPanel(selectedField)"
               >
-                <path d="M12 20h9" />
-                <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-              </svg>
-            </button>
-            <button
-              class="icon-btn danger"
-              type="button"
-              title="Delete custom field"
-              (click)="deleteCustomField(selectedField)"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M12 20h9"/>
+                  <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+                </svg>
+              </button>
+              <button
+                class="icon-btn danger"
+                type="button"
+                title="Delete custom field"
+                (click)="deleteCustomField(selectedField)"
               >
-                <path d="M3 6h18" />
-                <path d="M8 6V4h8v2" />
-                <path d="m19 6-1 14H6L5 6" />
-                <path d="M10 11v5" />
-                <path d="M14 11v5" />
-              </svg>
-            </button>
-          </div>
-        }
-      </div>
-
-      <div class="field-settings">
-        <div class="setting-row">
-          <div>
-            <span class="setting-label">Visibility</span>
-            <p>Controls whether new ticket forms render this field.</p>
-          </div>
-          <button
-            class="switch"
-            [class.on]="selectedField.enabled"
-            type="button"
-            role="switch"
-            [attr.aria-checked]="selectedField.enabled"
-            (click)="toggleEnabled(selectedField)"
-          >
-            <span></span>
-          </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M3 6h18"/>
+                  <path d="M8 6V4h8v2"/>
+                  <path d="m19 6-1 14H6L5 6"/>
+                  <path d="M10 11v5"/>
+                  <path d="M14 11v5"/>
+                </svg>
+              </button>
+            </div>
+          }
         </div>
 
-        <div class="setting-row">
-          <div>
-            <span class="setting-label">Required</span>
-            <p>Existing tickets remain valid; new edits enforce the rule.</p>
-          </div>
-          <button
-            class="switch"
-            [class.on]="selectedField.required"
-            [disabled]="!selectedField.enabled"
-            type="button"
-            role="switch"
-            [attr.aria-checked]="selectedField.required"
-            (click)="toggleRequired(selectedField)"
-          >
-            <span></span>
-          </button>
-        </div>
-
-        <div class="validation-grid">
-          <div>
-            <label>Default value</label>
-            <input
-              [ngModel]="defaultValueText(selectedField)"
-              (ngModelChange)="selectedField.defaultValue = $event"
-              [disabled]="!selectedField.enabled"
-              placeholder="No default"
-            />
-          </div>
-
-          @if (
-            selectedField.type === "text" || selectedField.type === "textarea"
-          ) {
+        <div class="field-settings">
+          <div class="setting-row">
             <div>
-              <label>Character limit</label>
+              <span class="setting-label">Visibility</span>
+              <p>Controls whether new ticket forms render this field.</p>
+            </div>
+            <button
+              class="switch"
+              [class.on]="selectedField.enabled"
+              type="button"
+              role="switch"
+              [attr.aria-checked]="selectedField.enabled"
+              (click)="toggleEnabled(selectedField)"
+            >
+              <span></span>
+            </button>
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <span class="setting-label">Required</span>
+              <p>Existing tickets remain valid; new edits enforce the rule.</p>
+            </div>
+            <button
+              class="switch"
+              [class.on]="selectedField.required"
+              [disabled]="!selectedField.enabled"
+              type="button"
+              role="switch"
+              [attr.aria-checked]="selectedField.required"
+              (click)="toggleRequired(selectedField)"
+            >
+              <span></span>
+            </button>
+          </div>
+
+          <div class="validation-grid">
+            <div>
+              <label>Default value</label>
               <input
-                type="number"
-                [(ngModel)]="selectedField.charLimit"
+                [ngModel]="defaultValueText(selectedField)"
+                (ngModelChange)="selectedField.defaultValue = $event"
                 [disabled]="!selectedField.enabled"
-                min="1"
+                placeholder="No default"
               />
             </div>
-          }
 
-          @if (selectedField.type === "number") {
-            <div>
-              <label>Minimum</label>
-              <input type="number" [(ngModel)]="selectedField.min" />
-            </div>
-            <div>
-              <label>Maximum</label>
-              <input type="number" [(ngModel)]="selectedField.max" />
-            </div>
-          }
-        </div>
-      </div>
-
-      @if (hasOptions(selectedField)) {
-        <section class="option-manager">
-          <div class="section-heading">
-            <div>
-              <h4>Dropdown Options</h4>
-              <p>Create, edit, delete, and reorder values.</p>
-            </div>
-          </div>
-
-          <div class="option-add-row">
-            <input
-              [(ngModel)]="optionDraft"
-              placeholder="Add option"
-              (keyup.enter)="addOption(selectedField, optionDraft)"
-            />
-            <button
-              type="button"
-              class="secondary-btn"
-              (click)="addOption(selectedField, optionDraft)"
-            >
-              Add
-            </button>
-          </div>
-
-          <div
-            class="option-list"
-            cdkDropList
-            [cdkDropListData]="optionList(selectedField)"
-            (cdkDropListDropped)="dropOption(selectedField, $event)"
-          >
-            @for (
-              option of optionList(selectedField);
-              track option.id;
-              let i = $index
-            ) {
-              <div class="option-row" cdkDrag>
-                <div class="drag-handle" cdkDragHandle aria-hidden="true">
-                  ::
-                </div>
+            @if (selectedField.type === "text" || selectedField.type === "textarea") {
+              <div>
+                <label>Character limit</label>
                 <input
-                  [ngModel]="option.label"
-                  (ngModelChange)="updateOption(option, $event)"
+                  type="number"
+                  [(ngModel)]="selectedField.charLimit"
+                  [disabled]="!selectedField.enabled"
+                  min="1"
                 />
-                <span class="usage-badge">{{ option.inUseCount }} in use</span>
-                <div class="row-actions">
-                  <button
-                    class="icon-btn"
-                    type="button"
-                    title="Move option up"
-                    [disabled]="i === 0"
-                    (click)="moveOption(selectedField, i, -1)"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="15"
-                      height="15"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path d="m18 15-6-6-6 6" />
-                    </svg>
-                  </button>
-                  <button
-                    class="icon-btn"
-                    type="button"
-                    title="Move option down"
-                    [disabled]="i === optionList(selectedField).length - 1"
-                    (click)="moveOption(selectedField, i, 1)"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="15"
-                      height="15"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path d="m6 9 6 6 6-6" />
-                    </svg>
-                  </button>
-                  <button
-                    class="icon-btn danger"
-                    type="button"
-                    title="Delete option"
-                    [disabled]="option.inUseCount > 0"
-                    (click)="deleteOption(selectedField, option)"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="15"
-                      height="15"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path d="M18 6 6 18" />
-                      <path d="m6 6 12 12" />
-                    </svg>
-                  </button>
-                </div>
+              </div>
+            }
+
+            @if (selectedField.type === "number") {
+              <div>
+                <label>Minimum</label>
+                <input type="number" [(ngModel)]="selectedField.min"/>
+              </div>
+              <div>
+                <label>Maximum</label>
+                <input type="number" [(ngModel)]="selectedField.max"/>
               </div>
             }
           </div>
-        </section>
-      }
+        </div>
 
-      <section class="backend-contract">
-        <div class="section-heading">
-          <div>
-            <h4>Storage Contract</h4>
-            <p>Configuration and values stay versioned for old tickets.</p>
-          </div>
-        </div>
-        <div class="schema-grid">
-          <code>ticket_field_definitions</code>
-          <code>ticket_field_options</code>
-          <code>ticket_custom_field_values JSONB</code>
-        </div>
-      </section>
-    </main>
+        @if (hasOptions(selectedField)) {
+          <section class="option-manager">
+            <div class="section-heading">
+              <div>
+                <h4>Dropdown Options</h4>
+                <p>Create, edit, delete, and reorder values.</p>
+              </div>
+            </div>
+
+            <div class="option-add-row">
+              <input
+                [(ngModel)]="optionDraft"
+                placeholder="Add option"
+                (keyup.enter)="addOption(selectedField, optionDraft)"
+              />
+              <button
+                type="button"
+                class="secondary-btn"
+                (click)="addOption(selectedField, optionDraft)"
+              >
+                Add
+              </button>
+            </div>
+
+            <div
+              class="option-list"
+              cdkDropList
+              [cdkDropListData]="optionList(selectedField)"
+              (cdkDropListDropped)="dropOption(selectedField, $event)"
+            >
+              @for (option of optionList(selectedField);
+                track option.id;
+                let i = $index) {
+                <div class="option-row" cdkDrag>
+                  <div class="drag-handle" cdkDragHandle aria-hidden="true">
+                    ::
+                  </div>
+                  <input
+                    [ngModel]="option.label"
+                    (ngModelChange)="updateOption(option, $event)"
+                  />
+                  <span class="usage-badge">{{ option.inUseCount }} in use</span>
+                  <div class="row-actions">
+                    <button
+                      class="icon-btn"
+                      type="button"
+                      title="Move option up"
+                      [disabled]="i === 0"
+                      (click)="moveOption(selectedField, i, -1)"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="15"
+                        height="15"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="m18 15-6-6-6 6"/>
+                      </svg>
+                    </button>
+                    <button
+                      class="icon-btn"
+                      type="button"
+                      title="Move option down"
+                      [disabled]="i === optionList(selectedField).length - 1"
+                      (click)="moveOption(selectedField, i, 1)"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="15"
+                        height="15"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="m6 9 6 6 6-6"/>
+                      </svg>
+                    </button>
+                    <button
+                      class="icon-btn danger"
+                      type="button"
+                      title="Delete option"
+                      [disabled]="option.inUseCount > 0"
+                      (click)="deleteOption(selectedField, option)"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="15"
+                        height="15"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M18 6 6 18"/>
+                        <path d="m6 6 12 12"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+          </section>
+        }
+      </main>
+    }
 
     <aside class="ticket-preview" aria-label="Ticket form preview">
       <div class="section-heading">
@@ -457,8 +441,8 @@
           stroke-linecap="round"
           stroke-linejoin="round"
         >
-          <path d="M18 6 6 18" />
-          <path d="m6 6 12 12" />
+          <path d="M18 6 6 18"/>
+          <path d="m6 6 12 12"/>
         </svg>
       </button>
     </div>
@@ -466,7 +450,7 @@
     <div class="panel-body">
       <label>
         Field name
-        <input [(ngModel)]="fieldDraft.name" placeholder="e.g. Release URL" />
+        <input [(ngModel)]="fieldDraft.name" placeholder="e.g. Release URL"/>
       </label>
 
       <label>
@@ -505,10 +489,8 @@
         <label>
           Target {{ fieldDraft.assignmentScope }}
           <select [(ngModel)]="fieldDraft.assignmentTarget">
-            @for (
-              target of assignmentTargets(fieldDraft.assignmentScope);
-              track target
-            ) {
+            @for (target of assignmentTargets(fieldDraft.assignmentScope);
+              track target) {
               <option [value]="target">{{ target }}</option>
             }
           </select>
@@ -526,13 +508,13 @@
 
       <label>
         Default value
-        <input [(ngModel)]="fieldDraft.defaultValue" placeholder="Optional" />
+        <input [(ngModel)]="fieldDraft.defaultValue" placeholder="Optional"/>
       </label>
 
       @if (fieldDraft.type === "text") {
         <label>
           Character limit
-          <input type="number" min="1" [(ngModel)]="fieldDraft.charLimit" />
+          <input type="number" min="1" [(ngModel)]="fieldDraft.charLimit"/>
         </label>
       }
 
@@ -540,11 +522,11 @@
         <div class="panel-grid">
           <label>
             Minimum
-            <input type="number" [(ngModel)]="fieldDraft.min" />
+            <input type="number" [(ngModel)]="fieldDraft.min"/>
           </label>
           <label>
             Maximum
-            <input type="number" [(ngModel)]="fieldDraft.max" />
+            <input type="number" [(ngModel)]="fieldDraft.max"/>
           </label>
         </div>
       }
@@ -597,7 +579,7 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   >
-                    <path d="m18 15-6-6-6 6" />
+                    <path d="m18 15-6-6-6 6"/>
                   </svg>
                 </button>
                 <button
@@ -618,7 +600,7 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   >
-                    <path d="m6 9 6 6 6-6" />
+                    <path d="m6 9 6 6 6-6"/>
                   </svg>
                 </button>
                 <button
@@ -638,8 +620,8 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   >
-                    <path d="M18 6 6 18" />
-                    <path d="m6 6 12 12" />
+                    <path d="M18 6 6 18"/>
+                    <path d="m6 6 12 12"/>
                   </svg>
                 </button>
               </div>

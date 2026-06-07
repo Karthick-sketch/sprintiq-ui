@@ -22,6 +22,8 @@ export class FieldDTO {
   fieldKind?: 'STANDARD' | 'CUSTOM';
   fieldType: FieldType = FieldType.TEXT;
   system: boolean = false;
+  enabled: boolean = false;
+  required: boolean = false;
   locked: boolean = false;
   searchable: boolean = true;
   active: boolean = true;
