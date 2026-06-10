@@ -16,7 +16,7 @@ export class FieldOptionDTO {
 
 export class FieldDTO {
   id: number = 0;
-  systemKey?: string;
+  systemKey: string = '';
   name: string = '';
   description?: string;
   fieldKind?: 'STANDARD' | 'CUSTOM';

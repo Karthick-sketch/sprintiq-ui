@@ -14,11 +14,14 @@ import { Section } from '../../../../models/projects/section.model';
 import {
   TicketDTO,
   TicketCreateRequestDTO,
+  SectionTicketDTO,
+  SectionTicketFieldDTO,
 } from '../../../../dto/ticket/ticket.dto';
 import { TicketOrderDTO } from '../../../../dto/ticket/ticket-order.dto';
 import { UserDTO } from '../../../../dto/user/user.dto';
 import { ProjectDTO } from '../../../../dto/project/project.dto';
 import { ToastService } from '../../../../services/toast/toast.service';
+import { TicketFieldDTO } from '../../../../dto/ticket/ticket-field.dto';
 
 @Component({
   selector: 'app-section',
@@ -59,7 +62,7 @@ export class SectionComponent {
 
     this.ticketService.createTicket(ticket).subscribe({
       next: (ticket) => {
-        this.section.tickets.push(ticket);
+        this.section.tickets.push(this.toSectionTicketDTO(ticket));
         this.closeTicketSlideInPanel();
         this.toastService.success('Ticket created successfully.');
       },
@@ -77,7 +80,7 @@ export class SectionComponent {
     return 0;
   }
 
-  dropTicket(event: CdkDragDrop<TicketDTO[]>) {
+  dropTicket(event: CdkDragDrop<SectionTicketDTO[]>) {
     if (event.previousContainer === event.container) {
       // ticket moved within same section — reorder in place
       moveItemInArray(
@@ -117,7 +120,7 @@ export class SectionComponent {
    * @param sectionId - The ID of the section.
    * @param tickets - The list of tickets to reorder.
    */
-  private reorderTickets(sectionId: number, tickets: TicketDTO[]) {
+  private reorderTickets(sectionId: number, tickets: SectionTicketDTO[]) {
     if (!tickets || tickets.length === 0) {
       return;
     }
@@ -133,5 +136,23 @@ export class SectionComponent {
         console.error('Error reordering ticket:', error);
       },
     });
+  }
+
+  private toSectionTicketDTO(ticket: TicketDTO) {
+    const sectionTicketDTO = new SectionTicketDTO();
+    sectionTicketDTO.id = ticket.id;
+    sectionTicketDTO.title = ticket.title;
+    sectionTicketDTO.fields = this.toSectionTicketFieldDTO(ticket.fields);
+    return sectionTicketDTO;
+  }
+
+  private toSectionTicketFieldDTO(ticketFields: TicketFieldDTO[]) {
+    const sectionTicketFieldDTOs: SectionTicketFieldDTO[] = [];
+    ticketFields.forEach((tField) => {
+      const sectionTicketFieldDTO = new SectionTicketFieldDTO();
+      sectionTicketFieldDTO.systemKey = tField.field.systemKey;
+      sectionTicketFieldDTO.value = tField.value;
+    });
+    return sectionTicketFieldDTOs;
   }
 }

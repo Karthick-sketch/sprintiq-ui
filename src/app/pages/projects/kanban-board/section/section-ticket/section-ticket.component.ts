@@ -2,9 +2,9 @@ import { Component, Input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { UserIconComponent } from '../../../../user/user-icon/user-icon.component';
-
-import { TicketDTO } from '../../../../../dto/ticket/ticket.dto';
+import { SectionTicketDTO } from '../../../../../dto/ticket/ticket.dto';
 import { ProjectDTO } from '../../../../../dto/project/project.dto';
+import { UserDTO } from '../../../../../dto/user/user.dto';
 
 @Component({
   selector: 'app-section-ticket',
@@ -13,11 +13,14 @@ import { ProjectDTO } from '../../../../../dto/project/project.dto';
   imports: [RouterLink, DatePipe, UserIconComponent],
 })
 export class SectionTicketComponent {
-  @Input() ticket!: TicketDTO;
+  @Input() ticket!: SectionTicketDTO;
   @Input() project!: ProjectDTO;
+  @Input() users!: UserDTO[];
 
   getFieldValue(systemKey: string): string {
-    return this.ticket?.fields?.find(f => f.field.systemKey === systemKey)?.value || '';
+    return (
+      this.ticket?.fields?.find((f) => f.systemKey === systemKey)?.value || ''
+    );
   }
 
   get status(): string {
@@ -33,7 +36,11 @@ export class SectionTicketComponent {
   }
 
   get assignee(): string {
-    return this.getFieldValue('assignee');
+    return (
+      this.users.find(
+        (user) => user.id.toString() === this.getFieldValue('assignee'),
+      )?.name || '<unassigned>'
+    );
   }
 
   getStatusLabel(status: string) {

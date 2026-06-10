@@ -15,6 +15,20 @@ export class TicketDTO {
   orderIndex: number = 0;
 }
 
+export class SectionTicketDTO {
+  id: number = 0;
+  title: string = '';
+  fields: SectionTicketFieldDTO[] = [];
+  sectionId: number = 0;
+  projectId: number = 0;
+  orderIndex: number = 0;
+}
+
+export class SectionTicketFieldDTO {
+  systemKey: string = '';
+  value: string = '';
+}
+
 export class TicketCreateRequestDTO {
   title: string = '';
   description: string = '';

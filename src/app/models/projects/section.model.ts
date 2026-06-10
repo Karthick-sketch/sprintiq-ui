@@ -1,9 +1,9 @@
-import { TicketDTO } from '../../dto/ticket/ticket.dto';
+import { SectionTicketDTO } from '../../dto/ticket/ticket.dto';
 
 export class Section {
   id: number = 0;
   title: string = '';
-  tickets: TicketDTO[] = [];
+  tickets: SectionTicketDTO[] = [];
   projectId: number = 0;
   orderIndex: number = 0;
 }
